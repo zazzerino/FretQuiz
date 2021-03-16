@@ -1,10 +1,5 @@
 package kdp.fretquiz.theory;
 
-import kdp.fretquiz.Util;
-
-import java.util.Arrays;
-import java.util.List;
-
 public enum Accidental {
 //    DOUBLE_FLAT("bb"),
     FLAT("b"),
@@ -16,18 +11,25 @@ public enum Accidental {
 
     private final String value;
 
+    public static Accidental fromName(String name) {
+        return switch (name) {
+            case "b" -> FLAT;
+            case "" -> NONE;
+            case "#" -> SHARP;
+            default -> throw new IllegalStateException("Unexpected value: " + name);
+        };
+    }
+
     Accidental(String value) {
         this.value = value;
     }
 
-    public int offset() {
-        var offsets = Util.zip(
-                Arrays.asList(Accidental.values()),
-                List.of(-1, 0, 1)
-//                List.of(-2, -1, 0, 1, 2)
-        );
-
-        return offsets.get(this);
+    public int halfStepOffset() {
+        return switch (this) {
+            case FLAT -> -1;
+            case NONE -> 0;
+            case SHARP -> 1;
+        };
     }
 
     public Accidental next() {

@@ -15,6 +15,21 @@ public enum Octave {
 
     public final int val;
 
+    public static Octave fromStr(String num) {
+        return switch (num) {
+            case "1" -> ONE;
+            case "2" -> TWO;
+            case "3" -> THREE;
+            case "4" -> FOUR;
+            case "5" -> FIVE;
+            case "6" -> SIX;
+            case "7" -> SEVEN;
+            case "8" -> EIGHT;
+            case "9" -> NINE;
+            default -> throw new IllegalStateException("Unexpected value: " + num);
+        };
+    }
+
     Octave(int val) {
         this.val = val;
     }

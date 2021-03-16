@@ -29,12 +29,18 @@ public class App {
 
 //        app.start(PORT);
 
-        for (int i = 0; i < 8; i++) {
-            var note = Theory.randomNote();
-            System.out.println("note " + note);
+//        System.out.println(Note.fromName("C#4").next());
+//        System.out.print(Accidental.fromName("#"));
+
+//        for (int i = 0; i < 8; i++) {
+//            var note = Theory.randomNote();
+//            System.out.println("note " + note);
 //            System.out.println("next " + note.next());
-            System.out.println("trans " + Theory.transpose(note, 11) );
+//            System.out.println("trans " + Theory.transpose(note, 11) );
 //            System.out.println(note.midiNum());
-        }
+//        }
+
+        var notes = Theory.fretboardNotes(Tuning.STANDARD_GUITAR, 0, 4);
+        System.out.println(notes);
     }
 }

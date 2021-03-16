@@ -1,10 +1,5 @@
 package kdp.fretquiz.theory;
 
-import kdp.fretquiz.Util;
-
-import java.util.Arrays;
-import java.util.List;
-
 public enum WhiteKey {
     C("C"),
     D("D"),
@@ -23,12 +18,15 @@ public enum WhiteKey {
     }
 
     public int halfStepsFromC() {
-        var offsets = Util.zip(
-                Arrays.asList(WhiteKey.values()),
-                List.of(0, 2, 4, 5, 7, 9, 11)
-        );
-
-        return offsets.get(this);
+        return switch (this) {
+            case C -> 0;
+            case D -> 2;
+            case E -> 4;
+            case F -> 5;
+            case G -> 7;
+            case A -> 9;
+            case B -> 11;
+        };
     }
 
     public WhiteKey next() {

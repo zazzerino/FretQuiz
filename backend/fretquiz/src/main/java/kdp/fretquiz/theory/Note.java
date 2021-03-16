@@ -1,5 +1,7 @@
 package kdp.fretquiz.theory;
 
+import java.util.regex.Pattern;
+
 public record Note(WhiteKey whiteKey,
                    Accidental accidental,
                    Octave octave) {
@@ -8,11 +10,27 @@ public record Note(WhiteKey whiteKey,
         return whiteKey.toString() + accidental.toString() + octave;
     }
 
-    public int pitchClass() {
-        var keyOffset = whiteKey.halfStepsFromC();
-        var accOffset = accidental.offset();
+    public static Note fromName(String name) {
+        var noteRegex = "([A-Z])(#{1,2}|b{1,2})?(\\d)";
+        var pattern = Pattern.compile(noteRegex);
+        var matcher = pattern.matcher(name);
 
-        return keyOffset + accOffset;
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException();
+        }
+
+        var whiteKey = WhiteKey.valueOf(matcher.group(1));
+
+        var match2 = matcher.group(2);
+        var accidental = Accidental.fromName(match2 == null ? "" : match2);
+
+        var octave = Octave.fromStr(matcher.group(3));
+
+        return new Note(whiteKey, accidental, octave);
+    }
+
+    public int pitchClass() {
+        return whiteKey.halfStepsFromC() + accidental.halfStepOffset();
     }
 
     public int midiNum() {
@@ -20,7 +38,6 @@ public record Note(WhiteKey whiteKey,
     }
 
     public void fromMidiNum() {
-
     }
 
     /**

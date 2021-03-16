@@ -4,6 +4,7 @@ import kdp.fretquiz.Util;
 import kdp.fretquiz.game.FretCoord;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Theory {
 
@@ -28,16 +29,20 @@ public class Theory {
         return note;
     }
 
-    public static void fretboardNotes(Tuning tuning,
-                                      int startFret,
-                                      int endFret) {
-        var notes = new ArrayList<>();
+    public static List<Note> fretboardNotes(Tuning tuning,
+                                            int startFret,
+                                            int endFret) {
+        List<Note> notes = new ArrayList<>();
 
         for (var string = 0; string < tuning.notes().size(); string++) {
-            for (var fret = startFret; fret <= startFret + endFret; fret++) {
-
+            for (var fret = endFret; fret >= startFret; fret--) {
+                var openString = Note.fromName(tuning.get(string));
+                var note = transpose(openString, fret);
+                notes.add(note);
             }
         }
+
+        return notes;
     }
 
 //    public static boolean correctGuess(Note noteToGuess,
