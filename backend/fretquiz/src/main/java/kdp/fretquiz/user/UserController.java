@@ -9,7 +9,7 @@ import java.util.Map;
 import static kdp.fretquiz.App.userDao;
 
 public class UserController {
-    private final static Logger log = LoggerFactory.getLogger(UserController.class);
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public static Handler getAll = context -> {
         var users = userDao.getAll();
@@ -24,9 +24,7 @@ public class UserController {
 
         log.info("logging in " + user);
 
-//        context.cookie("username", user.name());
-//        context.sessionAttribute("user", user.toMap());
-
+        context.sessionAttribute("userId", user.id());
         context.json(Map.of("user", user.toMap()));
     };
 }

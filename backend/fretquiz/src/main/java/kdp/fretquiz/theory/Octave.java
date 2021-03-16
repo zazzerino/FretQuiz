@@ -15,7 +15,7 @@ public enum Octave {
 
     public final int val;
 
-    public static Octave fromStr(String num) {
+    public static Octave fromString(String num) {
         return switch (num) {
             case "1" -> ONE;
             case "2" -> TWO;

@@ -3,7 +3,18 @@ package kdp.fretquiz.game;
 import kdp.fretquiz.theory.FretCoord;
 import kdp.fretquiz.theory.Note;
 
-public record Guess(Note noteToGuess,
+import java.util.Map;
+
+public record Guess(String playerId,
+                    Note noteToGuess,
                     FretCoord clickedFret,
-                    boolean wasCorrect) {
+                    boolean isCorrect) {
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "noteToGuess", noteToGuess.name(),
+                "clickedFret", clickedFret,
+                "isCorrect", isCorrect
+        );
+    }
 }

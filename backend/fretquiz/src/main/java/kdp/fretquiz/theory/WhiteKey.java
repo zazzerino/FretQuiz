@@ -11,7 +11,7 @@ public enum WhiteKey {
 
     private final static WhiteKey[] vals = values();
 
-    private final String val;
+    public final String val;
 
     WhiteKey(String val) {
         this.val = val;

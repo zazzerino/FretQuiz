@@ -1,17 +1,11 @@
 package kdp.fretquiz.game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-public class Player {
-    private final String userId;
-    private final List<Guess> guesses = new ArrayList<>();
+public record Player(String userId,
+                     String gameId) {
 
-    public Player(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserId() {
-        return userId;
+    public Map<String, Object> toMap() {
+        return Map.of("id", userId);
     }
 }

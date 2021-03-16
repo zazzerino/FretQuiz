@@ -1,9 +1,6 @@
 package kdp.fretquiz;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Util {
 
@@ -15,6 +12,10 @@ public class Util {
         var index = random.nextInt(array.length);
 
         return array[index];
+    }
+
+    public static String randomId() {
+        return UUID.randomUUID().toString();
     }
 
     /**

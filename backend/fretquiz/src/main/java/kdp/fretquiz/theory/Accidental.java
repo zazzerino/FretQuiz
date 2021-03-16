@@ -7,9 +7,9 @@ public enum Accidental {
 
     private final static Accidental[] vals = values();
 
-    private final String value;
+    public final String val;
 
-    public static Accidental fromName(String name) {
+    public static Accidental fromString(String name) {
         return switch (name) {
             case "b" -> FLAT;
             case "" -> NONE;
@@ -18,8 +18,8 @@ public enum Accidental {
         };
     }
 
-    Accidental(String value) {
-        this.value = value;
+    Accidental(String val) {
+        this.val = val;
     }
 
     public int halfStepOffset() {
