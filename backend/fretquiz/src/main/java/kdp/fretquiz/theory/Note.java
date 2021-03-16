@@ -40,6 +40,10 @@ public record Note(WhiteKey whiteKey,
     public void fromMidiNum() {
     }
 
+    public boolean isEnharmonicWith(Note note) {
+        return midiNum() == note.midiNum();
+    }
+
     /**
      * Returns the note a half step higher.
      */
@@ -47,7 +51,7 @@ public record Note(WhiteKey whiteKey,
         var key = whiteKey;
         var acc = accidental;
 
-        final var oct = pitchClass() == 11 ? octave().next() : octave;
+        final var oct = pitchClass() == 11 ? octave.next() : octave;
 
         if (accidental == Accidental.NONE) {
             if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {

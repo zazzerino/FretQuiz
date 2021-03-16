@@ -1,7 +1,6 @@
 package kdp.fretquiz.theory;
 
 import kdp.fretquiz.Util;
-import kdp.fretquiz.game.FretCoord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +42,16 @@ public class Theory {
         }
 
         return notes;
+    }
+
+    public static Note findNoteAt(FretCoord coord, Tuning tuning, List<Note> notes) {
+        var openString = Note.fromName(tuning.get(coord.string() - 1));
+        var coordNote = transpose(openString, coord.fret());
+
+        return notes.stream()
+                .filter(note -> note.isEnharmonicWith(coordNote))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
 //    public static boolean correctGuess(Note noteToGuess,

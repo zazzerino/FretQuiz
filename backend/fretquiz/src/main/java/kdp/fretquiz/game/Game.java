@@ -1,5 +1,6 @@
 package kdp.fretquiz.game;
 
+import kdp.fretquiz.theory.FretCoord;
 import kdp.fretquiz.theory.Note;
 import kdp.fretquiz.theory.Theory;
 
