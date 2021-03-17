@@ -1,4 +1,6 @@
-package kdp.fretquiz.apigame;
+package kdp.fretquiz.game;
+
+import kdp.fretquiz.game.Game;
 
 import java.util.Collection;
 import java.util.Map;
@@ -17,7 +19,7 @@ public class GameDao {
     }
 
     public void save(Game game) {
-        games.put(game.id, game);
+        games.put(game.id(), game);
     }
 
     public void delete(String id) {

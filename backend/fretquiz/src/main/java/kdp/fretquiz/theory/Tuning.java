@@ -1,6 +1,7 @@
 package kdp.fretquiz.theory;
 
 import java.util.List;
+import java.util.Map;
 
 public record Tuning(List<String> notes) {
 
@@ -10,5 +11,11 @@ public record Tuning(List<String> notes) {
 
     public String get(int index) {
         return notes.get(index);
+    }
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "notes", notes
+        );
     }
 }

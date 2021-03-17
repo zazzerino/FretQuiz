@@ -26,6 +26,9 @@ public record Note(WhiteKey whiteKey,
             throw new IllegalArgumentException();
         }
 
+        // for the note 'G##3'
+        // matcher.group(1) == 'G', matcher.group(2) == '##', matcher.group(3) == '3'
+
         var whiteKey = WhiteKey.valueOf(matcher.group(1));
 
         // find the accidental, if it exists

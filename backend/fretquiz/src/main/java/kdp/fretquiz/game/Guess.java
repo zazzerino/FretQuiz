@@ -1,4 +1,4 @@
-package kdp.fretquiz.apigame;
+package kdp.fretquiz.game;
 
 import kdp.fretquiz.theory.FretCoord;
 import kdp.fretquiz.theory.Note;
@@ -12,6 +12,7 @@ public record Guess(String playerId,
 
     public Map<String, Object> toMap() {
         return Map.of(
+                "playerId", playerId,
                 "noteToGuess", noteToGuess.name(),
                 "clickedFret", clickedFret,
                 "isCorrect", isCorrect

@@ -32,7 +32,7 @@ public class WebSocket {
         Message message = context.message(DefaultMessage.class);
 
         switch (message.getType()) {
-            case LOGIN -> UserController.handleLogin(context, message);
+            case LOGIN -> UserController.handleLogin(context);
             case LOGOUT -> {}
         }
     }
