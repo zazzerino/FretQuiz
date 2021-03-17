@@ -34,6 +34,10 @@ public class App {
             });
         });
 
+        app.ws("/ws", ws -> {
+//            pat
+        });
+
         app.start(PORT);
     }
 }
