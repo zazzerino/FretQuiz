@@ -1,19 +1,32 @@
 package kdp.fretquiz.user;
 
+import kdp.fretquiz.Util;
+
 import java.util.Map;
-import java.util.UUID;
 
 public record User(String id,
-                   String name) {
+                   String name,
+                   String sessionId) {
 
-    public User(String name) {
-        this(UUID.randomUUID().toString(), name);
+    public static final String DEFAULT_NAME = "anon";
+
+    public User(String sessionId) {
+        this(Util.randomId(), DEFAULT_NAME, sessionId);
+    }
+
+    public User(String name, String sessionId) {
+        this(Util.randomId(), name, sessionId);
+    }
+
+    public User withName(String name) {
+        return new User(id, name, sessionId);
     }
 
     public Map<String, String> toMap() {
         return Map.of(
                 "id", id,
-                "name", name
+                "name", name,
+                "sessionId", sessionId
         );
     }
 }

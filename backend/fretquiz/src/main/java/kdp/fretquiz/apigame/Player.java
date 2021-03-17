@@ -1,4 +1,4 @@
-package kdp.fretquiz.game;
+package kdp.fretquiz.apigame;
 
 import java.util.Map;
 

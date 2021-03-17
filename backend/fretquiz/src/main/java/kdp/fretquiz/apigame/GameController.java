@@ -1,4 +1,4 @@
-package kdp.fretquiz.game;
+package kdp.fretquiz.apigame;
 
 import io.javalin.http.Handler;
 import org.slf4j.Logger;

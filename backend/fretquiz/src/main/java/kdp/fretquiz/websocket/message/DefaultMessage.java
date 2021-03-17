@@ -3,7 +3,7 @@ package kdp.fretquiz.websocket.message;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DefaultMessage {
+public class DefaultMessage implements Message {
     private Message.Type type;
 
     public DefaultMessage() {}

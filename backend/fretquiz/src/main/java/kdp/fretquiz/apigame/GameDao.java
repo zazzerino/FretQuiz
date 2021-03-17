@@ -1,6 +1,4 @@
-package kdp.fretquiz.game;
-
-import kdp.fretquiz.user.User;
+package kdp.fretquiz.apigame;
 
 import java.util.Collection;
 import java.util.Map;

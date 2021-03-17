@@ -1,13 +1,9 @@
 package kdp.fretquiz;
 
 import io.javalin.Javalin;
-import kdp.fretquiz.game.GameController;
-import kdp.fretquiz.game.GameDao;
-import kdp.fretquiz.theory.Note;
-import kdp.fretquiz.user.UserController;
+import kdp.fretquiz.apigame.GameDao;
 import kdp.fretquiz.user.UserDao;
-
-import static io.javalin.apibuilder.ApiBuilder.*;
+import kdp.fretquiz.websocket.WebSocket;
 
 public class App {
     private static final int PORT = 8080;
@@ -21,21 +17,10 @@ public class App {
             config.addStaticFiles(STATIC_FILE_PATH);
         });
 
-        app.routes(() -> {
-            path("api", () -> {
-                path("user", () -> {
-                    get("all", UserController.getAll);
-                    post("login", UserController.handleLogin);
-                });
-                path("game", () -> {
-                    get("all", GameController.getAll);
-                    post("create", GameController.create);
-                });
-            });
-        });
-
         app.ws("/ws", ws -> {
-//            pat
+            ws.onConnect(WebSocket::onConnect);
+            ws.onMessage(WebSocket::onMessage);
+            ws.onClose(WebSocket::onClose);
         });
 
         app.start(PORT);
