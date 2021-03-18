@@ -1,12 +1,16 @@
 package kdp.fretquiz.websocket.message;
 
-public class CreateGameMessage implements Message {
-    private final Type type = Type.CREATE_GAME;
+public record CreateGameMessage(Type type) implements Message {
 
-    public CreateGameMessage() {}
+    public CreateGameMessage() {
+        this(Type.CREATE_GAME);
+    }
 
-    @Override
-    public Type getType() {
-        return type;
+    public CreateGameMessage(Type type) {
+        if (type != Type.CREATE_GAME) {
+            throw new IllegalArgumentException();
+        }
+
+        this.type = type;
     }
 }

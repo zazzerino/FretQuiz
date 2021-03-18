@@ -1,25 +1,18 @@
 package kdp.fretquiz.websocket.message;
 
-public class LoginMessage implements Message {
-    private final Type type = Type.LOGIN;
-    private String name;
-
-    public LoginMessage() {}
+public record LoginMessage(Type type,
+                           String name) implements Message {
 
     public LoginMessage(String name) {
-        this.name = name;
+        this(Type.LOGIN, name);
     }
 
-    @Override
-    public Type getType() {
-        return type;
-    }
+    public LoginMessage(Type type, String name) {
+        if (type != Type.LOGIN) {
+            throw new IllegalArgumentException();
+        }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+        this.type = type;
         this.name = name;
     }
 }

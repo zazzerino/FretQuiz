@@ -14,7 +14,7 @@ public class UserController {
 
     public static void login(WsMessageContext context) {
         var message = context.message(LoginMessage.class);
-        var name = message.getName();
+        var name = message.name();
 
         var user = WebSocket.getUserFromContext(context)
                 .withName(name);

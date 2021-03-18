@@ -39,7 +39,7 @@ public class WebSocket {
     public static void onMessage(WsMessageContext context) {
         Message message = context.message(DefaultMessage.class);
 
-        switch (message.getType()) {
+        switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
             case GET_ALL_GAMES -> GameController.getAll(context);
@@ -52,7 +52,7 @@ public class WebSocket {
     }
 
     /**
-     * Sends a message to each connected user.
+     * Send a message to each connected user.
      */
     public static void broadcast(String message) {
         contexts.forEach(context -> {

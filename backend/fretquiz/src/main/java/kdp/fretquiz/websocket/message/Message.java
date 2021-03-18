@@ -1,7 +1,7 @@
 package kdp.fretquiz.websocket.message;
 
 public interface Message {
-    Type getType();
+    Type type();
 
     enum Type {
         LOGIN("LOGIN"),
