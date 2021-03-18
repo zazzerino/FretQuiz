@@ -51,9 +51,9 @@ public record Game(String id,
         var guesses = new ArrayList<>(this.guesses);
         guesses.add(guess);
 
-        var note = Note.random();
+        var newNoteToGuess = Note.random();
 
-        return new Game(id, opts, players, note, guesses);
+        return new Game(id, opts, players, newNoteToGuess, guesses);
     }
 
     public Map<String, Object> toMap() {

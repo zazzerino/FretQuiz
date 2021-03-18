@@ -3,7 +3,9 @@ package kdp.fretquiz.websocket;
 import kdp.fretquiz.game.Game;
 import kdp.fretquiz.user.User;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Response {
 
@@ -11,6 +13,7 @@ public class Response {
         BROADCAST("BROADCAST"),
         LOGIN_OK("LOGIN_OK"),
         LOGOUT_OK("LOGOUT_OK"),
+        ALL_GAMES("ALL_GAMES"),
         GAME_CREATED("GAME_CREATED");
 
         Type(String type) {}
@@ -41,6 +44,17 @@ public class Response {
         return Map.of(
                 "type", Type.GAME_CREATED,
                 "game", game.toMap()
+        );
+    }
+
+    public static Map<String, Object> allGames(Collection<Game> games) {
+        var gameMaps = games.stream()
+                .map(Game::toMap)
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "type", Type.ALL_GAMES,
+                "games", gameMaps
         );
     }
 }

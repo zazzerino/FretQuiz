@@ -12,7 +12,7 @@ import static kdp.fretquiz.App.userDao;
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public static void handleLogin(WsMessageContext context) {
+    public static void login(WsMessageContext context) {
         var message = context.message(LoginMessage.class);
         var name = message.getName();
 

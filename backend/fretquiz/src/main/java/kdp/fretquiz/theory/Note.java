@@ -63,26 +63,22 @@ public record Note(WhiteKey whiteKey,
         var key = whiteKey;
         var acc = accidental;
 
+        // If we're at pitchClass == 11 (the note "B"), increment the octave. Otherwise, the octave stays the same.
         final var oct = pitchClass() == 11 ? octave.next() : octave;
 
         if (accidental == Accidental.NONE) {
             if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {
                 key = whiteKey.next();
             } else {
-                acc = accidental.next();
+                acc = Accidental.SHARP;
             }
         } else if (accidental == Accidental.SHARP) {
             key = whiteKey.next();
             acc = (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) ?
                     Accidental.SHARP :
                     Accidental.NONE;
-//            if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {
-//                acc = Accidental.SHARP;
-//            } else {
-//                acc = Accidental.NONE;
-//            }
         } else if (accidental == Accidental.FLAT) {
-            acc = accidental.next();
+            acc = Accidental.NONE;
         }
 
         return new Note(key, acc, oct);
@@ -96,11 +92,11 @@ public record Note(WhiteKey whiteKey,
      * @param halfSteps must be a positive number
      */
     public Note transpose(int halfSteps) {
-        var note = this;
-
         if (halfSteps < 0) {
             throw new IllegalArgumentException("halfSteps must be a positive number");
         }
+
+        var note = new Note(whiteKey, accidental, octave);
 
         while (halfSteps > 0) {
             note = note.next();
