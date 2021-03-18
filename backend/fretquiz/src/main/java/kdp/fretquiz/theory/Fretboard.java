@@ -3,6 +3,7 @@ package kdp.fretquiz.theory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public record Fretboard(int startFret,
                         int endFret,
@@ -50,8 +51,7 @@ public record Fretboard(int startFret,
         return Map.of(
                 "startFret", startFret,
                 "endFret", endFret,
-                "tuning", tuning,
-                "notes", notes
+                "tuning", tuning.toMap()
         );
     }
 }

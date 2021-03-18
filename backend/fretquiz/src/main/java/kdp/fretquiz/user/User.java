@@ -25,8 +25,7 @@ public record User(String id,
     public Map<String, String> toMap() {
         return Map.of(
                 "id", id,
-                "name", name,
-                "sessionId", sessionId
+                "name", name
         );
     }
 }

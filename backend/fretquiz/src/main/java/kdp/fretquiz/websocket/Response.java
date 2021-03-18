@@ -1,5 +1,6 @@
 package kdp.fretquiz.websocket;
 
+import kdp.fretquiz.game.Game;
 import kdp.fretquiz.user.User;
 
 import java.util.Map;
@@ -9,7 +10,8 @@ public class Response {
     enum Type {
         BROADCAST("BROADCAST"),
         LOGIN_OK("LOGIN_OK"),
-        LOGOUT_OK("LOGOUT_OK");
+        LOGOUT_OK("LOGOUT_OK"),
+        GAME_CREATED("GAME_CREATED");
 
         Type(String type) {}
     }
@@ -32,6 +34,13 @@ public class Response {
         return Map.of(
                 "type", Type.LOGOUT_OK,
                 "user", user.toMap()
+        );
+    }
+
+    public static Map<String, Object> gameCreated(Game game) {
+        return Map.of(
+                "type", Type.GAME_CREATED,
+                "game", game.toMap()
         );
     }
 }

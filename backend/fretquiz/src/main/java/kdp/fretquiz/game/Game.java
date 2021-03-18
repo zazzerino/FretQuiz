@@ -5,29 +5,27 @@ import kdp.fretquiz.theory.FretCoord;
 import kdp.fretquiz.theory.Fretboard;
 import kdp.fretquiz.theory.Note;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public record Game(String id,
                    GameOpts opts,
                    Map<String, Player> players,
-                   Map<String, Note> notesToGuess,
+                   Note noteToGuess,
                    List<Guess> guesses) {
 
-    public static Game create(Player ...players) {
-        var game = new Game(
+    public Game() {
+        this(
                 Util.randomId(),
                 GameOpts.DEFAULT,
                 new HashMap<>(),
-                new HashMap<>(),
+                Note.random(),
                 new ArrayList<>()
         );
-
-        for (var player : players) {
-            game = game.giveNoteTo(player.id());
-        }
-
-        return game;
     }
 
     public static boolean correctGuess(Note noteToGuess,
@@ -39,56 +37,42 @@ public record Game(String id,
         return guessedNote.isEnharmonicWith(noteToGuess);
     }
 
-    public Game giveNoteTo(String playerId) {
-        var note = Note.random();
-
-        var notesToGuess = new HashMap<>(notesToGuess());
-        notesToGuess.put(playerId, note);
-
-        return new Game(id, opts, players, notesToGuess, guesses);
-    }
-
     public Game addPlayer(Player player) {
         var players = new HashMap<>(this.players);
         players.put(player.id(), player);
 
-        return new Game(id, opts, players, notesToGuess, guesses);
+        return new Game(id, opts, players, noteToGuess, guesses);
     }
 
     public Game handleGuess(String playerId, FretCoord clickedFret) {
-        var noteToGuess = notesToGuess.get(playerId);
         var isCorrect = correctGuess(noteToGuess, clickedFret, opts.fretboard());
         var guess = new Guess(playerId, noteToGuess, clickedFret, isCorrect);
 
         var guesses = new ArrayList<>(this.guesses);
         guesses.add(guess);
 
-        return new Game(id, opts, players, notesToGuess, guesses)
-                .giveNoteTo(playerId);
+        var note = Note.random();
+
+        return new Game(id, opts, players, note, guesses);
     }
 
     public Map<String, Object> toMap() {
-        var players = this.players.values()
+        var playerMaps = this.players.values()
                 .stream()
                 .map(Player::toMap)
                 .collect(Collectors.toList());
 
-        var notesToGuess = this.notesToGuess.values()
-                .stream()
-                .map(Note::name)
-                .collect(Collectors.toList());
-
-        var guesses = this.guesses
+        var guessMaps = this.guesses
                 .stream()
                 .map(Guess::toMap)
                 .collect(Collectors.toList());
 
         return Map.of(
                 "id", id,
-                "opts", opts,
-                "players", players,
-                "notesToGuess", notesToGuess,
-                "guesses", guesses
+                "opts", opts.toMap(),
+                "players", playerMaps,
+                "noteToGuess", noteToGuess.toMap(),
+                "guesses", guessMaps
         );
     }
 }

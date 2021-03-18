@@ -20,7 +20,7 @@ public record GameOpts(int roundLength,
         return Map.of(
                 "roundLength", roundLength,
                 "secondsRemaining", secondsRemaining,
-                "fretboard", fretboard
+                "fretboard", fretboard.toMap()
         );
     }
 }

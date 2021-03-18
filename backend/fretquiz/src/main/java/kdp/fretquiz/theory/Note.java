@@ -2,6 +2,7 @@ package kdp.fretquiz.theory;
 
 import kdp.fretquiz.Util;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public record Note(WhiteKey whiteKey,
@@ -26,8 +27,7 @@ public record Note(WhiteKey whiteKey,
             throw new IllegalArgumentException();
         }
 
-        // for the note 'G##3'
-        // matcher.group(1) == 'G', matcher.group(2) == '##', matcher.group(3) == '3'
+        // for the note 'E##3': matcher.group(1) == 'E', matcher.group(2) == '##', matcher.group(3) == '3'
 
         var whiteKey = WhiteKey.valueOf(matcher.group(1));
 
@@ -73,17 +73,23 @@ public record Note(WhiteKey whiteKey,
             }
         } else if (accidental == Accidental.SHARP) {
             key = whiteKey.next();
-            if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {
-                acc = Accidental.SHARP;
-            } else {
-                acc = Accidental.NONE;
-            }
+            acc = (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) ?
+                    Accidental.SHARP :
+                    Accidental.NONE;
+//            if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {
+//                acc = Accidental.SHARP;
+//            } else {
+//                acc = Accidental.NONE;
+//            }
         } else if (accidental == Accidental.FLAT) {
             acc = accidental.next();
         }
 
         return new Note(key, acc, oct);
     }
+
+//    public Note previous() {
+//    }
 
     /**
      * Returns the note that is the given number of half-steps higher.
@@ -113,5 +119,13 @@ public record Note(WhiteKey whiteKey,
         var octave = Util.randomElement(Octave.values());
 
         return new Note(whiteKey, accidental, octave);
+    }
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "whiteKey", whiteKey,
+                "accidental", accidental,
+                "octave", octave
+        );
     }
 }

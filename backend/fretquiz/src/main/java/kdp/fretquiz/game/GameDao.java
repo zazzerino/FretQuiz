@@ -1,7 +1,5 @@
 package kdp.fretquiz.game;
 
-import kdp.fretquiz.game.Game;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
