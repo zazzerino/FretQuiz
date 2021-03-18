@@ -10,11 +10,4 @@ public record Player(String id,
     public Player(String userId) {
         this(Util.randomId(), userId);
     }
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "id", id,
-                "userId", userId
-        );
-    }
 }

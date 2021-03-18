@@ -29,32 +29,28 @@ public class Response {
     public static Map<String, Object> loginOk(User user) {
         return Map.of(
                 "type", Type.LOGIN_OK,
-                "user", user.toMap()
+                "user", user
         );
     }
 
     public static Map<String, Object> logoutOk(User user) {
         return Map.of(
                 "type", Type.LOGOUT_OK,
-                "user", user.toMap()
+                "user", user
         );
     }
 
     public static Map<String, Object> gameCreated(Game game) {
         return Map.of(
                 "type", Type.GAME_CREATED,
-                "game", game.toMap()
+                "game", game
         );
     }
 
     public static Map<String, Object> allGames(Collection<Game> games) {
-        var gameMaps = games.stream()
-                .map(Game::toMap)
-                .collect(Collectors.toList());
-
         return Map.of(
                 "type", Type.ALL_GAMES,
-                "games", gameMaps
+                "games", games
         );
     }
 }

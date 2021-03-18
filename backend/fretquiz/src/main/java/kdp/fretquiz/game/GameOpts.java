@@ -16,11 +16,11 @@ public record GameOpts(int roundLength,
             Fretboard.DEFAULT
     );
 
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "roundLength", roundLength,
-                "secondsRemaining", secondsRemaining,
-                "fretboard", fretboard.toMap()
-        );
-    }
+//    public Map<String, Object> toMap() {
+//        return Map.of(
+//                "roundLength", roundLength,
+//                "secondsRemaining", secondsRemaining,
+//                "fretboard", fretboard.toMap()
+//        );
+//    }
 }

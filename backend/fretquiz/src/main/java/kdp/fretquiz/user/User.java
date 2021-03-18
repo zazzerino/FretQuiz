@@ -21,11 +21,4 @@ public record User(String id,
     public User withName(String name) {
         return new User(id, name, sessionId);
     }
-
-    public Map<String, String> toMap() {
-        return Map.of(
-                "id", id,
-                "name", name
-        );
-    }
 }

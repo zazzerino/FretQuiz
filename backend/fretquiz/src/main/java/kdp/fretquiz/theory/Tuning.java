@@ -12,10 +12,4 @@ public record Tuning(List<String> notes) {
     public String get(int index) {
         return notes.get(index);
     }
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "notes", notes
-        );
-    }
 }

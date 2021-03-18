@@ -116,12 +116,4 @@ public record Note(WhiteKey whiteKey,
 
         return new Note(whiteKey, accidental, octave);
     }
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "whiteKey", whiteKey,
-                "accidental", accidental,
-                "octave", octave
-        );
-    }
 }

@@ -46,12 +46,4 @@ public record Fretboard(int startFret,
                 .findFirst()
                 .map(Map.Entry::getKey);
     }
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "startFret", startFret,
-                "endFret", endFret,
-                "tuning", tuning.toMap()
-        );
-    }
 }

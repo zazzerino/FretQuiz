@@ -9,13 +9,4 @@ public record Guess(String playerId,
                     Note noteToGuess,
                     FretCoord clickedFret,
                     boolean isCorrect) {
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "playerId", playerId,
-                "noteToGuess", noteToGuess.name(),
-                "clickedFret", clickedFret,
-                "isCorrect", isCorrect
-        );
-    }
 }

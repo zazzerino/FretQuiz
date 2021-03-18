@@ -55,24 +55,4 @@ public record Game(String id,
 
         return new Game(id, opts, players, newNoteToGuess, guesses);
     }
-
-    public Map<String, Object> toMap() {
-        var playerMaps = this.players.values()
-                .stream()
-                .map(Player::toMap)
-                .collect(Collectors.toList());
-
-        var guessMaps = this.guesses
-                .stream()
-                .map(Guess::toMap)
-                .collect(Collectors.toList());
-
-        return Map.of(
-                "id", id,
-                "opts", opts.toMap(),
-                "players", playerMaps,
-                "noteToGuess", noteToGuess.toMap(),
-                "guesses", guessMaps
-        );
-    }
 }
