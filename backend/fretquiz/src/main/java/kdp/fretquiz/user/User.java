@@ -19,6 +19,6 @@ public record User(String id,
     }
 
     public User withName(String name) {
-        return new User(id, name, sessionId);
+        return Util.copy(this, Map.of("name", name));
     }
 }

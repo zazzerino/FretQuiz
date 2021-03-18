@@ -1,7 +1,9 @@
 package kdp.fretquiz;
 
 import io.javalin.Javalin;
+import kdp.fretquiz.game.Game;
 import kdp.fretquiz.game.GameDao;
+import kdp.fretquiz.game.Player;
 import kdp.fretquiz.user.UserDao;
 import kdp.fretquiz.websocket.WebSocket;
 

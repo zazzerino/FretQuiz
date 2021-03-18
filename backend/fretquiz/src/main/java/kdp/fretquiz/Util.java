@@ -37,7 +37,7 @@ public class Util {
 
     /**
      * Copies a record and updates any fields listed in `overrides`.
-     * https://sormuras.github.io/blog/2020-05-05-records-copy.html
+     * Taken from https://sormuras.github.io/blog/2020-05-05-records-copy.html
      */
     public static <R extends Record> R copy(R template, Map<String, Object> overrides) {
         try {

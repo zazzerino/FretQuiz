@@ -13,7 +13,7 @@ public class Response {
         BROADCAST("BROADCAST"),
         LOGIN_OK("LOGIN_OK"),
         LOGOUT_OK("LOGOUT_OK"),
-        ALL_GAMES("ALL_GAMES"),
+        GET_GAMES("GET_GAMES"),
         GAME_CREATED("GAME_CREATED");
 
         Type(String type) {}
@@ -47,9 +47,9 @@ public class Response {
         );
     }
 
-    public static Map<String, Object> allGames(Collection<Game> games) {
+    public static Map<String, Object> getGames(Collection<Game> games) {
         return Map.of(
-                "type", Type.ALL_GAMES,
+                "type", Type.GET_GAMES,
                 "games", games
         );
     }

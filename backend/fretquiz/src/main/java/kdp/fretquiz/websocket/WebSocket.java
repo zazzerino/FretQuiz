@@ -42,7 +42,7 @@ public class WebSocket {
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
-            case GET_ALL_GAMES -> GameController.getAll(context);
+            case GET_GAMES -> GameController.getAll(context);
             case CREATE_GAME -> GameController.createGame(context);
         }
     }

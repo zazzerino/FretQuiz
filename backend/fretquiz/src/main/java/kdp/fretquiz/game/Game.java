@@ -2,15 +2,12 @@ package kdp.fretquiz.game;
 
 import kdp.fretquiz.Util;
 import kdp.fretquiz.theory.FretCoord;
-import kdp.fretquiz.theory.Fretboard;
 import kdp.fretquiz.theory.Note;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 public record Game(String id,
                    GameOpts opts,
@@ -18,41 +15,34 @@ public record Game(String id,
                    Note noteToGuess,
                    List<Guess> guesses) {
 
-    public Game() {
-        this(
-                Util.randomId(),
-                GameOpts.DEFAULT,
-                new HashMap<>(),
-                Note.random(),
-                new ArrayList<>()
-        );
-    }
+    public static Game create() {
+        var id = Util.randomId();
+        var opts = GameOpts.DEFAULT;
+        var noteToGuess = Note.random();
 
-    public static boolean correctGuess(Note noteToGuess,
-                                       FretCoord clickedFret,
-                                       Fretboard fretboard) {
-        var guessedNote = fretboard.findNote(clickedFret)
-                .orElseThrow(NoSuchElementException::new);
+        Map<String, Player> players = new HashMap<>();
+        List<Guess> guesses = new ArrayList<>();
 
-        return guessedNote.isEnharmonicWith(noteToGuess);
+        return new Game(id, opts, players, noteToGuess, guesses);
     }
 
     public Game addPlayer(Player player) {
         var players = new HashMap<>(this.players);
         players.put(player.id(), player);
 
-        return new Game(id, opts, players, noteToGuess, guesses);
+        return Util.copy(this, Map.of("players", players));
     }
 
     public Game handleGuess(String playerId, FretCoord clickedFret) {
-        var isCorrect = correctGuess(noteToGuess, clickedFret, opts.fretboard());
-        var guess = new Guess(playerId, noteToGuess, clickedFret, isCorrect);
-
+        var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         var guesses = new ArrayList<>(this.guesses);
         guesses.add(guess);
 
         var newNoteToGuess = Note.random();
 
-        return new Game(id, opts, players, newNoteToGuess, guesses);
+        return Util.copy(this, Map.of(
+                "newNoteToGuess", newNoteToGuess,
+                "guesses", guesses
+        ));
     }
 }

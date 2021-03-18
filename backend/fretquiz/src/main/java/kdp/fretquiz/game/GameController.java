@@ -13,7 +13,7 @@ public class GameController {
 
     public static void getAll(WsContext context) {
         var games = gameDao.getAll();
-        var response = Response.allGames(games);
+        var response = Response.getGames(games);
 
         context.send(response);
     }
@@ -21,7 +21,7 @@ public class GameController {
     public static void createGame(WsContext context) {
         var user = WebSocket.getUserFromContext(context);
         var player = new Player(user.id());
-        var game = new Game().addPlayer(player);
+        var game = Game.create().addPlayer(player);
         var response = Response.gameCreated(game);
 
         log.info("creating game: " + game);
