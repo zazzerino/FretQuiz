@@ -21,7 +21,11 @@ public class GameController {
     public static void createGame(WsContext context) {
         var user = WebSocket.getUserFromContext(context);
         var player = new Player(user.id());
-        var game = Game.create().addPlayer(player);
+
+        var game = Game.create()
+                .addPlayer(player)
+                .assignHost(player.id());
+
         var response = Response.gameCreated(game);
 
         log.info("creating game: " + game);

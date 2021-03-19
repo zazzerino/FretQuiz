@@ -15,10 +15,6 @@ function empty(elem: Element) {
   }
 }
 
-function formatNote(note: Note): string {
-  return note.whiteKey + note.accidental + '/' + note.octave;
-}
-
 function accidentalSymbol(accidental: string): string {
   switch (accidental) {
     case 'SHARP': return '#';
@@ -27,13 +23,36 @@ function accidentalSymbol(accidental: string): string {
   }
 }
 
+function octaveNumber(octave: string): number {
+  switch (octave) {
+    case 'ONE': return 1;
+    case 'TWO': return 2;
+    case 'THREE': return 3;
+    case 'FOUR': return 4;
+    case 'FIVE': return 5;
+    case 'SIX': return 6;
+    case 'SEVEN': return 7;
+    case 'EIGHT': return 8;
+    case 'NINE': return 9;
+    default: return 0;
+  }
+}
+
+function formatNote(note: Note): string {
+  const accidental = accidentalSymbol(note.accidental);
+  const octave = octaveNumber(note.octave);
+
+  // return note.whiteKey + note.accidental + '/' + note.octave;
+  return note.whiteKey + accidental + '/' + octave;
+}
+
 function makeVexObjects(
   elem: HTMLElement,
   width: number,
   height: number
 ): VexObjects {
 
-  const renderer = new Vex.Flow.Renderer(elem, 3);
+  const renderer = new Vex.Flow.Renderer(elem, Vex.Flow.Renderer.Backends.SVG);
   renderer.resize(width, height);
 
   const context = renderer.getContext();
@@ -50,7 +69,9 @@ function drawNote(vexObjs: VexObjects, note: Note) {
 
   const staveNote = new Vex.Flow.StaveNote({
     keys: [notename],
-    duration: 'w'
+    duration: 'w',
+    // @ts-ignore
+    align_center: true
   });
 
   const accidental = accidentalSymbol(note.accidental);
@@ -78,6 +99,7 @@ export function Stave() {
       objs.stave.draw();
 
       if (note) {
+        console.log("there's a note " + JSON.stringify(formatNote(note)));
         drawNote(objs, note);
       }
     }

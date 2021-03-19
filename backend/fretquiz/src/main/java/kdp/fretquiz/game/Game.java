@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public record Game(String id,
                    GameOpts opts,
@@ -31,6 +32,25 @@ public record Game(String id,
         players.put(player.id(), player);
 
         return Util.copy(this, Map.of("players", players));
+    }
+
+    /**
+     * Makes the player with `playerId` the game host.
+     */
+    public Game assignHost(String playerId) {
+        var players = new HashMap<>(this.players);
+        var player = players.get(playerId).makeHost();
+        players.put(playerId, player);
+
+        return Util.copy(this, Map.of("players", players));
+    }
+
+    public Player host() {
+        return players.values()
+                .stream()
+                .filter(Player::isHost)
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     public Game handleGuess(String playerId, FretCoord clickedFret) {

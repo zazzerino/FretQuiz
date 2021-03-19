@@ -71,6 +71,7 @@ const gameSlice = createSlice({
 });
 
 export const selectGames = (state: RootState) => state.game.games;
+
 export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
 export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.noteToGuess;
