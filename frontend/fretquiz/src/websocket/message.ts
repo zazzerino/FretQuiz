@@ -1,7 +1,8 @@
 import { Game } from "../features/game/gameSlice";
 import { User } from "../features/user/userSlice";
 
-export type MessageType = 'BROADCAST' | 'LOGIN_OK' | 'GAME_CREATED' | 'GET_GAMES';
+export type MessageType =
+  'BROADCAST' | 'LOGIN_OK' | 'GAME_CREATED' | 'GET_GAMES' | 'GUESS';
 
 export interface Message {
   type: MessageType
@@ -20,4 +21,9 @@ export interface GetGamesMessage extends Message {
 export interface LoginMessage extends Message {
   type: 'LOGIN_OK',
   user: User
+}
+
+export interface GuessMessage extends Message {
+  type: 'GUESS',
+
 }

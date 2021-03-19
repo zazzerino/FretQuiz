@@ -53,16 +53,20 @@ public record Game(String id,
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public Game handleGuess(String playerId, FretCoord clickedFret) {
+    public record GuessResult(boolean isCorrect, Game game) {}
+
+    public GuessResult guess(String playerId, FretCoord clickedFret) {
         var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
+        var isCorrect = guess.isCorrect();
+
         var guesses = new ArrayList<>(this.guesses);
         guesses.add(guess);
 
-        var newNoteToGuess = Note.random();
-
-        return Util.copy(this, Map.of(
-                "newNoteToGuess", newNoteToGuess,
+        var game = Util.copy(this, Map.of(
+                "newNoteToGuess", Note.random(),
                 "guesses", guesses
         ));
+
+        return new GuessResult(isCorrect, game);
     }
 }

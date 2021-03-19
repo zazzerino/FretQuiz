@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-type FretCoord = string;
+export type FretCoordString = string;
+
+export interface FretCoord {
+  string: number,
+  fret: number
+}
 
 // type Note = string;
 
@@ -33,8 +38,14 @@ interface GameOpts {
 interface Guess {
   playerId: PlayerId,
   noteToGuess: Note,
-  clickedFret: FretCoord,
+  clickedFret: FretCoordString,
   fretboard: any
+}
+
+export interface NewGuess {
+  gameId: GameId,
+  playerId: PlayerId,
+  clickedFret: FretCoord
 }
 
 export interface Game {
@@ -73,6 +84,8 @@ const gameSlice = createSlice({
 export const selectGames = (state: RootState) => state.game.games;
 
 export const selectCurrentGame = (state: RootState) => state.game.currentGame;
+
+export const selectGameId = (state: RootState) => state.game.currentGame?.id;
 
 export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.noteToGuess;
 

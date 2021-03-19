@@ -29,18 +29,9 @@ function onMessage(event: MessageEvent) {
   const message = JSON.parse(event.data) as Message;
   console.log('message received: ' + JSON.stringify(message));
 
-  handleMessage(message);
-}
-
-function handleMessage(message: Message) {
   switch (message.type) {
-    case 'LOGIN_OK':
-      return handleLogin(message);
-
-    case 'GAME_CREATED':
-      return handleGameCreated(message);
-
-    case 'GET_GAMES':
-      return handleGetGames(message);
+    case 'LOGIN_OK': return handleLogin(message);
+    case 'GAME_CREATED': return handleGameCreated(message);
+    case 'GET_GAMES': return handleGetGames(message);
   }
 }

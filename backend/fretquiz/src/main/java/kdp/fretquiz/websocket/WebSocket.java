@@ -44,6 +44,7 @@ public class WebSocket {
             case LOGOUT -> {}
             case GET_GAMES -> GameController.getAll(context);
             case CREATE_GAME -> GameController.createGame(context);
+            case GUESS -> GameController.handleGuess(context);
         }
     }
 

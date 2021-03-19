@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Footer } from './components/Footer';
@@ -12,9 +11,9 @@ import { sendCreateGame, sendGetGames } from './websocket/game';
 
 function App() {
   
-  React.useEffect(() => {
-    setTimeout(() => sendGetGames(), 1000);
-  });
+  // React.useEffect(() => {
+    // setTimeout(() => sendGetGames(), 1000);
+  // });
 
   return (
     <div className="App">

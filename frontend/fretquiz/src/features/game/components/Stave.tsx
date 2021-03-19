@@ -42,7 +42,6 @@ function formatNote(note: Note): string {
   const accidental = accidentalSymbol(note.accidental);
   const octave = octaveNumber(note.octave);
 
-  // return note.whiteKey + note.accidental + '/' + note.octave;
   return note.whiteKey + accidental + '/' + octave;
 }
 
@@ -93,13 +92,15 @@ export function Stave() {
     const elem = document.getElementById('stave-ref');
 
     if (elem) {
-      empty(elem); // remove the previous stave
+      // remove the previous stave
+      empty(elem);
 
+      // draw a new stave
       const objs = makeVexObjects(elem, width, height);
       objs.stave.draw();
 
+      // if there's a note, draw it
       if (note) {
-        console.log("there's a note " + JSON.stringify(formatNote(note)));
         drawNote(objs, note);
       }
     }

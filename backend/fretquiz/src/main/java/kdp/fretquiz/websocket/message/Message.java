@@ -7,7 +7,8 @@ public interface Message {
         LOGIN("LOGIN"),
         LOGOUT("LOGOUT"),
         GET_GAMES("GET_GAMES"),
-        CREATE_GAME("CREATE_GAME");
+        CREATE_GAME("CREATE_GAME"),
+        GUESS("GUESS");
 
         Type(String type) {}
     }

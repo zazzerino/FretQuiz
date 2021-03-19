@@ -14,7 +14,8 @@ public class Response {
         LOGIN_OK("LOGIN_OK"),
         LOGOUT_OK("LOGOUT_OK"),
         GET_GAMES("GET_GAMES"),
-        GAME_CREATED("GAME_CREATED");
+        GAME_CREATED("GAME_CREATED"),
+        GUESS_RESPONSE("GUESS_RESPONSE");
 
         Type(String type) {}
     }
@@ -51,6 +52,13 @@ public class Response {
         return Map.of(
                 "type", Type.GET_GAMES,
                 "games", games
+        );
+    }
+
+    public static Map<String, Object> guessResponse(Game.GuessResult result) {
+        return Map.of(
+                "type", Type.GUESS_RESPONSE,
+                "guessResult", result
         );
     }
 }
