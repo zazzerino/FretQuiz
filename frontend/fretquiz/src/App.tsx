@@ -7,16 +7,14 @@ import { Home } from './components/Home';
 import { Navbar } from './components/Navbar';
 import { GameList } from './features/game/GameList';
 import { GamePage } from './features/game/GamePage';
-// import { sendCreateGame, fetchAllGames, setGamesAsync } from './features/game/gameSlice';
 import { Login } from './features/user/Login';
-import { sendCreateGame, sendGetGames } from './websocket/socket';
+import { sendCreateGame, sendGetGames } from './websocket/game';
 
 function App() {
-  const dispatch = useDispatch();
-
-  // React.useEffect(() => {
-  //   dispatch(setGamesAsync());
-  // });
+  
+  React.useEffect(() => {
+    setTimeout(() => sendGetGames(), 1000);
+  });
 
   return (
     <div className="App">
@@ -36,16 +34,18 @@ function App() {
             <Home />
           </Route>
         </Switch>
-        <button onClick={() => {
-          sendCreateGame();
-        }}>
-          Create Game
-        </button>
+
         <button onClick={() => {
           sendGetGames();
         }}>
           Get Games
         </button>
+        <button onClick={() => {
+          sendCreateGame();
+        }}>
+          Create Game
+        </button>
+
         <Footer />
       </BrowserRouter>
     </div>

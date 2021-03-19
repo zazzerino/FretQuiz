@@ -1,35 +1,12 @@
-import { store } from "../app/store";
-import { Game, setCurrentGame, setGames } from "../features/game/gameSlice";
-import { User, setUser } from "../features/user/userSlice";
-
-let ws: WebSocket;
+import { Message } from './message';
+import { handleLogin } from './user';
+import { handleGetGames, handleGameCreated } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
-type MessageType = 'BROADCAST' | 'LOGIN_OK' | 'GAME_CREATED' | 'GET_GAMES';
-
-interface Message {
-  type: MessageType
-}
-
-interface LoginMessage extends Message {
-  type: 'LOGIN_OK',
-  user: User
-}
-
-interface GameCreatedMessage extends Message {
-  type: 'GAME_CREATED',
-  game: Game
-}
-
-interface GetGamesMessage extends Message {
-  type: 'GET_GAMES',
-  games: Game[]
-}
+export const ws = new WebSocket(WS_URL);
 
 export function initWebSocket() {
-  ws = new WebSocket(WS_URL);
-
   ws.onopen = onOpen;
   ws.onmessage = onMessage;
   ws.onclose = onClose;
@@ -58,55 +35,12 @@ function onMessage(event: MessageEvent) {
 function handleMessage(message: Message) {
   switch (message.type) {
     case 'LOGIN_OK':
-      handleLogin(message as LoginMessage);
-      break;
+      return handleLogin(message);
 
     case 'GAME_CREATED':
-      handleGameCreated(message as GameCreatedMessage);
-      break;
+      return handleGameCreated(message);
 
     case 'GET_GAMES':
-      handleGetGames(message as GetGamesMessage);
-      break;
+      return handleGetGames(message);
   }
-}
-
-export function sendLogin(name: string) {
-  const message = JSON.stringify({
-    type: 'LOGIN',
-    name
-  });
-
-  ws.send(message);
-}
-
-export function handleLogin(message: LoginMessage) {
-  const user = message.user;
-  store.dispatch(setUser(user));
-}
-
-export function sendCreateGame() {
-  const message = JSON.stringify({
-    type: 'CREATE_GAME'
-  });
-
-  ws.send(message);
-}
-
-export function sendGetGames() {
-  const message = JSON.stringify({
-    type: 'GET_GAMES'
-  });
-
-  ws.send(message);
-}
-
-export function handleGameCreated(message: GameCreatedMessage) {
-  const game = message.game;
-  store.dispatch(setCurrentGame(game));
-}
-
-export function handleGetGames(message: GetGamesMessage) {
-  const games = message.games;
-  store.dispatch(setGames(games));
 }

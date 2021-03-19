@@ -9,6 +9,12 @@ type VexObjects = {
   stave: Vex.Flow.Stave
 }
 
+function empty(elem: Element) {
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
+  }
+}
+
 function formatNote(note: Note): string {
   return note.whiteKey + note.accidental + '/' + note.octave;
 }
@@ -57,13 +63,17 @@ function drawNote(vexObjs: VexObjects, note: Note) {
 }
 
 export function Stave() {
-  const [width, height] = [200, 130];
+  const width = 200;
+  const height = 130;
+
   const note = useSelector(selectNoteToGuess);
 
   React.useEffect(() => {
     const elem = document.getElementById('stave-ref');
 
     if (elem) {
+      empty(elem); // remove the previous stave
+
       const objs = makeVexObjects(elem, width, height);
       objs.stave.draw();
 
