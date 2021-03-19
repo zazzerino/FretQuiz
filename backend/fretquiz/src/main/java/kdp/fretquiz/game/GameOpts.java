@@ -2,8 +2,6 @@ package kdp.fretquiz.game;
 
 import kdp.fretquiz.theory.Fretboard;
 
-import java.util.Map;
-
 public record GameOpts(int roundLength,
                        int secondsRemaining,
                        Fretboard fretboard) {

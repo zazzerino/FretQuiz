@@ -4,7 +4,6 @@ import kdp.fretquiz.theory.FretCoord;
 import kdp.fretquiz.theory.Fretboard;
 import kdp.fretquiz.theory.Note;
 
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 public record Guess(String playerId,
