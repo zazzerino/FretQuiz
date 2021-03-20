@@ -14,7 +14,7 @@ public record Note(WhiteKey whiteKey,
     }
 
     /**
-     * Parses a notename like "Cb4" into a Note[whiteKey=C, accidental=FLAT, octave=FOUR]
+     * Parses a note name like "Cb4" into a Note[whiteKey=C, accidental=FLAT, octave=FOUR]
      * @param name a string with a letter A-G, an optional accidental ('b' or '#'), and an octave number
      * @return a Note
      */
@@ -115,5 +115,21 @@ public record Note(WhiteKey whiteKey,
         var octave = Util.randomElement(Octave.values());
 
         return new Note(whiteKey, accidental, octave);
+    }
+
+    public static Note randomBetween(Note low, Note high) {
+        var lowMidi = low.midiNum();
+        var highMidi = high.midiNum();
+
+        Note note;
+        int midi;
+
+        // TODO search for a better way, the right way
+        do {
+            note = Note.random();
+            midi = note.midiNum();
+        } while (midi <= lowMidi && midi >= highMidi);
+
+        return note;
     }
 }

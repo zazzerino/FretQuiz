@@ -19,7 +19,8 @@ public record Game(String id,
     public static Game create() {
         var id = Util.randomId();
         var opts = GameOpts.DEFAULT;
-        var noteToGuess = Note.random();
+//        var noteToGuess = Note.random();
+        var noteToGuess = Note.randomBetween(Note.fromString("E3"), Note.fromString("G#5"));
 
         Map<String, Player> players = new HashMap<>();
         List<Guess> guesses = new ArrayList<>();
@@ -63,7 +64,7 @@ public record Game(String id,
         guesses.add(guess);
 
         var game = Util.copy(this, Map.of(
-                "newNoteToGuess", Note.random(),
+                "newNoteToGuess", Note.randomBetween(Note.fromString("E3"), Note.fromString("G#5")),
                 "guesses", guesses
         ));
 

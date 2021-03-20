@@ -39,6 +39,7 @@ public class WebSocket {
     public static void onMessage(WsMessageContext context) {
         Message message = context.message(DefaultMessage.class);
 
+        log.info("msg type: " + message.type());
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
