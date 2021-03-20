@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static kdp.fretquiz.App.gameDao;
 
@@ -20,7 +19,7 @@ public class GameController {
         var ids = gameDao.getAll()
                 .stream()
                 .map(Game::id)
-                .collect(Collectors.toList());
+                .toArray(String[]::new);
 
         var response = Response.getGameIds(ids);
 

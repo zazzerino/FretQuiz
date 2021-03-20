@@ -1,6 +1,8 @@
 import { store } from '../app/store';
 import { ws } from './socket';
-import { Message, GameCreatedMessage, GetGameIdsMessage } from './message';
+import { 
+  Message, GameCreatedMessage, GetGameIdsMessage, GameJoinedMessage 
+} from './message';
 import { setCurrentGame, setGameIds, NewGuess } from "../features/game/gameSlice";
 
 export function sendCreateGame() {
@@ -53,5 +55,8 @@ export function sendJoinGame(userId: string, gameId: string) {
 }
 
 export function gameJoined(msg: Message) {
-  console.log('game joined ' + JSON.stringify(msg));
+  const message = msg as GameJoinedMessage;
+  const game = message.game;
+
+  store.dispatch(setCurrentGame(game));
 }

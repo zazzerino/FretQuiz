@@ -3,70 +3,75 @@ package kdp.fretquiz.websocket;
 import kdp.fretquiz.game.Game;
 import kdp.fretquiz.user.User;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-public class Response {
+public interface Response {
+    Type type();
 
     enum Type {
-        BROADCAST("BROADCAST"),
-        LOGIN_OK("LOGIN_OK"),
-        LOGOUT_OK("LOGOUT_OK"),
-        GET_GAME_IDS("GET_GAME_IDS"),
-        GAME_CREATED("GAME_CREATED"),
-        GAME_JOINED("GAME_JOINED"),
-        GUESS_RESPONSE("GUESS_RESPONSE");
-
-        Type(String type) {}
+        LOGIN_OK,
+        LOGOUT_OK,
+        GET_GAME_IDS,
+        GAME_CREATED,
+        GAME_JOINED,
+        GUESS_RESULT;
     }
 
-    public static Map<String, Object> broadcast(String message) {
-        return Map.of(
-                "type", Type.BROADCAST,
-                "message", message
-        );
+    public record LoginOk(Type type, User user) implements Response {
+        public LoginOk(User user) {
+            this(Type.LOGIN_OK, user);
+        }
     }
 
-    public static Map<String, Object> loginOk(User user) {
-        return Map.of(
-                "type", Type.LOGIN_OK,
-                "user", user
-        );
+    public static LoginOk loginOk(User user) {
+        return new LoginOk(user);
     }
 
-    public static Map<String, Object> logoutOk(User user) {
-        return Map.of(
-                "type", Type.LOGOUT_OK,
-                "user", user
-        );
+    public record LogoutOk(Type type) implements Response {
+        public LogoutOk() {
+            this(Type.LOGOUT_OK);
+        }
     }
 
-    public static Map<String, Object> gameCreated(Game game) {
-        return Map.of(
-                "type", Type.GAME_CREATED,
-                "game", game
-        );
+    public static LogoutOk logoutOk() {
+        return new LogoutOk();
     }
 
-    public static Map<String, Object> getGameIds(List<String> gameIds) {
-        return Map.of(
-                "type", Type.GET_GAME_IDS,
-                "gameIds", gameIds
-        );
+    public record GameCreated(Type type, Game game) implements Response {
+        public GameCreated(Game game) {
+            this(Type.GAME_CREATED, game);
+        }
     }
 
-    public static Map<String, Object> guessResult(Game.GuessResult result) {
-        return Map.of(
-                "type", Type.GUESS_RESPONSE,
-                "guessResult", result
-        );
+    public static GameCreated gameCreated(Game game) {
+        return new GameCreated(game);
     }
 
-    public static Map<String, Object> gameJoined(Game game) {
-        return Map.of(
-                "type", Type.GAME_JOINED,
-                "game", game
-        );
+    public record GetGameIds(Type type, String[] gameIds) implements Response {
+        public GetGameIds(String[] gameIds) {
+            this(Type.GET_GAME_IDS, gameIds);
+        }
+    }
+
+    public static GetGameIds getGameIds(String[] gameIds) {
+        return new GetGameIds(gameIds);
+    }
+
+    public record GuessResult(Type type, Game.GuessResult result) implements Response {
+        public GuessResult(Game.GuessResult result) {
+            this(Type.GUESS_RESULT, result);
+        }
+    }
+
+    public static GuessResult guessResult(Game.GuessResult result) {
+        return new GuessResult(result);
+    }
+
+    public record GameJoined(Type type, Game game) implements Response {
+        public GameJoined(Game game) {
+            this(Type.GAME_JOINED, game);
+        }
+    }
+
+    public static GameJoined gameJoined(Game game) {
+        return new GameJoined(game);
     }
 }

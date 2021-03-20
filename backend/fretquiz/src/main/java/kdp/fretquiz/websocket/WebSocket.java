@@ -57,11 +57,11 @@ public class WebSocket {
     /**
      * Send a message to each connected user.
      */
-    public static void broadcast(String message) {
-        contexts.forEach(context -> {
-            context.send(Response.broadcast(message));
-        });
-    }
+//    public static void broadcast(String message) {
+//        contexts.forEach(context -> {
+//            context.send(Response.broadcast(message));
+//        });
+//    }
 
     /**
      * Store the user's info as Jetty session attributes.
