@@ -1,10 +1,9 @@
 package kdp.fretquiz.game;
 
 import io.javalin.websocket.WsMessageContext;
+import kdp.fretquiz.websocket.Request;
 import kdp.fretquiz.websocket.Response;
 import kdp.fretquiz.websocket.WebSocket;
-import kdp.fretquiz.websocket.message.GuessMessage;
-import kdp.fretquiz.websocket.message.JoinGameMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ public class GameController {
     }
 
     public static void joinGame(WsMessageContext context) {
-        var message = context.message(JoinGameMessage.class);
+        var message = context.message(Request.JoinGameMessage.class);
         var userId = message.userId();
         var gameId = message.gameId();
 
@@ -63,7 +62,7 @@ public class GameController {
     }
 
     public static void handleGuess(WsMessageContext context) {
-        var message = context.message(GuessMessage.class);
+        var message = context.message(Request.GuessMessage.class);
         var newGuess = message.guess();
         var playerId = newGuess.playerId();
         var gameId = newGuess.gameId();

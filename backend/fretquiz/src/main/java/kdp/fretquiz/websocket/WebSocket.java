@@ -6,8 +6,6 @@ import io.javalin.websocket.WsMessageContext;
 import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.user.User;
 import kdp.fretquiz.user.UserController;
-import kdp.fretquiz.websocket.message.DefaultMessage;
-import kdp.fretquiz.websocket.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +35,7 @@ public class WebSocket {
     }
 
     public static void onMessage(WsMessageContext context) {
-        Message message = context.message(DefaultMessage.class);
+        Request message = context.message(Request.Default.class);
 
         log.info("msg type: " + message.type());
         switch (message.type()) {

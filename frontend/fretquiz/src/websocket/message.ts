@@ -23,10 +23,6 @@ export interface LoginMessage extends Message {
   user: User
 }
 
-// export interface GuessMessage extends Message {
-//   type: 'GUESS',
-// }
-
 export interface GameJoinedMessage extends Message {
   type: 'GAME_JOINED',
   game: Game

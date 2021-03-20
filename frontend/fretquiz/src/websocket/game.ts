@@ -3,7 +3,7 @@ import { ws } from './socket';
 import { 
   Message, GameCreatedMessage, GetGameIdsMessage, GameJoinedMessage 
 } from './message';
-import { setCurrentGame, setGameIds, NewGuess } from "../features/game/gameSlice";
+import { setGame, setGameIds, NewGuess } from "../features/game/gameSlice";
 
 export function sendCreateGame() {
   const message = JSON.stringify({
@@ -17,7 +17,7 @@ export function handleGameCreated(msg: Message) {
   const message = msg as GameCreatedMessage;
   const game = message.game;
 
-  store.dispatch(setCurrentGame(game));
+  store.dispatch(setGame(game));
 }
 
 export function sendGetGameIds() {
@@ -58,5 +58,5 @@ export function gameJoined(msg: Message) {
   const message = msg as GameJoinedMessage;
   const game = message.game;
 
-  store.dispatch(setCurrentGame(game));
+  store.dispatch(setGame(game));
 }

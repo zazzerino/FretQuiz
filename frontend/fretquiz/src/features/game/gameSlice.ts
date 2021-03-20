@@ -69,7 +69,7 @@ const gameSlice = createSlice({
   initialState,
 
   reducers: {
-    setCurrentGame: (state: GameState, action: PayloadAction<Game>) => {
+    setGame: (state: GameState, action: PayloadAction<Game>) => {
       state.currentGame = action.payload;
     },
     setGameIds: (state: GameState, action: PayloadAction<string[]>) => {
@@ -86,6 +86,6 @@ export const selectGameId = (state: RootState) => state.game.currentGame?.id;
 
 export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.noteToGuess;
 
-export const { setCurrentGame, setGameIds } = gameSlice.actions;
+export const { setGame, setGameIds } = gameSlice.actions;
 
 export default gameSlice.reducer;

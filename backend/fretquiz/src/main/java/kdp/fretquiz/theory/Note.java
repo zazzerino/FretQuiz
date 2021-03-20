@@ -128,7 +128,7 @@ public record Note(WhiteKey whiteKey,
         do {
             note = Note.random();
             midi = note.midiNum();
-        } while (midi <= lowMidi && midi >= highMidi);
+        } while (midi < lowMidi || midi > highMidi);
 
         return note;
     }
