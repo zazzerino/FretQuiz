@@ -117,6 +117,9 @@ public record Note(WhiteKey whiteKey,
         return new Note(whiteKey, accidental, octave);
     }
 
+    /**
+     * Returns a random note between two pitches.
+     */
     public static Note randomBetween(Note low, Note high) {
         var lowMidi = low.midiNum();
         var highMidi = high.midiNum();

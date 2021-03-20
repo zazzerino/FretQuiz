@@ -1,6 +1,6 @@
 import { Message } from './message';
-import { handleLogin } from './user';
-import { handleGetGames, handleGameCreated, gameJoined } from './game';
+import { login } from './user';
+import { getGameIds, gameCreated, gameJoined } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -31,13 +31,13 @@ function onMessage(event: MessageEvent) {
 
   switch (message.type) {
     case 'LOGIN_OK':
-      return handleLogin(message);
+      return login(message);
 
     case 'GAME_CREATED':
-      return handleGameCreated(message);
+      return gameCreated(message);
 
     case 'GET_GAME_IDS':
-      return handleGetGames(message);
+      return getGameIds(message);
 
     case 'GAME_JOINED':
       return gameJoined(message);

@@ -1,7 +1,7 @@
 package kdp.fretquiz.game;
 
 import kdp.fretquiz.Util;
-import kdp.fretquiz.theory.FretCoord;
+import kdp.fretquiz.theory.Fretboard;
 import kdp.fretquiz.theory.Note;
 
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ public record Game(String id,
     public static Game create() {
         var id = Util.randomId();
         var opts = GameOpts.DEFAULT;
-//        var noteToGuess = Note.random();
         var noteToGuess = Note.randomBetween(Note.fromString("E3"), Note.fromString("G#5"));
 
         Map<String, Player> players = new HashMap<>();
@@ -56,7 +55,7 @@ public record Game(String id,
 
     public record GuessResult(boolean isCorrect, Game game) {}
 
-    public GuessResult guess(String playerId, FretCoord clickedFret) {
+    public GuessResult guess(String playerId, Fretboard.Coord clickedFret) {
         var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         var isCorrect = guess.isCorrect();
 

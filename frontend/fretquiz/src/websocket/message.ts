@@ -8,6 +8,15 @@ export interface Message {
   type: MessageType
 }
 
+// user messages
+
+export interface LoginMessage extends Message {
+  type: 'LOGIN_OK',
+  user: User
+}
+
+// game messages
+
 export interface GameCreatedMessage extends Message {
   type: 'GAME_CREATED',
   game: Game
@@ -17,12 +26,6 @@ export interface GetGameIdsMessage extends Message {
   type: 'GET_GAME_IDS',
   gameIds: string[]
 }
-
-export interface LoginMessage extends Message {
-  type: 'LOGIN_OK',
-  user: User
-}
-
 export interface GameJoinedMessage extends Message {
   type: 'GAME_JOINED',
   game: Game

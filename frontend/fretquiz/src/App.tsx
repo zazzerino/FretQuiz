@@ -7,14 +7,10 @@ import { Navbar } from './components/Navbar';
 import { GameList } from './features/game/GameList';
 import { GamePage } from './features/game/GamePage';
 import { Login } from './features/user/Login';
-import { sendCreateGame, sendGetGameIds } from './websocket/game';
+import { sendCreateGame } from './websocket/game';
 
 function App() {
   
-  // React.useEffect(() => {
-    // setTimeout(() => sendGetGames(), 1000);
-  // });
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -34,11 +30,6 @@ function App() {
           </Route>
         </Switch>
 
-        <button onClick={() => {
-          sendGetGameIds();
-        }}>
-          Get Games
-        </button>
         <button onClick={() => {
           sendCreateGame();
         }}>

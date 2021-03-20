@@ -16,6 +16,13 @@ public class GameDao {
         return games.values();
     }
 
+    public String[] getAllIds() {
+        return games.values()
+                .stream()
+                .map(Game::id)
+                .toArray(String[]::new);
+    }
+
     public void save(Game game) {
         games.put(game.id(), game);
     }

@@ -29,17 +29,17 @@ public interface Request {
         }
     }
 
-    record GetGameIds(Type type) implements Request {
-        public GetGameIds() {
-            this(Type.GET_GAME_IDS);
-        }
-    }
+//    record GetGameIds(Type type) implements Request {
+//        public GetGameIds() {
+//            this(Type.GET_GAME_IDS);
+//        }
+//    }
 
-    record CreateGameMessage(Type type) implements Request {
-        public CreateGameMessage() {
-            this(Type.CREATE_GAME);
-        }
-    }
+//    record CreateGameMessage(Type type) implements Request {
+//        public CreateGameMessage() {
+//            this(Type.CREATE_GAME);
+//        }
+//    }
 
     record GuessMessage(Type type, NewGuess guess) implements Request {
         public GuessMessage(NewGuess guess) {

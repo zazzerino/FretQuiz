@@ -12,7 +12,7 @@ export function sendLogin(name: string) {
   ws.send(message);
 }
 
-export function handleLogin(msg: Message) {
+export function login(msg: Message) {
   const message = msg as LoginMessage;
   const user = message.user;
 

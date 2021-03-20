@@ -15,11 +15,7 @@ public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     public static void getAllIds(WsMessageContext context) {
-        var ids = gameDao.getAll()
-                .stream()
-                .map(Game::id)
-                .toArray(String[]::new);
-
+        var ids = gameDao.getAllIds();
         var response = Response.getGameIds(ids);
 
         context.send(response);
@@ -40,6 +36,16 @@ public class GameController {
 
         context.attribute("gameId", game.id());
         context.send(response);
+
+        broadcastGameIds();
+    }
+
+    /**
+     * Sends an updated list of game ids to every connected client.
+     */
+    public static void broadcastGameIds() {
+        var ids = gameDao.getAllIds();
+        WebSocket.broadcast(Response.getGameIds(ids));
     }
 
     public static void joinGame(WsMessageContext context) {

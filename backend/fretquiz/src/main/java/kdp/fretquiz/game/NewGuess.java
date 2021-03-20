@@ -1,8 +1,8 @@
 package kdp.fretquiz.game;
 
-import kdp.fretquiz.theory.FretCoord;
+import kdp.fretquiz.theory.Fretboard;
 
 public record NewGuess(String gameId,
                        String playerId,
-                       FretCoord clickedFret) {
+                       Fretboard.Coord clickedFret) {
 }

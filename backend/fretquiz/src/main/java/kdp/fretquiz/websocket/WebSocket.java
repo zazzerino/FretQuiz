@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import static kdp.fretquiz.App.gameDao;
 import static kdp.fretquiz.App.userDao;
 
 public class WebSocket {
@@ -32,12 +33,15 @@ public class WebSocket {
 
         setUserAttributes(context, user);
         context.send(Response.loginOk(user));
+
+        var gameIds = gameDao.getAllIds();
+        context.send(Response.getGameIds(gameIds));
     }
 
     public static void onMessage(WsMessageContext context) {
         Request message = context.message(Request.Default.class);
 
-        log.info("msg type: " + message.type());
+        log.info("message type: " + message.type());
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
@@ -53,13 +57,13 @@ public class WebSocket {
     }
 
     /**
-     * Send a message to each connected user.
+     * Send a Response to each connected user.
      */
-//    public static void broadcast(String message) {
-//        contexts.forEach(context -> {
-//            context.send(Response.broadcast(message));
-//        });
-//    }
+    public static void broadcast(Response response) {
+        contexts.forEach(context -> {
+            context.send(response);
+        });
+    }
 
     /**
      * Store the user's info as Jetty session attributes.
@@ -69,6 +73,10 @@ public class WebSocket {
         context.attribute("userName", user.name());
     }
 
+    /**
+     * Get's a user info from the Jetty context.
+     * Assumes that there is a "userId" attribute already set (which should be done on connect).
+     */
     public static User getUserFromContext(WsContext context) {
         var userId = Objects.requireNonNull(context.attribute("userId")).toString();
 

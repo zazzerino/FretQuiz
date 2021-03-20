@@ -13,7 +13,7 @@ export function sendCreateGame() {
   ws.send(message);
 }
 
-export function handleGameCreated(msg: Message) {
+export function gameCreated(msg: Message) {
   const message = msg as GameCreatedMessage;
   const game = message.game;
 
@@ -28,7 +28,7 @@ export function sendGetGameIds() {
   ws.send(message);
 }
 
-export function handleGetGames(msg: Message) {
+export function getGameIds(msg: Message) {
   const message = msg as GetGameIdsMessage;
   const gameIds = message.gameIds;
 
