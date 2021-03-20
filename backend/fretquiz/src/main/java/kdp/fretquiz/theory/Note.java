@@ -63,7 +63,7 @@ public record Note(WhiteKey whiteKey,
         var key = whiteKey;
         var acc = accidental;
 
-        // If we're at pitchClass == 11 (the note "B"), increment the octave. Otherwise, the octave stays the same.
+        // If we're at pitchClass == 11 (the notes "B", "A##", "Cb"), increment the octave. Otherwise, the octave stays the same.
         final var oct = pitchClass() == 11 ? octave.next() : octave;
 
         if (accidental == Accidental.NONE) {

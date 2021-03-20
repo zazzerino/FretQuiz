@@ -7,7 +7,7 @@ import { Navbar } from './components/Navbar';
 import { GameList } from './features/game/GameList';
 import { GamePage } from './features/game/GamePage';
 import { Login } from './features/user/Login';
-import { sendCreateGame, sendGetGames } from './websocket/game';
+import { sendCreateGame, sendGetGameIds } from './websocket/game';
 
 function App() {
   
@@ -35,7 +35,7 @@ function App() {
         </Switch>
 
         <button onClick={() => {
-          sendGetGames();
+          sendGetGameIds();
         }}>
           Get Games
         </button>

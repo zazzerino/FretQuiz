@@ -2,7 +2,7 @@ import { Game } from "../features/game/gameSlice";
 import { User } from "../features/user/userSlice";
 
 export type MessageType =
-  'BROADCAST' | 'LOGIN_OK' | 'GAME_CREATED' | 'GET_GAMES' | 'GUESS';
+  'BROADCAST' | 'LOGIN_OK' | 'GAME_CREATED' | 'GET_GAME_IDS' | 'GUESS' | 'GAME_JOINED';
 
 export interface Message {
   type: MessageType
@@ -13,9 +13,9 @@ export interface GameCreatedMessage extends Message {
   game: Game
 }
 
-export interface GetGamesMessage extends Message {
-  type: 'GET_GAMES',
-  games: Game[]
+export interface GetGameIdsMessage extends Message {
+  type: 'GET_GAME_IDS',
+  gameIds: string[]
 }
 
 export interface LoginMessage extends Message {
@@ -23,7 +23,11 @@ export interface LoginMessage extends Message {
   user: User
 }
 
-export interface GuessMessage extends Message {
-  type: 'GUESS',
+// export interface GuessMessage extends Message {
+//   type: 'GUESS',
+// }
 
+export interface GameJoinedMessage extends Message {
+  type: 'GAME_JOINED',
+  game: Game
 }

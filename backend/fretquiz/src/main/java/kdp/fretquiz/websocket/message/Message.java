@@ -6,8 +6,9 @@ public interface Message {
     enum Type {
         LOGIN("LOGIN"),
         LOGOUT("LOGOUT"),
-        GET_GAMES("GET_GAMES"),
+        GET_GAME_IDS("GET_GAME_IDS"),
         CREATE_GAME("CREATE_GAME"),
+        JOIN_GAME("JOIN_GAME"),
         GUESS("GUESS");
 
         Type(String type) {}

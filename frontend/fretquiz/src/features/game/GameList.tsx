@@ -1,19 +1,34 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { selectGames } from './gameSlice';
+import { Game, selectGameIds } from './gameSlice';
+
+interface GameLinkProps {
+  gameId: string
+}
+
+function GameLink(props: GameLinkProps) {
+  const { gameId } = props;
+
+  return (
+    <li
+      onClick={() => {
+        console.log('clicked ' + gameId)
+      }}>
+      {gameId}
+    </li>
+  );
+}
 
 export function GameList() {
-  const games = useSelector(selectGames);
+  const gameIds = useSelector(selectGameIds);
 
   return (
     <div className="GameList">
       <h2>Games</h2>
       <ul>
         {
-          games.map((game, index) => {
-            return <li key={index}>
-              {game.id}
-            </li>
+          gameIds.map((id, index) => {
+            return <GameLink key={index} gameId={id} />
           })
         }
       </ul>

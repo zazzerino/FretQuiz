@@ -42,8 +42,9 @@ public class WebSocket {
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
-            case GET_GAMES -> GameController.getAll(context);
+            case GET_GAME_IDS -> GameController.getAllIds(context);
             case CREATE_GAME -> GameController.createGame(context);
+            case JOIN_GAME -> GameController.joinGame(context);
             case GUESS -> GameController.handleGuess(context);
         }
     }

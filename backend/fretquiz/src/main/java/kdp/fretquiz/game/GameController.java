@@ -4,19 +4,25 @@ import io.javalin.websocket.WsMessageContext;
 import kdp.fretquiz.websocket.Response;
 import kdp.fretquiz.websocket.WebSocket;
 import kdp.fretquiz.websocket.message.GuessMessage;
+import kdp.fretquiz.websocket.message.JoinGameMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static kdp.fretquiz.App.gameDao;
 
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    public static void getAll(WsMessageContext context) {
-        var games = gameDao.getAll();
-        var response = Response.getGames(games);
+    public static void getAllIds(WsMessageContext context) {
+        var ids = gameDao.getAll()
+                .stream()
+                .map(Game::id)
+                .collect(Collectors.toList());
+
+        var response = Response.getGameIds(ids);
 
         context.send(response);
     }
@@ -38,6 +44,25 @@ public class GameController {
         context.send(response);
     }
 
+    public static void joinGame(WsMessageContext context) {
+        var message = context.message(JoinGameMessage.class);
+        var userId = message.userId();
+        var gameId = message.gameId();
+
+        var player = new Player(userId);
+        var game = gameDao.getGameById(gameId)
+                .orElseThrow(NoSuchElementException::new)
+                .addPlayer(player);
+
+        var response = Response.gameJoined(game);
+
+        log.info("saving player " + userId + " to game " + gameId);
+        gameDao.save(game);
+
+        context.attribute("gameId", game.id());
+        context.send(response);
+    }
+
     public static void handleGuess(WsMessageContext context) {
         var message = context.message(GuessMessage.class);
         var newGuess = message.guess();
@@ -45,14 +70,14 @@ public class GameController {
         var gameId = newGuess.gameId();
         var clickedFret = newGuess.clickedFret();
 
-        var game = gameDao.getGameById(gameId)
-                .orElseThrow(NoSuchElementException::new);
+        var guessResult = gameDao.getGameById(gameId)
+                .orElseThrow(NoSuchElementException::new)
+                .guess(playerId, clickedFret);
 
-        var guessResult = game.guess(playerId, clickedFret);
-        game = guessResult.game();
+        var game = guessResult.game();
         gameDao.save(game);
 
-        var response = Response.guessResponse(guessResult);
+        var response = Response.guessResult(guessResult);
         context.send(response);
     }
 }

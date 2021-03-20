@@ -8,8 +8,6 @@ export interface FretCoord {
   fret: number
 }
 
-// type Note = string;
-
 export interface Note {
   whiteKey: string,
   accidental: string,
@@ -57,13 +55,12 @@ export interface Game {
 }
 
 interface GameState {
-  // games: Record<GameId, Game>,
-  games: Game[],
+  gameIds: string[],
   currentGame?: Game
 }
 
 const initialState: GameState = {
-  games: []
+  gameIds: []
 }
 
 const gameSlice = createSlice({
@@ -75,13 +72,13 @@ const gameSlice = createSlice({
     setCurrentGame: (state: GameState, action: PayloadAction<Game>) => {
       state.currentGame = action.payload;
     },
-    setGames: (state: GameState, action: PayloadAction<Game[]>) => {
-      state.games = action.payload;
+    setGameIds: (state: GameState, action: PayloadAction<string[]>) => {
+      state.gameIds = action.payload;
     },
   }
 });
 
-export const selectGames = (state: RootState) => state.game.games;
+export const selectGameIds = (state: RootState) => state.game.gameIds;
 
 export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
@@ -89,6 +86,6 @@ export const selectGameId = (state: RootState) => state.game.currentGame?.id;
 
 export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.noteToGuess;
 
-export const { setCurrentGame, setGames } = gameSlice.actions;
+export const { setCurrentGame, setGameIds } = gameSlice.actions;
 
 export default gameSlice.reducer;
