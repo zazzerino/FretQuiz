@@ -1,4 +1,4 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
 public record Player(String id,
                      boolean isHost) {

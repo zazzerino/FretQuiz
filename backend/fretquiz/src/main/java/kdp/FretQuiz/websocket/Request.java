@@ -1,7 +1,7 @@
-package kdp.fretquiz.websocket;
+package kdp.FretQuiz.websocket;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import kdp.fretquiz.game.NewGuess;
+import kdp.FretQuiz.game.NewGuess;
 
 public interface Request {
     Type type();

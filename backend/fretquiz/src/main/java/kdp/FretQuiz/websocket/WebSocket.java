@@ -1,11 +1,11 @@
-package kdp.fretquiz.websocket;
+package kdp.FretQuiz.websocket;
 
 import io.javalin.websocket.WsCloseContext;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
-import kdp.fretquiz.game.GameController;
-import kdp.fretquiz.user.User;
-import kdp.fretquiz.user.UserController;
+import kdp.FretQuiz.game.GameController;
+import kdp.FretQuiz.user.User;
+import kdp.FretQuiz.user.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import static kdp.fretquiz.App.gameDao;
-import static kdp.fretquiz.App.userDao;
+import static kdp.FretQuiz.App.gameDao;
+import static kdp.FretQuiz.App.userDao;
 
 public class WebSocket {
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
@@ -66,7 +66,7 @@ public class WebSocket {
     }
 
     /**
-     * Store the user's info as Jetty session attributes.
+     * Store the user's info as context attributes.
      */
     public static void setUserAttributes(WsContext context, User user) {
         context.attribute("userId", user.id());
@@ -74,7 +74,7 @@ public class WebSocket {
     }
 
     /**
-     * Get's a user info from the Jetty context.
+     * Get's a user info from the context.
      * Assumes that there is a "userId" attribute already set (which should be done on connect).
      */
     public static User getUserFromContext(WsContext context) {

@@ -1,7 +1,6 @@
-package kdp.fretquiz.theory;
+package kdp.FretQuiz.theory;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents the tuning of a stringed instrument.
@@ -16,5 +15,9 @@ public record Tuning(List<String> notes) {
 
     public String get(int index) {
         return notes.get(index);
+    }
+
+    public int size() {
+        return notes.size();
     }
 }

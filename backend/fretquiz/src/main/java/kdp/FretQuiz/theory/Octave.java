@@ -1,4 +1,4 @@
-package kdp.fretquiz.theory;
+package kdp.FretQuiz.theory;
 
 public enum Octave {
     ONE(1),

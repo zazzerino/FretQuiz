@@ -1,4 +1,4 @@
-package kdp.fretquiz;
+package kdp.FretQuiz;
 
 import java.util.*;
 
@@ -19,27 +19,10 @@ public class Util {
     }
 
     /**
-     * Combines two lists into a map.
-     * Each entry has an element from list1 as the key, and an element from list2 as the value.
-     */
-    public static <T, U> Map<T, U> zip(List<T> list1, List<U> list2) {
-        Map<T, U> map = new HashMap<>();
-
-        var iter1 = list1.iterator();
-        var iter2 = list2.iterator();
-
-        while (iter1.hasNext() && iter2.hasNext()) {
-            map.put(iter1.next(), iter2.next());
-        }
-
-        return map;
-    }
-
-    /**
      * Copies a record and updates any fields listed in `overrides`.
      * Taken from https://sormuras.github.io/blog/2020-05-05-records-copy.html
      */
-    public static <R extends Record> R copy(R template, Map<String, Object> overrides) {
+    public static <R extends Record> R copyRecord(R template, Map<String, Object> overrides) {
         try {
             var types = new ArrayList<Class<?>>();
             var values = new ArrayList<>();
@@ -57,4 +40,21 @@ public class Util {
             throw new AssertionError("Reflection failed: " + e, e);
         }
     }
+
+//    /**
+//     * Combines two lists into a map.
+//     * Each entry has an element from list1 as the key, and an element from list2 as the value.
+//     */
+//    public static <T, U> Map<T, U> zip(List<T> list1, List<U> list2) {
+//        Map<T, U> map = new HashMap<>();
+//
+//        var iter1 = list1.iterator();
+//        var iter2 = list2.iterator();
+//
+//        while (iter1.hasNext() && iter2.hasNext()) {
+//            map.put(iter1.next(), iter2.next());
+//        }
+//
+//        return map;
+//    }
 }

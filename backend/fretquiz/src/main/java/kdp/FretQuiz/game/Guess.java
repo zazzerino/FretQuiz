@@ -1,7 +1,7 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
-import kdp.fretquiz.theory.Fretboard;
-import kdp.fretquiz.theory.Note;
+import kdp.FretQuiz.theory.Fretboard;
+import kdp.FretQuiz.theory.Note;
 
 import java.util.NoSuchElementException;
 

@@ -1,6 +1,6 @@
-package kdp.fretquiz.user;
+package kdp.FretQuiz.user;
 
-import kdp.fretquiz.Util;
+import kdp.FretQuiz.Util;
 
 import java.util.Map;
 
@@ -19,6 +19,6 @@ public record User(String id,
     }
 
     public User withName(String name) {
-        return Util.copy(this, Map.of("name", name));
+        return Util.copyRecord(this, Map.of("name", name));
     }
 }

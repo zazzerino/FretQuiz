@@ -1,4 +1,4 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
 import java.util.Collection;
 import java.util.Map;

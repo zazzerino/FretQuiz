@@ -1,4 +1,4 @@
-package kdp.fretquiz.theory;
+package kdp.FretQuiz.theory;
 
 import java.util.HashMap;
 import java.util.Map;

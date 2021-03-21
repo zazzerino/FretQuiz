@@ -1,8 +1,8 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
-import kdp.fretquiz.Util;
-import kdp.fretquiz.theory.Fretboard;
-import kdp.fretquiz.theory.Note;
+import kdp.FretQuiz.Util;
+import kdp.FretQuiz.theory.Fretboard;
+import kdp.FretQuiz.theory.Note;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public record Game(String id,
     public static Game create() {
         var id = Util.randomId();
         var opts = GameOpts.DEFAULT;
-        var noteToGuess = Note.randomBetween(Note.fromString("E3"), Note.fromString("G#5"));
+        var noteToGuess = opts.randomNote();
 
         Map<String, Player> players = new HashMap<>();
         List<Guess> guesses = new ArrayList<>();
@@ -31,7 +31,7 @@ public record Game(String id,
         var players = new HashMap<>(this.players);
         players.put(player.id(), player);
 
-        return Util.copy(this, Map.of("players", players));
+        return Util.copyRecord(this, Map.of("players", players));
     }
 
     /**
@@ -42,7 +42,7 @@ public record Game(String id,
         var player = players.get(playerId).makeHost();
         players.put(playerId, player);
 
-        return Util.copy(this, Map.of("players", players));
+        return Util.copyRecord(this, Map.of("players", players));
     }
 
     public Player host() {
@@ -62,8 +62,8 @@ public record Game(String id,
         var guesses = new ArrayList<>(this.guesses);
         guesses.add(guess);
 
-        var game = Util.copy(this, Map.of(
-                "newNoteToGuess", Note.randomBetween(Note.fromString("E3"), Note.fromString("G#5")),
+        var game = Util.copyRecord(this, Map.of(
+                "newNoteToGuess", opts.randomNote(),
                 "guesses", guesses
         ));
 

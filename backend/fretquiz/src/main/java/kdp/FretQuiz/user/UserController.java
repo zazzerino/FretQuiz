@@ -1,13 +1,13 @@
-package kdp.fretquiz.user;
+package kdp.FretQuiz.user;
 
 import io.javalin.websocket.WsMessageContext;
-import kdp.fretquiz.websocket.Request;
-import kdp.fretquiz.websocket.Response;
-import kdp.fretquiz.websocket.WebSocket;
+import kdp.FretQuiz.websocket.Request;
+import kdp.FretQuiz.websocket.Response;
+import kdp.FretQuiz.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static kdp.fretquiz.App.userDao;
+import static kdp.FretQuiz.App.userDao;
 
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

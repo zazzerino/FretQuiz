@@ -1,9 +1,9 @@
-package kdp.fretquiz;
+package kdp.FretQuiz;
 
 import io.javalin.Javalin;
-import kdp.fretquiz.game.GameDao;
-import kdp.fretquiz.user.UserDao;
-import kdp.fretquiz.websocket.WebSocket;
+import kdp.FretQuiz.game.GameDao;
+import kdp.FretQuiz.user.UserDao;
+import kdp.FretQuiz.websocket.WebSocket;
 
 public class App {
     private static final int PORT = 8080;

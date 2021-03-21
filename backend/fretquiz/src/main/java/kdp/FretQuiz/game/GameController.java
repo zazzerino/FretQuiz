@@ -1,15 +1,15 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
 import io.javalin.websocket.WsMessageContext;
-import kdp.fretquiz.websocket.Request;
-import kdp.fretquiz.websocket.Response;
-import kdp.fretquiz.websocket.WebSocket;
+import kdp.FretQuiz.websocket.Request;
+import kdp.FretQuiz.websocket.Response;
+import kdp.FretQuiz.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
 
-import static kdp.fretquiz.App.gameDao;
+import static kdp.FretQuiz.App.gameDao;
 
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);

@@ -1,8 +1,7 @@
-package kdp.fretquiz.theory;
+package kdp.FretQuiz.theory;
 
-import kdp.fretquiz.Util;
+import kdp.FretQuiz.Util;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public record Note(WhiteKey whiteKey,

@@ -1,6 +1,6 @@
-package kdp.fretquiz.game;
+package kdp.FretQuiz.game;
 
-import kdp.fretquiz.theory.Fretboard;
+import kdp.FretQuiz.theory.Fretboard;
 
 public record NewGuess(String gameId,
                        String playerId,

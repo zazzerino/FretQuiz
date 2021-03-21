@@ -1,7 +1,7 @@
-package kdp.fretquiz.websocket;
+package kdp.FretQuiz.websocket;
 
-import kdp.fretquiz.game.Game;
-import kdp.fretquiz.user.User;
+import kdp.FretQuiz.game.Game;
+import kdp.FretQuiz.user.User;
 
 public interface Response {
     Type type();

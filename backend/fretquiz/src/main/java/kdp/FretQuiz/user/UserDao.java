@@ -1,4 +1,4 @@
-package kdp.fretquiz.user;
+package kdp.FretQuiz.user;
 
 import java.util.Collection;
 import java.util.Map;
