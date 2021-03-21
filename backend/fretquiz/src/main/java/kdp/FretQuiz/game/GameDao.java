@@ -6,24 +6,24 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameDao {
-    private final Map<String, Game> games = new ConcurrentHashMap<>();
+    private final Map<String, GameRec> games = new ConcurrentHashMap<>();
 
-    public Optional<Game> getGameById(String id) {
+    public Optional<GameRec> getGameById(String id) {
         return Optional.ofNullable(games.get(id));
     }
 
-    public Collection<Game> getAll() {
+    public Collection<GameRec> getAll() {
         return games.values();
     }
 
-    public String[] getAllIds() {
+    public String[] getIds() {
         return games.values()
                 .stream()
-                .map(Game::id)
+                .map(GameRec::id)
                 .toArray(String[]::new);
     }
 
-    public void save(Game game) {
+    public void save(GameRec game) {
         games.put(game.id(), game);
     }
 

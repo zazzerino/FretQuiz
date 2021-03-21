@@ -9,12 +9,18 @@ type VexObjects = {
   stave: Vex.Flow.Stave
 }
 
+/**
+ * Empties an element by removing its children.
+ */
 function empty(elem: Element) {
   while (elem.firstChild) {
     elem.removeChild(elem.firstChild);
   }
 }
 
+/**
+ * A helper function for formatNote().
+ */
 function accidentalSymbol(accidental: string): string {
   switch (accidental) {
     case 'SHARP': return '#';
@@ -23,6 +29,9 @@ function accidentalSymbol(accidental: string): string {
   }
 }
 
+/**
+ * A helper function for formatNote().
+ */
 function octaveNumber(octave: string): number {
   switch (octave) {
     case 'ONE': return 1;
@@ -38,6 +47,9 @@ function octaveNumber(octave: string): number {
   }
 }
 
+/**
+ * Formats a Note into a string usable by vexflow.
+ */
 function formatNote(note: Note): string {
   const accidental = accidentalSymbol(note.accidental);
   const octave = octaveNumber(note.octave);
@@ -45,6 +57,9 @@ function formatNote(note: Note): string {
   return note.whiteKey + accidental + '/' + octave;
 }
 
+/**
+ * Creates an object with references to a vexflow context, renderer, and stave.
+ */
 function makeVexObjects(
   elem: HTMLElement,
   width: number,

@@ -13,7 +13,7 @@ export function sendCreateGame() {
   ws.send(message);
 }
 
-export function gameCreated(msg: Message) {
+export function handleGameCreated(msg: Message) {
   const message = msg as GameCreatedMessage;
   const game = message.game;
 
@@ -28,7 +28,7 @@ export function sendGetGameIds() {
   ws.send(message);
 }
 
-export function getGameIds(msg: Message) {
+export function handleGetGameIds(msg: Message) {
   const message = msg as GetGameIdsMessage;
   const gameIds = message.gameIds;
 
@@ -54,7 +54,7 @@ export function sendJoinGame(userId: string, gameId: string) {
   ws.send(message);
 }
 
-export function gameJoined(msg: Message) {
+export function handleGameJoined(msg: Message) {
   const message = msg as GameJoinedMessage;
   const game = message.game;
 

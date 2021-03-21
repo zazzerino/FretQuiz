@@ -12,8 +12,10 @@ export function Fretboard() {
   const gameId = useSelector(selectGameId);
 
   React.useEffect(() => {
+
+    // selects the element with the given `id` and draws a fretboard diagram
     new FretboardDiagram({
-      id: 'fretboard-ref',
+      id: 'fretboard-canvas',
       drawDotOnHover: true,
       onClick: (coord: FretCoord) => {
         console.log('clicked ' + JSON.stringify(coord));
@@ -23,7 +25,7 @@ export function Fretboard() {
 
   return (
     <div className="Fretboard">
-      <div id="fretboard-ref" />
+      <div id="fretboard-canvas" />
     </div>
   )
 }

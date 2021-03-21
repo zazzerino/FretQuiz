@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record Fretboard(int startFret,
+public record Fretboard(Tuning tuning,
+                        int startFret,
                         int endFret,
-                        Tuning tuning,
                         Map<Coord, Note> notes) {
 
     public static record Coord(int string, int fret) {}
 
-    public static Fretboard DEFAULT = Fretboard.create(0, 4, Tuning.STANDARD_GUITAR);
+    public static Fretboard DEFAULT = Fretboard.create(Tuning.STANDARD_GUITAR, 0, 4);
 
-    public static Fretboard create(int startFret, int endFret, Tuning tuning) {
-        var notes = calculateNotes(startFret, endFret, tuning);
+    public static Fretboard create(Tuning tuning, int startFret, int endFret) {
+        var notes = calculateNotes(tuning, startFret, endFret);
 
-        return new Fretboard(startFret, endFret, tuning, notes);
+        return new Fretboard(tuning, startFret, endFret, notes);
     }
 
-    public static Map<Coord, Note> calculateNotes(int startFret, int endFret, Tuning tuning) {
+    public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
         Map<Coord, Note> notes = new HashMap<>();
         var stringCount = tuning.notes().size();
 
@@ -27,6 +27,8 @@ public record Fretboard(int startFret,
             for (var fret = endFret; fret >= startFret; fret--) {
                 var coord = new Coord(string + 1, fret);
                 var openStringNote = Note.fromString(tuning.get(string));
+
+                // transpose the open string note up `fret` number of half-steps
                 var note = openStringNote.transpose(fret);
 
                 notes.put(coord, note);

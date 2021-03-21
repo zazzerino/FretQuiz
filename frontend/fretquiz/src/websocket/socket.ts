@@ -1,6 +1,6 @@
 import { Message } from './message';
-import { login } from './user';
-import { getGameIds, gameCreated, gameJoined } from './game';
+import { handleLogin } from './user';
+import { handleGetGameIds, handleGameCreated, handleGameJoined } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -25,21 +25,24 @@ function onError() {
   console.log('there was an error');
 }
 
+/**
+ * Receives incoming messages and dispatches them to the correct handler.
+ */
 function onMessage(event: MessageEvent) {
   const message = JSON.parse(event.data) as Message;
   console.log('message received: ' + JSON.stringify(message));
 
   switch (message.type) {
     case 'LOGIN_OK':
-      return login(message);
+      return handleLogin(message);
 
     case 'GAME_CREATED':
-      return gameCreated(message);
+      return handleGameCreated(message);
 
     case 'GET_GAME_IDS':
-      return getGameIds(message);
+      return handleGetGameIds(message);
 
     case 'GAME_JOINED':
-      return gameJoined(message);
+      return handleGameJoined(message);
   }
 }

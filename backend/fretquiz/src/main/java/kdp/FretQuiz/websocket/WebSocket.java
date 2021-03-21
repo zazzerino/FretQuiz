@@ -21,6 +21,9 @@ public class WebSocket {
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
     private static final List<WsContext> contexts = new ArrayList<>();
 
+    /**
+     * This method is run when a user first connects to the site.
+     */
     public static void onConnect(WsContext context) {
         contexts.add(context);
 
@@ -34,18 +37,22 @@ public class WebSocket {
         setUserAttributes(context, user);
         context.send(Response.loginOk(user));
 
-        var gameIds = gameDao.getAllIds();
+        // send the user a list of game ids
+        var gameIds = gameDao.getIds();
         context.send(Response.getGameIds(gameIds));
     }
 
+    /**
+     * This method routes an incoming message to the proper handler.
+     */
     public static void onMessage(WsMessageContext context) {
         Request message = context.message(Request.Default.class);
 
-        log.info("message type: " + message.type());
+        log.info("message received: " + message.type());
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
-            case GET_GAME_IDS -> GameController.getAllIds(context);
+            case GET_GAME_IDS -> GameController.getIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
             case GUESS -> GameController.handleGuess(context);
@@ -74,7 +81,7 @@ public class WebSocket {
     }
 
     /**
-     * Get's a user info from the context.
+     * Gets a user's info from the context.
      * Assumes that there is a "userId" attribute already set (which should be done on connect).
      */
     public static User getUserFromContext(WsContext context) {

@@ -1,48 +1,36 @@
 package kdp.FretQuiz.game;
 
 import kdp.FretQuiz.Util;
-import kdp.FretQuiz.theory.Fretboard;
-import kdp.FretQuiz.theory.Note;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
-public record Game(String id,
-                   GameOpts opts,
-                   Map<String, Player> players,
-                   Note noteToGuess,
-                   List<Guess> guesses) {
+public class Game {
+    private final String id;
+    private OptsRec opts;
+    private final @NotNull Map<String, Player> players;
+    private final @NotNull List<Round> rounds;
+    private boolean hasStarted;
 
-    public static Game create() {
-        var id = Util.randomId();
-        var opts = GameOpts.DEFAULT;
-        var noteToGuess = opts.randomNote();
-
-        Map<String, Player> players = new HashMap<>();
-        List<Guess> guesses = new ArrayList<>();
-
-        return new Game(id, opts, players, noteToGuess, guesses);
+    public Game() {
+        id = Util.randomId();
+        opts = OptsRec.DEFAULT;
+        players = new HashMap<>();
+        rounds = new ArrayList<>();
+        hasStarted = false;
     }
 
     public Game addPlayer(Player player) {
-        var players = new HashMap<>(this.players);
         players.put(player.id(), player);
-
-        return Util.copyRecord(this, Map.of("players", players));
+        return this;
     }
 
-    /**
-     * Makes the player with `playerId` the game host.
-     */
     public Game assignHost(String playerId) {
-        var players = new HashMap<>(this.players);
-        var player = players.get(playerId).makeHost();
-        players.put(playerId, player);
+        var player = players.get(playerId)
+                .makeHost();
 
-        return Util.copyRecord(this, Map.of("players", players));
+        players.put(playerId, player);
+        return this;
     }
 
     public Player host() {
@@ -53,20 +41,49 @@ public record Game(String id,
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public record GuessResult(boolean isCorrect, Game game) {}
-
-    public GuessResult guess(String playerId, Fretboard.Coord clickedFret) {
-        var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
-        var isCorrect = guess.isCorrect();
-
-        var guesses = new ArrayList<>(this.guesses);
-        guesses.add(guess);
-
-        var game = Util.copyRecord(this, Map.of(
-                "newNoteToGuess", opts.randomNote(),
-                "guesses", guesses
-        ));
-
-        return new GuessResult(isCorrect, game);
+    public Game start() {
+        hasStarted = true;
+        return this;
     }
+
+    public boolean isOver() {
+        return opts.secondsRemaining() == 0;
+    }
+
+    /**
+     * Decrement secondsRemaining.
+     */
+    public Game tick() {
+        var secondsRemaining = opts.secondsRemaining() - 1;
+        opts = Util.copyRecord(this.opts, Map.of("secondsRemaining", secondsRemaining));
+        return this;
+    }
+
+    public Round currentRound() {
+        var index = rounds.size() - 1;
+        return rounds.get(index);
+    }
+
+    public Game nextRound() {
+        var note = opts.randomNote();
+        var round = new Round(note, opts.fretboard(), players);
+
+        rounds.add(round);
+        return this;
+    }
+
+//    public record GuessResult(boolean isCorrect, GameRec game) {}
+//
+//    public GameRec.GuessResult guess(String playerId, Fretboard.Coord clickedFret) {
+//        var newGuess = new Guess.NewGuess(id, playerId, clickedFret);
+//
+//        var result = currentRound().guess(newGuess);
+//        var isCorrect = result.isCorrect();
+//
+//        var rounds = Util.copyList(this.rounds);
+//        var game = Util.copyRecord(this, Map.of("rounds", rounds))
+//                .nextRound();
+//
+//        return new GameRec.GuessResult(isCorrect, game);
+//    }
 }

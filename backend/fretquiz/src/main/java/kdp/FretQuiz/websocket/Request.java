@@ -1,7 +1,7 @@
 package kdp.FretQuiz.websocket;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import kdp.FretQuiz.game.NewGuess;
+import kdp.FretQuiz.game.Guess;
 
 public interface Request {
     Type type();
@@ -41,8 +41,8 @@ public interface Request {
 //        }
 //    }
 
-    record GuessMessage(Type type, NewGuess guess) implements Request {
-        public GuessMessage(NewGuess guess) {
+    record GuessMessage(Type type, Guess.NewGuess guess) implements Request {
+        public GuessMessage(Guess.NewGuess guess) {
             this(Type.GUESS, guess);
         }
     }

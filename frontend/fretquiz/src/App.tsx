@@ -32,7 +32,8 @@ function App() {
 
         <button onClick={() => {
           sendCreateGame();
-        }}>
+        }}
+        >
           Create Game
         </button>
 

@@ -2,6 +2,7 @@ package kdp.FretQuiz.theory;
 
 import kdp.FretQuiz.Util;
 
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 public record Note(WhiteKey whiteKey,
@@ -13,8 +14,8 @@ public record Note(WhiteKey whiteKey,
     }
 
     /**
-     * Parses a note name like "Cb4" into a Note[whiteKey=C, accidental=FLAT, octave=FOUR]
-     * @param name a string with a letter A-G, an optional accidental ('b' or '#'), and an octave number
+     * Parses a note name like "Cb4" into a note record, like Note[whiteKey=C, accidental=FLAT, octave=FOUR]
+     * @param name a string consisting of a capital letter A-G, an optional accidental ('b' or '#'), and an octave number
      * @return a Note
      */
     public static Note fromString(String name) {
@@ -95,7 +96,7 @@ public record Note(WhiteKey whiteKey,
             throw new IllegalArgumentException("halfSteps must be a positive number");
         }
 
-        var note = new Note(whiteKey, accidental, octave);
+        var note = Util.copyRecord(this, Collections.emptyMap());
 
         while (halfSteps > 0) {
             note = note.next();

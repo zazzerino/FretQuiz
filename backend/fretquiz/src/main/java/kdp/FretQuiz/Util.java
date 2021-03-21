@@ -41,6 +41,14 @@ public class Util {
         }
     }
 
+    public static <T> List<T> copyList(List<T> list) {
+        return new ArrayList<>(list);
+    }
+
+    public static <T, U> Map<T, U> copyMap(Map<T, U> map) {
+        return new HashMap<>(map);
+    }
+
 //    /**
 //     * Combines two lists into a map.
 //     * Each entry has an element from list1 as the key, and an element from list2 as the value.
