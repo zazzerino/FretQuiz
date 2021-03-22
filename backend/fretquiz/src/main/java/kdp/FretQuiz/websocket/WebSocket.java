@@ -35,11 +35,11 @@ public class WebSocket {
         userDao.save(user);
 
         setUserAttributes(context, user);
-        context.send(Response.loginOk(user));
+        context.send(new Response.LoginOk(user));
 
         // send the user a list of game ids
         var gameIds = gameDao.getGameIds();
-        context.send(Response.getGameIds(gameIds));
+        context.send(new Response.GameIds(gameIds));
     }
 
     /**

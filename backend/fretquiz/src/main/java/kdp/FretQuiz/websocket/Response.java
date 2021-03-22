@@ -9,10 +9,10 @@ public interface Response {
     enum Type {
         LOGIN_OK,
         LOGOUT_OK,
-        GET_GAME_IDS,
+        GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
-        GUESS_RESULT;
+        GUESS_RESPONSE;
     }
 
     record LoginOk(Type type, User user) implements Response {
@@ -21,18 +21,10 @@ public interface Response {
         }
     }
 
-    static LoginOk loginOk(User user) {
-        return new LoginOk(user);
-    }
-
     record LogoutOk(Type type) implements Response {
         public LogoutOk() {
             this(Type.LOGOUT_OK);
         }
-    }
-
-    static LogoutOk logoutOk() {
-        return new LogoutOk();
     }
 
     record GameCreated(Type type, Game game) implements Response {
@@ -41,37 +33,21 @@ public interface Response {
         }
     }
 
-    static GameCreated gameCreated(Game game) {
-        return new GameCreated(game);
-    }
-
-    record GetGameIds(Type type, String[] gameIds) implements Response {
-        public GetGameIds(String[] gameIds) {
-            this(Type.GET_GAME_IDS, gameIds);
+    record GameIds(Type type, String[] gameIds) implements Response {
+        public GameIds(String[] gameIds) {
+            this(Type.GAME_IDS, gameIds);
         }
     }
 
-    static GetGameIds getGameIds(String[] gameIds) {
-        return new GetGameIds(gameIds);
-    }
-
-//    record GuessResult(Type type, Game.GuessResult result) implements Response {
-//        public GuessResult(Game.GuessResult result) {
-//            this(Type.GUESS_RESULT, result);
+//    record GuessResponse(Type type, Game.GuessResult result) implements Response {
+//        public GuessResponse(Game.GuessResult result) {
+//            this(Type.GUESS_RESPONSE, result);
 //        }
-//    }
-//
-//    static GuessResult guessResult(Game.GuessResult result) {
-//        return new GuessResult(result);
 //    }
 
     record GameJoined(Type type, Game game) implements Response {
         public GameJoined(Game game) {
             this(Type.GAME_JOINED, game);
         }
-    }
-
-    static GameJoined gameJoined(Game game) {
-        return new GameJoined(game);
     }
 }

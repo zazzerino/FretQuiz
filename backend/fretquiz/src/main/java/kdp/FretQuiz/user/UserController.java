@@ -20,9 +20,10 @@ public class UserController {
                 .withName(name);
 
         log.info("saving user: " + user);
+        WebSocket.setUserAttributes(context, user);
         userDao.save(user);
 
-        WebSocket.setUserAttributes(context, user);
-        context.send(Response.loginOk(user));
+        var response = new Response.LoginOk(user);
+        context.send(response);
     }
 }

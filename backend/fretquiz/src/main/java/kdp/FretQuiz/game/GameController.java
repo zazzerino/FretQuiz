@@ -19,7 +19,7 @@ public class GameController {
      */
     public static void getGameIds(WsMessageContext context) {
         var ids = gameDao.getGameIds();
-        var response = Response.getGameIds(ids);
+        var response = new Response.GameIds(ids);
 
         context.send(response);
     }
@@ -36,7 +36,7 @@ public class GameController {
                 .addPlayer(player)
                 .assignHost(player.id());
 
-        var response = Response.gameCreated(game);
+        var response = new Response.GameCreated(game);
 
         log.info("creating game: " + game);
         gameDao.save(game);
@@ -52,7 +52,9 @@ public class GameController {
      */
     public static void broadcastGameIds() {
         var ids = gameDao.getGameIds();
-        WebSocket.broadcast(Response.getGameIds(ids));
+        var response = new Response.GameIds(ids);
+
+        WebSocket.broadcast(response);
     }
 
     /**
@@ -69,7 +71,7 @@ public class GameController {
                 .orElseThrow(NoSuchElementException::new)
                 .addPlayer(player);
 
-        var response = Response.gameJoined(game);
+        var response = new Response.GameJoined(game);
 
         log.info("saving player " + userId + " to game " + gameId);
         gameDao.save(game);
