@@ -29,20 +29,14 @@ public interface Request {
         }
     }
 
-//    record GetGameIds(Type type) implements Request {
-//        public GetGameIds() {
-//            this(Type.GET_GAME_IDS);
-//        }
-//    }
+    record CreateGame(Type type) implements Request {
+        public CreateGame() {
+            this(Type.CREATE_GAME);
+        }
+    }
 
-//    record CreateGameMessage(Type type) implements Request {
-//        public CreateGameMessage() {
-//            this(Type.CREATE_GAME);
-//        }
-//    }
-
-    record GuessMessage(Type type, Guess.NewGuess guess) implements Request {
-        public GuessMessage(Guess.NewGuess guess) {
+    record NewGuess(Type type, Guess.NewGuess guess) implements Request {
+        public NewGuess(kdp.FretQuiz.game.Guess.NewGuess guess) {
             this(Type.GUESS, guess);
         }
     }

@@ -21,7 +21,7 @@ public record Guess(String playerId,
     }
 
     /**
-     * NewGuess represents the message that will be sent from the client.
+     * NewGuess represents the message that will be sent from the client when a guess is made.
      */
     public static record NewGuess(String gameId,
                                   String playerId,

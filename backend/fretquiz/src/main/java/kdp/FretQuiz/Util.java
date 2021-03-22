@@ -41,13 +41,17 @@ public class Util {
         }
     }
 
-    public static <T> List<T> copyList(List<T> list) {
-        return new ArrayList<>(list);
+    public static <R extends Record> R copyRecord(R template) {
+        return copyRecord(template, Collections.emptyMap());
     }
 
-    public static <T, U> Map<T, U> copyMap(Map<T, U> map) {
-        return new HashMap<>(map);
-    }
+//    public static <T> List<T> copyList(List<T> list) {
+//        return new ArrayList<>(list);
+//    }
+//
+//    public static <T, U> Map<T, U> copyMap(Map<T, U> map) {
+//        return new HashMap<>(map);
+//    }
 
 //    /**
 //     * Combines two lists into a map.

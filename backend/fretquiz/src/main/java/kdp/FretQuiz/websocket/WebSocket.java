@@ -38,7 +38,7 @@ public class WebSocket {
         context.send(Response.loginOk(user));
 
         // send the user a list of game ids
-        var gameIds = gameDao.getIds();
+        var gameIds = gameDao.getGameIds();
         context.send(Response.getGameIds(gameIds));
     }
 
@@ -52,7 +52,7 @@ public class WebSocket {
         switch (message.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
-            case GET_GAME_IDS -> GameController.getIds(context);
+            case GET_GAME_IDS -> GameController.getGameIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
             case GUESS -> GameController.handleGuess(context);

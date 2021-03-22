@@ -1,6 +1,6 @@
 package kdp.FretQuiz.websocket;
 
-import kdp.FretQuiz.game.GameRec;
+import kdp.FretQuiz.game.Game;
 import kdp.FretQuiz.user.User;
 
 public interface Response {
@@ -35,13 +35,13 @@ public interface Response {
         return new LogoutOk();
     }
 
-    record GameCreated(Type type, GameRec game) implements Response {
-        public GameCreated(GameRec game) {
+    record GameCreated(Type type, Game game) implements Response {
+        public GameCreated(Game game) {
             this(Type.GAME_CREATED, game);
         }
     }
 
-    static GameCreated gameCreated(GameRec game) {
+    static GameCreated gameCreated(Game game) {
         return new GameCreated(game);
     }
 
@@ -65,13 +65,13 @@ public interface Response {
 //        return new GuessResult(result);
 //    }
 
-    record GameJoined(Type type, GameRec game) implements Response {
-        public GameJoined(GameRec game) {
+    record GameJoined(Type type, Game game) implements Response {
+        public GameJoined(Game game) {
             this(Type.GAME_JOINED, game);
         }
     }
 
-    static GameJoined gameJoined(GameRec game) {
+    static GameJoined gameJoined(Game game) {
         return new GameJoined(game);
     }
 }

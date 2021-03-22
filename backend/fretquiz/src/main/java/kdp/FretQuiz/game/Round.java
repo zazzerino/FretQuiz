@@ -1,6 +1,5 @@
 package kdp.FretQuiz.game;
 
-import kdp.FretQuiz.Util;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
 import org.jetbrains.annotations.NotNull;
@@ -9,33 +8,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public record Round(Note noteToGuess,
-                    Fretboard fretboard,
-                    @NotNull Map<String, Player> players,
-                    @NotNull List<Guess> guesses) {
+public class Round {
+    public final Note noteToGuess;
+    public final Opts opts;
+    private int secondsLeft;
 
-    public Round(Note noteToGuess, Fretboard fretboard, @NotNull Map<String, Player> players) {
-        this(noteToGuess, fretboard, players, new ArrayList<>());
+    private final Map<String, Player> players;
+    private final @NotNull List<Guess> guesses = new ArrayList<>();
+
+    public Round(Note noteToGuess, Opts opts, Map<String, Player> players) {
+        this.noteToGuess = noteToGuess;
+        this.opts = opts;
+        this.secondsLeft = opts.roundLength();
+        this.players = players;
     }
 
-    public record GuessResult(boolean isCorrect, Round round) {};
+    /**
+     * Decrements secondsRemaining.
+     * @return the number of seconds left in the round
+     */
+    public int tick() {
+        return --secondsLeft;
+    }
 
-    public GuessResult guess(Guess.NewGuess newGuess) {
-        var playerId = newGuess.playerId();
-        var clickedFret = newGuess.clickedFret();
+    /**
+     * The round is over if every player has guessed.
+     */
+    public boolean isOver() {
+        return players.size() == guesses.size();
+    }
 
-        var guess = new Guess(playerId, noteToGuess, clickedFret, fretboard);
-        var guesses = Util.copyList(this.guesses);
+    /**
+     * Handles a new guess. Updates the guess list and returns whether the guess was correct.
+     * @return true if the user correctly guessed the displayed note, false otherwise
+     */
+    public boolean guess(String playerId, Fretboard.Coord clickedFret) {
+        var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
-        var isCorrect = guess.isCorrect();
-        var round = Util.copyRecord(this, Map.of("guesses", guesses));
-
-        return new GuessResult(isCorrect, round);
-    }
-
-    public boolean isOver() {
-        // the round is over if every player has guessed
-        return players.size() == guesses.size();
+        return guess.isCorrect();
     }
 }

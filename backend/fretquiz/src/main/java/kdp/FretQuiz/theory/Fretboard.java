@@ -9,6 +9,9 @@ public record Fretboard(Tuning tuning,
                         int endFret,
                         Map<Coord, Note> notes) {
 
+    /**
+     * Fretboard.Coord represents a location on the fretboard (the string & fret).
+     */
     public static record Coord(int string, int fret) {}
 
     public static Fretboard DEFAULT = Fretboard.create(Tuning.STANDARD_GUITAR, 0, 4);
@@ -38,15 +41,33 @@ public record Fretboard(Tuning tuning,
         return notes;
     }
 
+    /**
+     * Find the Note at the given Fret.Coord (string & fret).
+     */
     public Optional<Note> findNote(Coord coord) {
         return Optional.ofNullable(notes.get(coord));
     }
 
+    /**
+     * Return the Fretboard.Coord where a given Note is played.
+     */
     public Optional<Coord> findFret(Note note) {
         return notes.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().isEnharmonicWith(note))
                 .findFirst()
                 .map(Map.Entry::getKey);
+    }
+
+    /**
+     * Returns a random note on that can be played on the fretboard.
+     */
+    public Note randomNote() {
+        var fretCount = endFret - startFret;
+
+        var lowNote = Note.fromString(tuning.get(tuning.size() - 1));
+        var highNote = Note.fromString(tuning.get(0)).transpose(fretCount);
+
+        return Note.randomBetween(lowNote, highNote);
     }
 }

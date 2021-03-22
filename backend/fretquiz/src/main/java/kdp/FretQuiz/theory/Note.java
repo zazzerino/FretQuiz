@@ -14,21 +14,23 @@ public record Note(WhiteKey whiteKey,
     }
 
     /**
+     * Matches a note name like "C4", "Gbb6", "E#2".
+     */
+    public static final Pattern regexPattern = Pattern.compile("([A-Z])(#{1,2}|b{1,2})?(\\d)");
+
+    /**
      * Parses a note name like "Cb4" into a note record, like Note[whiteKey=C, accidental=FLAT, octave=FOUR]
      * @param name a string consisting of a capital letter A-G, an optional accidental ('b' or '#'), and an octave number
      * @return a Note
      */
     public static Note fromString(String name) {
-        var noteRegex = "([A-Z])(#{1,2}|b{1,2})?(\\d)";
-        var pattern = Pattern.compile(noteRegex);
-        var matcher = pattern.matcher(name);
+        var matcher = regexPattern.matcher(name);
 
         if (!matcher.matches()) {
             throw new IllegalArgumentException();
         }
 
         // for the note 'E##3': matcher.group(1) == 'E', matcher.group(2) == '##', matcher.group(3) == '3'
-
         var whiteKey = WhiteKey.valueOf(matcher.group(1));
 
         // find the accidental, if it exists
@@ -41,10 +43,17 @@ public record Note(WhiteKey whiteKey,
         return new Note(whiteKey, accidental, octave);
     }
 
+    /**
+     * A number representing the pitch (without the octave) as the number of half steps from 'C'.
+     * e.g. C -> 0, C# -> 1, etc.
+     */
     public int pitchClass() {
         return whiteKey.halfStepsFromC() + accidental.halfStepOffset();
     }
 
+    /**
+     * The note's midi number. C4 is 60, C#4 is 61, etc.
+     */
     public int midiNum() {
         return pitchClass() + (12 * (octave.val + 1));
     }
@@ -52,6 +61,10 @@ public record Note(WhiteKey whiteKey,
     public void fromMidiNum() {
     }
 
+    /**
+     * Returns true if `this` is enharmonic with the given note.
+     * E##4, F#4, & Gb4 would all be considered enharmonic.
+     */
     public boolean isEnharmonicWith(Note note) {
         return midiNum() == note.midiNum();
     }
@@ -96,7 +109,7 @@ public record Note(WhiteKey whiteKey,
             throw new IllegalArgumentException("halfSteps must be a positive number");
         }
 
-        var note = Util.copyRecord(this, Collections.emptyMap());
+        var note = Util.copyRecord(this);
 
         while (halfSteps > 0) {
             note = note.next();

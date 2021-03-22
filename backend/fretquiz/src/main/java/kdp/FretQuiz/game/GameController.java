@@ -17,8 +17,8 @@ public class GameController {
     /**
      * Sends a user a list of game ids.
      */
-    public static void getIds(WsMessageContext context) {
-        var ids = gameDao.getIds();
+    public static void getGameIds(WsMessageContext context) {
+        var ids = gameDao.getGameIds();
         var response = Response.getGameIds(ids);
 
         context.send(response);
@@ -32,7 +32,7 @@ public class GameController {
         var user = WebSocket.getUserFromContext(context);
         var player = new Player(user.id());
 
-        var game = GameRec.create()
+        var game = new Game()
                 .addPlayer(player)
                 .assignHost(player.id());
 
@@ -41,7 +41,7 @@ public class GameController {
         log.info("creating game: " + game);
         gameDao.save(game);
 
-        context.attribute("gameId", game.id());
+        context.attribute("gameId", game.id);
         context.send(response);
 
         broadcastGameIds();
@@ -51,7 +51,7 @@ public class GameController {
      * Sends an up to date array of game ids to every connected client.
      */
     public static void broadcastGameIds() {
-        var ids = gameDao.getIds();
+        var ids = gameDao.getGameIds();
         WebSocket.broadcast(Response.getGameIds(ids));
     }
 
@@ -74,7 +74,7 @@ public class GameController {
         log.info("saving player " + userId + " to game " + gameId);
         gameDao.save(game);
 
-        context.attribute("gameId", game.id());
+        context.attribute("gameId", game.id);
         context.send(response);
     }
 

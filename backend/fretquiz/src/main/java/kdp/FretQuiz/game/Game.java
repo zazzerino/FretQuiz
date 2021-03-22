@@ -3,18 +3,24 @@ package kdp.FretQuiz.game;
 import kdp.FretQuiz.Util;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Game {
-    private final String id;
-    private OptsRec opts;
+    public final String id;
+    private final Opts opts;
+
     private final @NotNull Map<String, Player> players;
+    private String hostId;
+
     private final @NotNull List<Round> rounds;
     private boolean hasStarted;
 
     public Game() {
         id = Util.randomId();
-        opts = OptsRec.DEFAULT;
+        opts = Opts.DEFAULT;
         players = new HashMap<>();
         rounds = new ArrayList<>();
         hasStarted = false;
@@ -26,19 +32,8 @@ public class Game {
     }
 
     public Game assignHost(String playerId) {
-        var player = players.get(playerId)
-                .makeHost();
-
-        players.put(playerId, player);
+        hostId = playerId;
         return this;
-    }
-
-    public Player host() {
-        return players.values()
-                .stream()
-                .filter(Player::isHost)
-                .findFirst()
-                .orElseThrow(NoSuchElementException::new);
     }
 
     public Game start() {
@@ -47,16 +42,7 @@ public class Game {
     }
 
     public boolean isOver() {
-        return opts.secondsRemaining() == 0;
-    }
-
-    /**
-     * Decrement secondsRemaining.
-     */
-    public Game tick() {
-        var secondsRemaining = opts.secondsRemaining() - 1;
-        opts = Util.copyRecord(this.opts, Map.of("secondsRemaining", secondsRemaining));
-        return this;
+        return players.size() == 0;
     }
 
     public Round currentRound() {
@@ -64,12 +50,16 @@ public class Game {
         return rounds.get(index);
     }
 
-    public Game nextRound() {
-        var note = opts.randomNote();
-        var round = new Round(note, opts.fretboard(), players);
+//    public Game nextRound() {
+//        var note = opts.fretboard().randomNote();
+//        var round = new Round(note, opts.getFretboard(), players);
+//
+//        rounds.add(round);
+//        return this;
+//    }
 
-        rounds.add(round);
-        return this;
+    public boolean getHasStarted() {
+        return hasStarted;
     }
 
 //    public record GuessResult(boolean isCorrect, GameRec game) {}
