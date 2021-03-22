@@ -32,17 +32,17 @@ function onMessage(event: MessageEvent) {
   const message = JSON.parse(event.data) as Message;
   console.log('message received: ' + JSON.stringify(message));
 
-  switch (message.type) {
-    case 'LOGIN_OK':
-      return handleLogin(message);
+  // switch (message.type) {
+  //   case 'LOGIN_OK':
+  //     return handleLogin(message);
 
-    case 'GAME_CREATED':
-      return handleGameCreated(message);
+  //   case 'GAME_CREATED':
+  //     return handleGameCreated(message);
 
-    case 'GET_GAME_IDS':
-      return handleGetGameIds(message);
+  //   case 'GET_GAME_IDS':
+  //     return handleGetGameIds(message);
 
-    case 'GAME_JOINED':
-      return handleGameJoined(message);
-  }
+  //   case 'GAME_JOINED':
+  //     return handleGameJoined(message);
+  // }
 }

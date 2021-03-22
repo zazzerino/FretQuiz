@@ -1,7 +1,7 @@
 import { store } from '../app/store';
 import { ws } from './socket';
 import { 
-  Message, GameCreatedMessage, GetGameIdsMessage, GameJoinedMessage 
+  Message, GameCreatedMessage, GameIdsMessage, GameJoinedMessage 
 } from './message';
 import { setGame, setGameIds, NewGuess } from "../features/game/gameSlice";
 
@@ -29,7 +29,7 @@ export function sendGetGameIds() {
 }
 
 export function handleGetGameIds(msg: Message) {
-  const message = msg as GetGameIdsMessage;
+  const message = msg as GameIdsMessage;
   const gameIds = message.gameIds;
 
   store.dispatch(setGameIds(gameIds));

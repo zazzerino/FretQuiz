@@ -3,6 +3,8 @@ package kdp.FretQuiz.websocket;
 import kdp.FretQuiz.game.Game;
 import kdp.FretQuiz.user.User;
 
+import java.util.Map;
+
 public interface Response {
     Type type();
 
@@ -27,9 +29,9 @@ public interface Response {
         }
     }
 
-    record GameCreated(Type type, Game game) implements Response {
+    record GameCreated(Type type, Map<String, Object> game) implements Response {
         public GameCreated(Game game) {
-            this(Type.GAME_CREATED, game);
+            this(Type.GAME_CREATED, game.toMap());
         }
     }
 

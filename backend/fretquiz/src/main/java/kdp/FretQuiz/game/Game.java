@@ -3,10 +3,7 @@ package kdp.FretQuiz.game;
 import kdp.FretQuiz.Util;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     public final String id;
@@ -45,9 +42,13 @@ public class Game {
         return players.size() == 0;
     }
 
-    public Round currentRound() {
+    public Optional<Round> currentRound() {
+        if (rounds.isEmpty()) {
+            return Optional.empty();
+        }
+
         var index = rounds.size() - 1;
-        return rounds.get(index);
+        return Optional.of(rounds.get(index));
     }
 
 //    public Game nextRound() {
@@ -60,6 +61,16 @@ public class Game {
 
     public boolean getHasStarted() {
         return hasStarted;
+    }
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "id", id,
+                "players", players.keySet(),
+                "currentRound", currentRound(),
+                "hostId", hostId,
+                "hasStarted", hasStarted
+        );
     }
 
 //    public record GuessResult(boolean isCorrect, GameRec game) {}
