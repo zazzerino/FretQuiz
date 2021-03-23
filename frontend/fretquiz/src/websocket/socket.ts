@@ -2,19 +2,10 @@ import { Response, LoginOkResponse, GameCreatedResponse, GetGameIdsResponse, Gam
 import { handleLogin } from './user';
 import { handleGetGameIds, handleGameCreated, handleGameJoined } from './game';
 
-/**
- * The url to connect to with the websocket.
- */
 const WS_URL = 'ws://localhost:8080/ws';
 
-/**
- * The WebSocket connection object.
- */
 export const ws = new WebSocket(WS_URL);
 
-/**
- * This function sets up the websocket event handlers.
- */
 export function initWebSocket() {
   ws.onopen = onOpen;
   ws.onmessage = onMessage;
@@ -22,16 +13,10 @@ export function initWebSocket() {
   ws.onerror = onError;
 }
 
-/**
- * Called when the websocket connection is established.
- */
 function onOpen() {
   console.log('websocket connection established');
 }
 
-/**
- * Called when the websocket connection is closed.
- */
 function onClose() {
   console.log('websocket connection closed');
 }
@@ -41,7 +26,7 @@ function onError() {
 }
 
 /**
- * Receives incoming messages and dispatches them to the correct handler.
+ * Receives incoming messages and dispatches them to the correct handler depending on the message type.
  */
 function onMessage(event: MessageEvent) {
   // parse the message as a generic Response so we can get the type

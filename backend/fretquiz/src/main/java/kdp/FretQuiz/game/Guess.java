@@ -13,6 +13,9 @@ public record Guess(String playerId,
                     Fretboard.Coord clickedFret,
                     Fretboard fretboard) {
 
+    /**
+     * Did the user click on the fret where the `noteToGuess` is played?
+     */
     public boolean isCorrect() {
         var guessedNote = fretboard.findNoteAt(clickedFret)
                 .orElseThrow(NoSuchElementException::new);

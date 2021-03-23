@@ -18,7 +18,7 @@ public interface Response {
         GET_GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
-        GUESS_RESPONSE;
+        GUESS_RESULT;
     }
 
     record LoginOk(Type type, User user) implements Response {
@@ -51,9 +51,9 @@ public interface Response {
         }
     }
 
-//    record GuessResponse(Type type, Game.GuessResult result) implements Response {
-//        public GuessResponse(Game.GuessResult result) {
-//            this(Type.GUESS_RESPONSE, result);
-//        }
-//    }
+    record GuessResult(Type type, boolean isCorrect, Game game) {
+        public GuessResult(boolean isCorrect, Game game) {
+            this(Type.GUESS_RESULT, isCorrect, game);
+        }
+    }
 }

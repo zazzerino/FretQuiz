@@ -16,7 +16,7 @@ public interface Request {
         GET_GAME_IDS,
         CREATE_GAME,
         JOIN_GAME,
-        GUESS;
+        PLAYER_GUESSED;
     }
 
     /**
@@ -40,7 +40,7 @@ public interface Request {
     }
 
     record JoinGameMessage(Type type,
-                           String userId,
+                           String playerId,
                            String gameId) implements Request {
         public JoinGameMessage(String userId, String gameId) {
             this(Type.JOIN_GAME, userId, gameId);
@@ -49,7 +49,7 @@ public interface Request {
 
     record PlayerGuessed(Type type, Guess.NewGuess newGuess) implements Request {
         public PlayerGuessed(Guess.NewGuess newGuess) {
-            this(Type.GUESS, newGuess);
+            this(Type.PLAYER_GUESSED, newGuess);
         }
     }
 }

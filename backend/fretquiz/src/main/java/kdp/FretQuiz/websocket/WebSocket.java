@@ -58,7 +58,7 @@ public class WebSocket {
             case GET_GAME_IDS -> GameController.getGameIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
-            case GUESS -> GameController.handleGuess(context);
+            case PLAYER_GUESSED -> GameController.handleGuess(context);
         }
     }
 
@@ -79,16 +79,16 @@ public class WebSocket {
      * Store the user's info as context attributes.
      */
     public static void setUserAttributes(WsContext context, User user) {
-        context.attribute("userId", user.id());
+        context.attribute("playerId", user.id());
         context.attribute("userName", user.name());
     }
 
     /**
      * Gets a user's info from the context.
-     * Assumes that there is a "userId" attribute already set (which should be done on connect).
+     * Assumes that there is a "playerId" attribute already set (which should be done on connect).
      */
     public static User getUserFromContext(WsContext context) {
-        var userId = Objects.requireNonNull(context.attribute("userId")).toString();
+        var userId = Objects.requireNonNull(context.attribute("playerId")).toString();
 
         return userDao.getUserById(userId)
                 .orElseThrow(NoSuchElementException::new);
