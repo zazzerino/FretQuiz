@@ -23,6 +23,7 @@ public class WebSocket {
 
     /**
      * This method is run when a user first connects to the site.
+     * It logs them in as an anonymous user and sends them a list of game ids.
      */
     public static void onConnect(WsContext context) {
         contexts.add(context);
@@ -33,13 +34,15 @@ public class WebSocket {
         var user = new User(sessionId);
         log.info("saving user: " + user);
         userDao.save(user);
-
         setUserAttributes(context, user);
-        context.send(new Response.LoginOk(user));
+
+        var loginResponse = new Response.LoginOk(user);
+        context.send(loginResponse);
 
         // send the user a list of game ids
         var gameIds = gameDao.getGameIds();
-        context.send(new Response.GameIds(gameIds));
+        var gameIdsResponse = new Response.GetGameIds(gameIds);
+        context.send(gameIdsResponse);
     }
 
     /**

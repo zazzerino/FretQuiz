@@ -111,12 +111,12 @@ export function Stave() {
       empty(elem);
 
       // draw a new stave
-      const objs = makeVexObjects(elem, width, height);
-      objs.stave.draw();
+      const vexObjs = makeVexObjects(elem, width, height);
+      vexObjs.stave.draw();
 
       // if there's a note, draw it
       if (note) {
-        drawNote(objs, note);
+        drawNote(vexObjs, note);
       }
     }
   });

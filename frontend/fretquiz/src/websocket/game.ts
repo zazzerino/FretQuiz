@@ -1,62 +1,40 @@
 import { store } from '../app/store';
 import { ws } from './socket';
-import { 
-  Message, GameCreatedMessage, GameIdsMessage, GameJoinedMessage 
-} from './message';
-import { setGame, setGameIds, NewGuess } from "../features/game/gameSlice";
+import { GameCreatedResponse, GetGameIdsResponse, GameJoinedResponse } from './response';
+import { setCurrentGame, setGameIds, NewGuess } from "../features/game/gameSlice";
+import { createGameRequest, getGameIdsRequest, joinGameRequest, newGuessRequest } from './request';
 
 export function sendCreateGame() {
-  const message = JSON.stringify({
-    type: 'CREATE_GAME'
-  });
-
+  const message = JSON.stringify(createGameRequest());
   ws.send(message);
 }
 
-export function handleGameCreated(msg: Message) {
-  const message = msg as GameCreatedMessage;
+export function handleGameCreated(message: GameCreatedResponse) {
   const game = message.game;
-
-  store.dispatch(setGame(game));
+  store.dispatch(setCurrentGame(game));
 }
 
 export function sendGetGameIds() {
-  const message = JSON.stringify({
-    type: 'GET_GAME_IDS'
-  });
-
+  const message = JSON.stringify(getGameIdsRequest());
   ws.send(message);
 }
 
-export function handleGetGameIds(msg: Message) {
-  const message = msg as GameIdsMessage;
+export function handleGetGameIds(message: GetGameIdsResponse) {
   const gameIds = message.gameIds;
-
   store.dispatch(setGameIds(gameIds));
 }
 
 export function sendGuess(guess: NewGuess) {
-  const message = JSON.stringify({
-    type: 'GUESS',
-    guess
-  });
-
+  const message = JSON.stringify(newGuessRequest(guess));
   ws.send(message);
 }
 
 export function sendJoinGame(userId: string, gameId: string) {
-  const message = JSON.stringify({
-    type: 'JOIN_GAME',
-    userId,
-    gameId
-  });
-
+  const message = JSON.stringify(joinGameRequest(userId, gameId));
   ws.send(message);
 }
 
-export function handleGameJoined(msg: Message) {
-  const message = msg as GameJoinedMessage;
+export function handleGameJoined(message: GameJoinedResponse) {
   const game = message.game;
-
-  store.dispatch(setGame(game));
+  store.dispatch(setCurrentGame(game));
 }

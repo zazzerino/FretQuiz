@@ -8,7 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Every round, a new note will be displayed on the staff.
+ * The users have `secondsLeft` to guess the note's location on the fretboard.
+ * This class keeps a record of every user's Guess.
+ */
 public class Round {
+
     public final Note noteToGuess;
     public final Opts opts;
     private int secondsLeft;
@@ -16,15 +22,15 @@ public class Round {
     private final Map<String, Player> players;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    public Round(Note noteToGuess, Opts opts, Map<String, Player> players) {
-        this.noteToGuess = noteToGuess;
+    public Round(Opts opts, Map<String, Player> players) {
         this.opts = opts;
         this.secondsLeft = opts.roundLength();
+        this.noteToGuess = opts.fretboard().randomNote();
         this.players = players;
     }
 
     /**
-     * Decrements secondsRemaining.
+     * Decrements secondsLeft.
      * @return the number of seconds left in the round
      */
     public int tick() {
@@ -32,7 +38,7 @@ public class Round {
     }
 
     /**
-     * The round is over if every player has guessed.
+     * The round is over once every player has guessed.
      */
     public boolean isOver() {
         return players.size() == guesses.size();
@@ -47,5 +53,13 @@ public class Round {
         guesses.add(guess);
 
         return guess.isCorrect();
+    }
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "noteToGuess", noteToGuess,
+                "secondsLeft", secondsLeft,
+                "guesses", guesses
+        );
     }
 }

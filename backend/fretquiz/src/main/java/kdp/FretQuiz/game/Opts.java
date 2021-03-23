@@ -3,7 +3,7 @@ package kdp.FretQuiz.game;
 import kdp.FretQuiz.theory.Fretboard;
 
 /**
- * The game options. Will be changed by the client before each Round.
+ * The game options. Can be changed by the client before each Round.
  */
 public record Opts(int roundLength,
                    Fretboard fretboard) {

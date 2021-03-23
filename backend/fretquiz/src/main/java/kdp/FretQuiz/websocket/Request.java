@@ -3,6 +3,10 @@ package kdp.FretQuiz.websocket;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import kdp.FretQuiz.game.Guess;
 
+/**
+ * A Request is a message originating from the client.
+ * Each Request has a Request.Type and, optionally, some associated data.
+ */
 public interface Request {
     Type type();
 
@@ -35,17 +39,17 @@ public interface Request {
         }
     }
 
-    record NewGuess(Type type, Guess.NewGuess guess) implements Request {
-        public NewGuess(kdp.FretQuiz.game.Guess.NewGuess guess) {
-            this(Type.GUESS, guess);
-        }
-    }
-
     record JoinGameMessage(Type type,
                            String userId,
                            String gameId) implements Request {
         public JoinGameMessage(String userId, String gameId) {
             this(Type.JOIN_GAME, userId, gameId);
+        }
+    }
+
+    record PlayerGuessed(Type type, Guess.NewGuess newGuess) implements Request {
+        public PlayerGuessed(Guess.NewGuess newGuess) {
+            this(Type.GUESS, newGuess);
         }
     }
 }

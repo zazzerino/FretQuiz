@@ -14,7 +14,7 @@ public record Guess(String playerId,
                     Fretboard fretboard) {
 
     public boolean isCorrect() {
-        var guessedNote = fretboard.findNote(clickedFret)
+        var guessedNote = fretboard.findNoteAt(clickedFret)
                 .orElseThrow(NoSuchElementException::new);
 
         return guessedNote.isEnharmonicWith(noteToGuess);

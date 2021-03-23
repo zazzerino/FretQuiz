@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export type FretCoordString = string;
+export type NoteName = string;
+
+export type PlayerId = string;
+
+export type GameId = string;
 
 export interface FretCoord {
   string: number,
@@ -14,29 +18,14 @@ export interface Note {
   octave: string
 }
 
-type PlayerId = string;
-type GameId = string;
-
-interface Player {
+export interface Player {
   id: PlayerId
-}
-
-interface Fretboard {
-  startFret: number,
-  endFret: number,
-  notes: any
-}
-
-interface GameOpts {
-  roundLength: number,
-  secondsRemaining: number,
-  fretboard: Fretboard
 }
 
 interface Guess {
   playerId: PlayerId,
   noteToGuess: Note,
-  clickedFret: FretCoordString,
+  clickedFret: FretCoord,
   fretboard: any
 }
 
@@ -46,16 +35,33 @@ export interface NewGuess {
   clickedFret: FretCoord
 }
 
-export interface Game {
-  id: string,
-  opts: GameOpts,
-  players: Player[],
+export interface Fretboard {
+  tuning: string[],
+  startFret: number,
+  endFret: number,
+  notes: any
+}
+
+export interface Opts {
+  roundLength: number,
+  fretboard: Fretboard
+}
+
+export interface Round {
   noteToGuess: Note,
   guesses: Guess[]
 }
 
-interface GameState {
-  gameIds: string[],
+export interface Game {
+  id: GameId,
+  opts: Opts,
+  players: Player[],
+  rounds: Round[],
+  currentRound: Round
+}
+
+export interface GameState {
+  gameIds: GameId[],
   currentGame?: Game
 }
 
@@ -67,7 +73,7 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setGame: (state: GameState, action: PayloadAction<Game>) => {
+    setCurrentGame: (state: GameState, action: PayloadAction<Game>) => {
       state.currentGame = action.payload;
     },
     setGameIds: (state: GameState, action: PayloadAction<string[]>) => {
@@ -82,8 +88,8 @@ export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
 export const selectGameId = (state: RootState) => state.game.currentGame?.id;
 
-export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.noteToGuess;
+export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.currentRound.noteToGuess;
 
-export const { setGame, setGameIds } = gameSlice.actions;
+export const { setCurrentGame, setGameIds } = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -3,88 +3,135 @@ package kdp.FretQuiz.game;
 import kdp.FretQuiz.Util;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
+/**
+ * A Game consists of a series of round.
+ * Every round a note will be displayed on a staff and every user guesses the note's position on the fretboard.
+ * The game ends when all the users leave.
+ */
 public class Game {
+
     public final String id;
     private final Opts opts;
 
-    private final @NotNull Map<String, Player> players;
+    private final @NotNull Map<String, Player> players = new HashMap<>();
     private String hostId;
 
-    private final @NotNull List<Round> rounds;
+    private final @NotNull List<Round> rounds = new ArrayList<>();
     private boolean hasStarted;
 
     public Game() {
         id = Util.randomId();
         opts = Opts.DEFAULT;
-        players = new HashMap<>();
-        rounds = new ArrayList<>();
         hasStarted = false;
     }
 
+    /**
+     * Adds a player to the game.
+     * @return the updated Game
+     */
     public Game addPlayer(Player player) {
         players.put(player.id(), player);
         return this;
     }
 
+    /**
+     * Sets the game host to `playerId`.
+     * @return the updated Game
+     */
     public Game assignHost(String playerId) {
         hostId = playerId;
         return this;
     }
 
+    /**
+     * Starts the game and starts a new round.
+     * @return the updated Game
+     */
     public Game start() {
         hasStarted = true;
+        nextRound();
         return this;
     }
 
+    /**
+     * The game ends when all the players leave.
+     */
     public boolean isOver() {
         return players.size() == 0;
     }
 
+    /**
+     * The round that is currently being played.
+     * It returns an Optional because if the game hasn't started, there is no round yet.
+     * @return Optional.empty() if the game hasn't started, otherwise the round being played
+     */
     public Optional<Round> currentRound() {
         if (rounds.isEmpty()) {
             return Optional.empty();
         }
 
+        // return the last element of the rounds list
         var index = rounds.size() - 1;
         return Optional.of(rounds.get(index));
     }
 
-//    public Game nextRound() {
-//        var note = opts.fretboard().randomNote();
-//        var round = new Round(note, opts.getFretboard(), players);
-//
-//        rounds.add(round);
-//        return this;
-//    }
+    /**
+     * Starts a new round.
+     */
+    public Game nextRound() {
+        var round = new Round(opts, players);
+        rounds.add(round);
 
-    public boolean getHasStarted() {
+        return this;
+    }
+
+    public boolean hasStarted() {
         return hasStarted;
     }
 
+    /**
+     * Called when a user makes a guess.
+     * @return whether the guess was correct
+     */
+    public boolean guess(Guess.NewGuess newGuess) {
+        var playerId = newGuess.playerId();
+        var clickedFret = newGuess.clickedFret();
+
+        var round = currentRound().orElseThrow(NoSuchElementException::new);
+        var isCorrect = round.guess(playerId, clickedFret);
+
+        if (round.isOver()) {
+            nextRound();
+        }
+
+        return isCorrect;
+    }
+
+    /**
+     * A map representing the Game. This method is for sending the game's info as json to the client.
+     */
     public Map<String, Object> toMap() {
+        var players = this.players.keySet();
+
+        // return the current round if it exists, or an empty map if it doesn't
+        var currentRound = currentRound().isPresent() ?
+                currentRound().get().toMap() :
+                Collections.emptyMap();
+
         return Map.of(
                 "id", id,
-                "players", players.keySet(),
-                "currentRound", currentRound(),
+                "players", players,
+                "currentRound", currentRound,
                 "hostId", hostId,
                 "hasStarted", hasStarted
         );
     }
-
-//    public record GuessResult(boolean isCorrect, GameRec game) {}
-//
-//    public GameRec.GuessResult guess(String playerId, Fretboard.Coord clickedFret) {
-//        var newGuess = new Guess.NewGuess(id, playerId, clickedFret);
-//
-//        var result = currentRound().guess(newGuess);
-//        var isCorrect = result.isCorrect();
-//
-//        var rounds = Util.copyList(this.rounds);
-//        var game = Util.copyRecord(this, Map.of("rounds", rounds))
-//                .nextRound();
-//
-//        return new GameRec.GuessResult(isCorrect, game);
-//    }
 }

@@ -13,7 +13,7 @@ export function Fretboard() {
 
   React.useEffect(() => {
 
-    // selects the element with the given `id` and draws a fretboard diagram
+    // selects the element with the given `id` and draws a fretboard diagram there
     new FretboardDiagram({
       id: 'fretboard-canvas',
       drawDotOnHover: true,

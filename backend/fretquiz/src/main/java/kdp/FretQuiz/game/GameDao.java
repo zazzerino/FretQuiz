@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A game database object.
+ */
 public class GameDao {
     private final Map<String, Game> games = new ConcurrentHashMap<>();
 

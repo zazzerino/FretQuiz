@@ -5,13 +5,17 @@ import kdp.FretQuiz.user.User;
 
 import java.util.Map;
 
+/**
+ * A Response is a message sent from the server to the client.
+ * Each Response has a Response.Type and, optionally, some associated data.
+ */
 public interface Response {
     Type type();
 
     enum Type {
         LOGIN_OK,
         LOGOUT_OK,
-        GAME_IDS,
+        GET_GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
         GUESS_RESPONSE;
@@ -35,9 +39,15 @@ public interface Response {
         }
     }
 
-    record GameIds(Type type, String[] gameIds) implements Response {
-        public GameIds(String[] gameIds) {
-            this(Type.GAME_IDS, gameIds);
+    record GetGameIds(Type type, String[] gameIds) implements Response {
+        public GetGameIds(String[] gameIds) {
+            this(Type.GET_GAME_IDS, gameIds);
+        }
+    }
+
+    record GameJoined(Type type, Map<String, Object> game) implements Response {
+        public GameJoined(Game game) {
+            this(Type.GAME_JOINED, game.toMap());
         }
     }
 
@@ -46,10 +56,4 @@ public interface Response {
 //            this(Type.GUESS_RESPONSE, result);
 //        }
 //    }
-
-    record GameJoined(Type type, Game game) implements Response {
-        public GameJoined(Game game) {
-            this(Type.GAME_JOINED, game);
-        }
-    }
 }

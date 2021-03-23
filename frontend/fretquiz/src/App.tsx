@@ -4,10 +4,10 @@ import './App.css';
 import { Footer } from './components/Footer';
 import { Home } from './components/Home';
 import { Navbar } from './components/Navbar';
+import { CreateGameButton } from './features/game/components/CreateGameButton';
 import { GameList } from './features/game/GameList';
 import { GamePage } from './features/game/GamePage';
 import { Login } from './features/user/Login';
-import { sendCreateGame } from './websocket/game';
 
 function App() {
   
@@ -29,14 +29,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
-
-        <button onClick={() => {
-          sendCreateGame();
-        }}
-        >
-          Create Game
-        </button>
-
+        <CreateGameButton />
         <Footer />
       </BrowserRouter>
     </div>
