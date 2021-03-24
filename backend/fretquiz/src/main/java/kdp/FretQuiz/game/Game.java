@@ -19,13 +19,12 @@ import java.util.Optional;
 public class Game {
 
     public final String id;
-    private final Opts opts;
+    private Opts opts;
+    private String hostId;
+    private boolean hasStarted;
 
     private final @NotNull Map<String, Player> players = new HashMap<>();
-    private String hostId;
-
     private final @NotNull List<Round> rounds = new ArrayList<>();
-    private boolean hasStarted;
 
     public Game() {
         id = Util.randomId();
@@ -79,7 +78,7 @@ public class Game {
         }
 
         // return the last element of the rounds list
-        var index = rounds.size() - 1;
+        final var index = rounds.size() - 1;
         return Optional.of(rounds.get(index));
     }
 
@@ -87,9 +86,8 @@ public class Game {
      * Starts a new round.
      */
     public Game nextRound() {
-        var round = new Round(opts, players);
+        final var round = new Round(opts, players);
         rounds.add(round);
-
         return this;
     }
 
@@ -102,11 +100,11 @@ public class Game {
      * @return whether the guess was correct
      */
     public boolean guess(Guess.NewGuess newGuess) {
-        var playerId = newGuess.playerId();
-        var clickedFret = newGuess.clickedFret();
+        final var playerId = newGuess.playerId();
+        final var clickedFret = newGuess.clickedFret();
 
-        var round = currentRound().orElseThrow(NoSuchElementException::new);
-        var isCorrect = round.guess(playerId, clickedFret);
+        final var round = currentRound().orElseThrow(NoSuchElementException::new);
+        final var isCorrect = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
             nextRound();
@@ -119,10 +117,10 @@ public class Game {
      * A map representing the Game. This method is for sending the game's info as json to the client.
      */
     public Map<String, Object> toMap() {
-        var players = this.players.keySet();
+        final var players = this.players.keySet();
 
         // return the current round if it exists, or an empty map if it doesn't
-        var currentRound = currentRound().isPresent() ?
+        final var currentRound = currentRound().isPresent() ?
                 currentRound().get().toMap() :
                 Collections.emptyMap();
 

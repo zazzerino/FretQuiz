@@ -1,8 +1,9 @@
 import { store } from '../app/store';
 import { ws } from './socket';
 import { GameCreatedResponse, GetGameIdsResponse, GameJoinedResponse } from './response';
-import { setCurrentGame, setGameIds, NewGuess } from "../features/game/gameSlice";
+import { setCurrentGame, setGameIds } from "../features/game/gameSlice";
 import { createGameRequest, getGameIdsRequest, joinGameRequest, newGuessRequest } from './request';
+import { NewGuess } from '../features/game/types';
 
 export function sendCreateGame() {
   const message = JSON.stringify(createGameRequest());

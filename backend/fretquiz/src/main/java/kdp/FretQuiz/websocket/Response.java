@@ -18,7 +18,9 @@ public interface Response {
         GET_GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
-        GUESS_RESULT;
+        GAME_STARTED,
+        GUESS_RESULT,
+        WELCOME;
     }
 
     record LoginOk(Type type, User user) implements Response {
@@ -51,9 +53,21 @@ public interface Response {
         }
     }
 
-    record GuessResult(Type type, boolean isCorrect, Game game) {
+    record GameStarted(Type type, Map<String, Object> game) implements Response {
+        public GameStarted(Game game) {
+            this(Type.GAME_STARTED, game.toMap());
+        }
+    }
+
+    record GuessResult(Type type, boolean isCorrect, Game game) implements Response {
         public GuessResult(boolean isCorrect, Game game) {
             this(Type.GUESS_RESULT, isCorrect, game);
+        }
+    }
+
+    record Welcome(Type type, String message) implements Response {
+        public Welcome(String message) {
+            this(Type.WELCOME, message);
         }
     }
 }

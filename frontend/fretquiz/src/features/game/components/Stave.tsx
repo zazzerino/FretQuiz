@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import Vex from 'vexflow';
-import { Note, selectNoteToGuess } from '../gameSlice';
+import { selectNoteToGuess } from '../gameSlice';
+import { Note } from '../types';
 
 type VexObjects = {
   renderer: Vex.Flow.Renderer,

@@ -13,12 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Set;
 
 import static kdp.FretQuiz.App.gameDao;
 import static kdp.FretQuiz.App.userDao;
 
 public class WebSocket {
+
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
+
+    /**
+     * Holds the context for each connected user.
+     */
     private static final List<WsContext> contexts = new ArrayList<>();
 
     /**
@@ -28,36 +34,35 @@ public class WebSocket {
     public static void onConnect(WsContext context) {
         contexts.add(context);
 
-        var sessionId = context.getSessionId();
+        final var sessionId = context.getSessionId();
         log.info("ws connection: " + sessionId);
 
-        var user = new User(sessionId);
+        final var user = new User(sessionId);
         log.info("saving user: " + user);
         userDao.save(user);
         setUserAttributes(context, user);
 
-        var loginResponse = new Response.LoginOk(user);
-        context.send(loginResponse);
+        context.send(new Response.LoginOk(user));
 
         // send the user a list of game ids
-        var gameIds = gameDao.getGameIds();
-        var gameIdsResponse = new Response.GetGameIds(gameIds);
-        context.send(gameIdsResponse);
+        final var gameIds = gameDao.getGameIds();
+        context.send(new Response.GetGameIds(gameIds));
     }
 
     /**
      * This method routes an incoming message to the proper handler.
      */
     public static void onMessage(WsMessageContext context) {
-        Request message = context.message(Request.Default.class);
+        final Request request = context.message(Request.Default.class);
 
-        log.info("message received: " + message.type());
-        switch (message.type()) {
+        log.info("message received: " + request.type());
+        switch (request.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> {}
             case GET_GAME_IDS -> GameController.getGameIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
+//            case START_GAME -> Game
             case PLAYER_GUESSED -> GameController.handleGuess(context);
         }
     }
@@ -76,6 +81,15 @@ public class WebSocket {
     }
 
     /**
+     * Send a response to each session in sessionIds.
+     */
+    public static void sendToSessions(Set<String> sessionIds, Response response) {
+        contexts.stream()
+                .filter(ctx -> sessionIds.contains(ctx.getSessionId()))
+                .forEach(ctx -> ctx.send(response));
+    }
+
+    /**
      * Store the user's info as context attributes.
      */
     public static void setUserAttributes(WsContext context, User user) {
@@ -88,7 +102,7 @@ public class WebSocket {
      * Assumes that there is a "playerId" attribute already set (which should be done on connect).
      */
     public static User getUserFromContext(WsContext context) {
-        var userId = Objects.requireNonNull(context.attribute("playerId")).toString();
+        final var userId = Objects.requireNonNull(context.attribute("playerId")).toString();
 
         return userDao.getUserById(userId)
                 .orElseThrow(NoSuchElementException::new);

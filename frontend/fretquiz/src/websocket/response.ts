@@ -1,4 +1,4 @@
-import { Game } from "../features/game/gameSlice";
+import { Game } from '../features/game/types';
 import { User } from "../features/user/userSlice";
 
 export type ResponseType =

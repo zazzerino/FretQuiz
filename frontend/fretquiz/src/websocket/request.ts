@@ -1,4 +1,4 @@
-import { NewGuess } from "../features/game/gameSlice";
+import { NewGuess } from '../features/game/types';
 
 export type RequestType = 'LOGIN' | 'CREATE_GAME' | 'GET_GAME_IDS' | 'JOIN_GAME' | 'NEW_GUESS';
 

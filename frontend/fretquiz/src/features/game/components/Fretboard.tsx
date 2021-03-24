@@ -2,7 +2,8 @@ import * as React from 'react';
 import { FretboardDiagram } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../user/userSlice';
-import { FretCoord, selectGameId } from '../gameSlice';
+import { selectGameId } from '../gameSlice';
+import { FretCoord } from '../types';
 
 const correctColor = 'lime';
 const incorrectColor = 'deeppink';

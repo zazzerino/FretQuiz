@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import kdp.FretQuiz.game.Guess;
 
 /**
- * A Request is a message originating from the client.
+ * A Request is a message originating from the client (the browser).
  * Each Request has a Request.Type and, optionally, some associated data.
  */
 public interface Request {
@@ -16,6 +16,7 @@ public interface Request {
         GET_GAME_IDS,
         CREATE_GAME,
         JOIN_GAME,
+        START_GAME,
         PLAYER_GUESSED;
     }
 
@@ -44,6 +45,12 @@ public interface Request {
                            String gameId) implements Request {
         public JoinGameMessage(String userId, String gameId) {
             this(Type.JOIN_GAME, userId, gameId);
+        }
+    }
+
+    record StartGame(Type type, String gameId) {
+        public StartGame(String gameId) {
+            this(Type.START_GAME, gameId);
         }
     }
 

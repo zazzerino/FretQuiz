@@ -37,10 +37,6 @@ public record Fretboard(Tuning tuning,
 
     /**
      * Returns a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord.
-     * @param tuning
-     * @param startFret
-     * @param endFret
-     * @return
      */
     public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
         Map<Coord, Note> notes = new HashMap<>();

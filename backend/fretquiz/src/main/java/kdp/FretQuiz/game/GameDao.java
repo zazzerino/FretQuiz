@@ -1,5 +1,8 @@
 package kdp.FretQuiz.game;
 
+import io.javalin.websocket.WsContext;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * A game database object.
  */
 public class GameDao {
+
+    /**
+     * Stores a map of game-ids to games.
+     */
     private final Map<String, Game> games = new ConcurrentHashMap<>();
+
+    /**
+     * Stores a map of game-ids to websocket contexts.
+     * Each context belongs to a user who is playing the specified game.
+     */
+    private final Map<String, List<WsContext>> contexts = new ConcurrentHashMap<>();
 
     public Optional<Game> getGameById(String id) {
         return Optional.ofNullable(games.get(id));

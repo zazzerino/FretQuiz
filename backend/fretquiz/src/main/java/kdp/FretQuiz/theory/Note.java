@@ -2,7 +2,6 @@ package kdp.FretQuiz.theory;
 
 import kdp.FretQuiz.Util;
 
-import java.util.Collections;
 import java.util.regex.Pattern;
 
 public record Note(WhiteKey whiteKey,
@@ -14,7 +13,7 @@ public record Note(WhiteKey whiteKey,
     }
 
     /**
-     * Matches a note name like "C4", "Gbb6", "E#2".
+     * Matches a note name like "C4", "Gbb6", or "E#2".
      */
     public static final Pattern regexPattern = Pattern.compile("([A-Z])(#{1,2}|b{1,2})?(\\d)");
 
@@ -24,21 +23,21 @@ public record Note(WhiteKey whiteKey,
      * @return a Note
      */
     public static Note fromString(String name) {
-        var matcher = regexPattern.matcher(name);
+        final var matcher = regexPattern.matcher(name);
 
         if (!matcher.matches()) {
             throw new IllegalArgumentException();
         }
 
         // for the note 'E##3': matcher.group(1) == 'E', matcher.group(2) == '##', matcher.group(3) == '3'
-        var whiteKey = WhiteKey.valueOf(matcher.group(1));
+        final var whiteKey = WhiteKey.valueOf(matcher.group(1));
 
         // find the accidental, if it exists
-        var match2 = matcher.group(2);
+        final var match2 = matcher.group(2);
         // if there was no accidental, set it to be an empty string instead of null so it can be parsed correctly
-        var accidental = Accidental.fromString(match2 == null ? "" : match2);
+        final var accidental = Accidental.fromString(match2 == null ? "" : match2);
 
-        var octave = Octave.fromString(matcher.group(3));
+        final var octave = Octave.fromString(matcher.group(3));
 
         return new Note(whiteKey, accidental, octave);
     }
@@ -58,9 +57,6 @@ public record Note(WhiteKey whiteKey,
         return pitchClass() + (12 * (octave.val + 1));
     }
 
-    public void fromMidiNum() {
-    }
-
     /**
      * Returns true if `this` is enharmonic with the given note.
      * E##4, F#4, & Gb4 would all be considered enharmonic.
@@ -73,11 +69,11 @@ public record Note(WhiteKey whiteKey,
      * Returns the note a half step higher.
      */
     public Note next() {
-        var key = whiteKey;
-        var acc = accidental;
-
         // If we're at pitchClass == 11 (the notes "B", "A##", "Cb"), increment the octave. Otherwise, the octave stays the same.
         final var oct = pitchClass() == 11 ? octave.next() : octave;
+
+        var key = whiteKey;
+        var acc = accidental;
 
         if (accidental == Accidental.NONE) {
             if (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) {
@@ -96,9 +92,6 @@ public record Note(WhiteKey whiteKey,
 
         return new Note(key, acc, oct);
     }
-
-//    public Note previous() {
-//    }
 
     /**
      * Returns the note that is the given number of half-steps higher.
@@ -123,9 +116,9 @@ public record Note(WhiteKey whiteKey,
      * Returns a random note.
      */
     public static Note random() {
-        var whiteKey = Util.randomElement(WhiteKey.values());
-        var accidental = Util.randomElement(Accidental.values());
-        var octave = Util.randomElement(Octave.values());
+        final var whiteKey = Util.randomElement(WhiteKey.values());
+        final var accidental = Util.randomElement(Accidental.values());
+        final var octave = Util.randomElement(Octave.values());
 
         return new Note(whiteKey, accidental, octave);
     }
@@ -134,8 +127,8 @@ public record Note(WhiteKey whiteKey,
      * Returns a random note between two pitches.
      */
     public static Note randomBetween(Note low, Note high) {
-        var lowMidi = low.midiNum();
-        var highMidi = high.midiNum();
+        final var lowMidi = low.midiNum();
+        final var highMidi = high.midiNum();
 
         Note note;
         int midi;
