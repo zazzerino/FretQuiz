@@ -97,9 +97,7 @@ public class GameController {
      */
     public static void broadcastGameIds() {
         final var ids = gameDao.getGameIds();
-        final var response = new Response.GameIds(ids);
-
-        WebSocket.broadcast(response);
+        WebSocket.broadcast(new Response.GameIds(ids));
     }
 
     /**

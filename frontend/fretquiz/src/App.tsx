@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { Home } from './components/Home';
 import { Navbar } from './components/Navbar';
 import { CreateGameButton } from './features/game/components/CreateGameButton';
+import { StartGameButton } from './features/game/components/StartGameButton';
 import { GameList } from './features/game/GameList';
 import { GamePage } from './features/game/GamePage';
 import { Login } from './features/user/Login';
@@ -29,7 +30,10 @@ function App() {
             <Home />
           </Route>
         </Switch>
+
         <CreateGameButton />
+        <StartGameButton />
+
         <Footer />
       </BrowserRouter>
     </div>

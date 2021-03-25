@@ -5,8 +5,8 @@ import { selectUserId } from '../../user/userSlice';
 import { selectGameId } from '../gameSlice';
 import { FretCoord } from '../types';
 
-const correctColor = 'lime';
-const incorrectColor = 'deeppink';
+// const correctColor = 'lime';
+// const incorrectColor = 'deeppink';
 
 export function Fretboard() {
   const userId = useSelector(selectUserId);

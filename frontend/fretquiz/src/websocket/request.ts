@@ -75,14 +75,12 @@ export function newGuessRequest(newGuess: NewGuess): NewGuessRequest {
 
 export interface StartGameRequest extends Request {
   type: 'START_GAME',
-  gameId: string,
-  userId: string
+  gameId: string
 }
 
-export function startGameRequest(gameId: string, userId: string): StartGameRequest {
+export function startGameRequest(gameId: string): StartGameRequest {
   return {
     type: 'START_GAME',
-    gameId,
-    userId
+    gameId
   }
 }

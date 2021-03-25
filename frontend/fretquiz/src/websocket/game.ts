@@ -18,8 +18,8 @@ export const sendJoinGame = (gameId: string, userId: string) => {
   makeSender(joinGameRequest(gameId, userId))();
 };
 
-export const sendStartGame = (gameId: string, userId: string) => {
-  makeSender(startGameRequest(gameId, userId))();
+export const sendStartGame = (gameId: string) => {
+  makeSender(startGameRequest(gameId))();
 }
 
 // handle responses
