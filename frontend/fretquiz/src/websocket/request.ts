@@ -1,9 +1,18 @@
+import { ws } from '../websocket/socket';
 import { NewGuess } from '../features/game/types';
 
-export type RequestType = 'LOGIN' | 'CREATE_GAME' | 'GET_GAME_IDS' | 'JOIN_GAME' | 'NEW_GUESS';
+export type RequestType =
+  'LOGIN' | 'CREATE_GAME' | 'GET_GAME_IDS' | 'JOIN_GAME' | 'NEW_GUESS' | 'START_GAME';
 
 export interface Request {
   type: RequestType
+}
+
+/**
+ * Creates a function that sends the given Request when called.
+ */
+export function makeSender(request: Request) {
+  return () => ws.send(JSON.stringify(request));
 }
 
 // user requests
@@ -30,7 +39,7 @@ export function createGameRequest(): CreateGameRequest {
   return { type: 'CREATE_GAME' }
 }
 
-export interface GetGameIdsRequest {
+export interface GetGameIdsRequest extends Request {
   type: 'GET_GAME_IDS'
 }
 
@@ -38,21 +47,21 @@ export function getGameIdsRequest(): GetGameIdsRequest {
   return { type: 'GET_GAME_IDS' }
 }
 
-export interface JoinGameRequest {
+export interface JoinGameRequest extends Request {
   type: 'JOIN_GAME',
-  playerId: string,
-  gameId: string
+  gameId: string,
+  playerId: string
 }
 
-export function joinGameRequest(playerId: string, gameId: string): JoinGameRequest {
+export function joinGameRequest(gameId: string, playerId: string): JoinGameRequest {
   return {
     type: 'JOIN_GAME',
-    playerId,
-    gameId
+    gameId,
+    playerId
   }
 }
 
-export interface NewGuessRequest {
+export interface NewGuessRequest extends Request {
   type: 'NEW_GUESS',
   newGuess: NewGuess
 }
@@ -61,5 +70,19 @@ export function newGuessRequest(newGuess: NewGuess): NewGuessRequest {
   return {
     type: 'NEW_GUESS',
     newGuess
+  }
+}
+
+export interface StartGameRequest extends Request {
+  type: 'START_GAME',
+  gameId: string,
+  userId: string
+}
+
+export function startGameRequest(gameId: string, userId: string): StartGameRequest {
+  return {
+    type: 'START_GAME',
+    gameId,
+    userId
   }
 }

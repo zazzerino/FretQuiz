@@ -2,8 +2,8 @@ import { Game } from '../features/game/types';
 import { User } from "../features/user/userSlice";
 
 export type ResponseType =
-  'LOGIN_OK' | 'LOGOUT_OK' | 'GAME_CREATED' | 'GET_GAME_IDS' | 
-  'GUESS_RESPONSE' | 'GAME_JOINED';
+  'LOGIN_OK' | 'LOGOUT_OK' | 'GAME_CREATED' | 'GAME_IDS' | 
+  'GUESS_RESPONSE' | 'GAME_JOINED' | 'GAME_UPDATED';
 
 export interface Response {
   type: ResponseType
@@ -23,12 +23,17 @@ export interface GameCreatedResponse extends Response {
   game: Game
 }
 
-export interface GetGameIdsResponse extends Response {
-  type: 'GET_GAME_IDS',
+export interface GameIdsResponse extends Response {
+  type: 'GAME_IDS',
   gameIds: string[]
 }
 
 export interface GameJoinedResponse extends Response {
   type: 'GAME_JOINED',
+  game: Game
+}
+
+export interface GameUpdatedResponse extends Response {
+  type: 'GAME_UPDATED',
   game: Game
 }

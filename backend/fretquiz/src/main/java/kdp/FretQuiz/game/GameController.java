@@ -26,11 +26,48 @@ public class GameController {
     private static final @NotNull Map<String, Set<String>> gameSessions = new HashMap<>();
 
     /**
+     * Returns a Set of sessionsIds belonging to the players of the game with gameId.
+     */
+    private static Set<String> getSessionIds(String gameId) {
+        var sessionIds = gameSessions.get(gameId);
+
+        if (sessionIds == null) {
+            sessionIds = new HashSet<>();
+        }
+
+        return sessionIds;
+    }
+
+    private static void connectSessionToGame(String gameId, String sessionId) {
+        final var sessionIds = getSessionIds(gameId);
+        sessionIds.add(sessionId);
+        gameSessions.put(gameId, sessionIds);
+    }
+
+    /**
+     * Send a message to all players of a game.
+     */
+    private static void notifyPlayers(String gameId, Response response) {
+        final var sessionIds = getSessionIds(gameId);
+        WebSocket.sendToSessions(sessionIds, response);
+    }
+
+    /**
+     * Send the new state of a game to all its players.
+     */
+    private static void sendUpdatedGameToPlayers(String gameId) {
+        final var game = gameDao.getGameById(gameId)
+                .orElseThrow(NoSuchElementException::new);
+
+        notifyPlayers(game.id, new Response.GameUpdated(game));
+    }
+
+    /**
      * Sends a user a list of game ids.
      */
     public static void getGameIds(WsMessageContext context) {
         final var ids = gameDao.getGameIds();
-        context.send(new Response.GetGameIds(ids));
+        context.send(new Response.GameIds(ids));
     }
 
     /**
@@ -49,32 +86,10 @@ public class GameController {
         gameDao.save(game);
 
         connectSessionToGame(game.id, context.getSessionId());
-
-        final var response = new Response.GameCreated(game);
-        context.send(response);
+        context.send(new Response.GameCreated(game));
 
         // let users know there's a new game
         broadcastGameIds();
-    }
-
-    private static void connectSessionToGame(String gameId, String sessionId) {
-        var sessionIds = gameSessions.get(gameId);
-
-        if (sessionIds == null) {
-            sessionIds = new HashSet<>();
-        }
-
-        sessionIds.add(sessionId);
-        gameSessions.put(gameId, sessionIds);
-    }
-
-    private static Set<String> getSessionIds(String gameId) {
-        return gameSessions.get(gameId);
-    }
-
-    private static void notifyPlayers(String gameId, Response response) {
-        final var sessionIds = getSessionIds(gameId);
-        WebSocket.sendToSessions(sessionIds, response);
     }
 
     /**
@@ -82,7 +97,7 @@ public class GameController {
      */
     public static void broadcastGameIds() {
         final var ids = gameDao.getGameIds();
-        final var response = new Response.GetGameIds(ids);
+        final var response = new Response.GameIds(ids);
 
         WebSocket.broadcast(response);
     }
@@ -105,11 +120,10 @@ public class GameController {
         gameDao.save(game);
 
         connectSessionToGame(game.id, context.getSessionId());
+        context.send(new Response.GameJoined(game));
 
-        final var response = new Response.GameJoined(game);
-        context.send(response);
-
-        notifyPlayers(game.id, new Response.Welcome(userId + " has joined the game"));
+        notifyPlayers(game.id, new Response.PlayerJoined(userId + " has joined the game"));
+        sendUpdatedGameToPlayers(game.id);
     }
 
     public static void startGame(WsMessageContext context) {
@@ -117,13 +131,13 @@ public class GameController {
 
         final var gameId = request.gameId();
         final var game = gameDao.getGameById(gameId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NoSuchElementException::new)
+                .start();
 
-        game.start();
         gameDao.save(game);
 
-        final var response = new Response.GameStarted(game);
-        context.send(response);
+        context.send(new Response.GameStarted(game));
+        sendUpdatedGameToPlayers(game.id);
     }
 
     public static void handleGuess(WsMessageContext context) {
@@ -139,7 +153,7 @@ public class GameController {
 
         gameDao.save(game);
 
-        final var response = new Response.GuessResult(isCorrect, game);
-        context.send(response);
+        context.send(new Response.GuessResult(isCorrect, game));
+        sendUpdatedGameToPlayers(game.id);
     }
 }

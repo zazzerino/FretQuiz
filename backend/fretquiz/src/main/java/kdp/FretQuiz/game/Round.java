@@ -19,7 +19,7 @@ public class Round {
     public final Opts opts;
     private int secondsLeft;
 
-    private final Map<String, Player> players;
+    private final @NotNull Map<String, Player> players;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
     public Round(Opts opts, Map<String, Player> players) {
@@ -49,7 +49,7 @@ public class Round {
      * @return true if the user correctly guessed the displayed note, false otherwise
      */
     public boolean guess(String playerId, Fretboard.Coord clickedFret) {
-        var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
+        final var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
         return guess.isCorrect();

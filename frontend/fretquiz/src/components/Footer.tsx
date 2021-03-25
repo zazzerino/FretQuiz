@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { selectGameId } from '../features/game/gameSlice';
+import { selectCurrentGame } from '../features/game/gameSlice';
 import { selectUser } from '../features/user/userSlice';
 
 export function Footer() {
   const user = useSelector(selectUser);
-  const { id, name } = user;
-
-  const gameId = useSelector(selectGameId);
+  const game = useSelector(selectCurrentGame);
 
   return (
     <div className="Footer">
-      <p>{`id: ${id}, name: ${name}`}</p>
+      <p>{`user: ${JSON.stringify(user)}`}</p>
       {
-        gameId ?
-          <p>{`game id: ${gameId}`}</p> :
+        game ?
+          <p>{`game: ${JSON.stringify(game)}`}</p> :
           null
       }
     </div>

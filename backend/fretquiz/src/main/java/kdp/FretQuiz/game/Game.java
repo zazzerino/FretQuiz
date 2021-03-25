@@ -113,11 +113,15 @@ public class Game {
         return isCorrect;
     }
 
+    public void setOpts(Opts opts) {
+        this.opts = opts;
+    }
+
     /**
      * A map representing the Game. This method is for sending the game's info as json to the client.
      */
     public Map<String, Object> toMap() {
-        final var players = this.players.keySet();
+        final var playerIds = this.players.keySet();
 
         // return the current round if it exists, or an empty map if it doesn't
         final var currentRound = currentRound().isPresent() ?
@@ -126,7 +130,7 @@ public class Game {
 
         return Map.of(
                 "id", id,
-                "players", players,
+                "players", playerIds,
                 "currentRound", currentRound,
                 "hostId", hostId,
                 "hasStarted", hasStarted

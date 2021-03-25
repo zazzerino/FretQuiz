@@ -1,6 +1,8 @@
-import { Response, LoginOkResponse, GameCreatedResponse, GetGameIdsResponse, GameJoinedResponse } from './response';
+import { 
+  Response, LoginOkResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse
+} from './response';
 import { handleLogin } from './user';
-import { handleGetGameIds, handleGameCreated, handleGameJoined } from './game';
+import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -26,7 +28,7 @@ function onError() {
 }
 
 /**
- * Receives incoming messages and dispatches them to the correct handler depending on the message type.
+ * Receives incoming messages and dispatches them to the correct handler.
  */
 function onMessage(event: MessageEvent) {
   // parse the message as a generic Response so we can get the type
@@ -35,8 +37,9 @@ function onMessage(event: MessageEvent) {
 
   switch (message.type) {
     case 'LOGIN_OK': return handleLogin(message as LoginOkResponse);
+    case 'GAME_IDS': return handleGameIds(message as GameIdsResponse);
     case 'GAME_CREATED': return handleGameCreated(message as GameCreatedResponse);
-    case 'GET_GAME_IDS': return handleGetGameIds(message as GetGameIdsResponse);
     case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);
+    case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdatedResponse);
   }
 }

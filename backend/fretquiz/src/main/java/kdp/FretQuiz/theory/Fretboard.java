@@ -30,8 +30,7 @@ public record Fretboard(Tuning tuning,
      * @param endFret the highest fret (in pitch & number)
      */
     public static Fretboard create(Tuning tuning, int startFret, int endFret) {
-        var notes = calculateNotes(tuning, startFret, endFret);
-
+        final var notes = calculateNotes(tuning, startFret, endFret);
         return new Fretboard(tuning, startFret, endFret, notes);
     }
 
@@ -40,15 +39,15 @@ public record Fretboard(Tuning tuning,
      */
     public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
         Map<Coord, Note> notes = new HashMap<>();
-        var stringCount = tuning.notes().size();
+        final var stringCount = tuning.notes().size();
 
         for (var string = 0; string < stringCount; string++) {
             for (var fret = endFret; fret >= startFret; fret--) {
-                var coord = new Coord(string + 1, fret);
-                var openStringNote = Note.fromString(tuning.get(string));
+                final var coord = new Coord(string + 1, fret);
+                final var openStringNote = Note.fromString(tuning.get(string));
 
                 // transpose the open string note up `fret` number of half-steps
-                var note = openStringNote.transpose(fret);
+                final var note = openStringNote.transpose(fret);
                 notes.put(coord, note);
             }
         }
@@ -78,10 +77,10 @@ public record Fretboard(Tuning tuning,
      * Returns a random note on that can be played on the fretboard.
      */
     public Note randomNote() {
-        var fretCount = endFret - startFret;
+        final var fretCount = endFret - startFret;
 
-        var lowNote = Note.fromString(tuning.get(tuning.size() - 1));
-        var highNote = Note.fromString(tuning.get(0)).transpose(fretCount);
+        final var lowNote = Note.fromString(tuning.get(tuning.size() - 1));
+        final var highNote = Note.fromString(tuning.get(0)).transpose(fretCount);
 
         return Note.randomBetween(lowNote, highNote);
     }

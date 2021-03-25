@@ -18,7 +18,7 @@ function GameLink(props: GameLinkProps) {
   const { gameId, userId } = props;
 
   return (
-    <li onClick={() => sendJoinGame(userId, gameId)}>
+    <li onClick={() => sendJoinGame(gameId, userId)}>
       {gameId}
     </li>
   );

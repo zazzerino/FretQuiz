@@ -38,22 +38,21 @@ public class WebSocket {
         log.info("ws connection: " + sessionId);
 
         final var user = new User(sessionId);
+        final var gameIds = gameDao.getGameIds();
+
         log.info("saving user: " + user);
         userDao.save(user);
         setUserAttributes(context, user);
 
         context.send(new Response.LoginOk(user));
-
-        // send the user a list of game ids
-        final var gameIds = gameDao.getGameIds();
-        context.send(new Response.GetGameIds(gameIds));
+        context.send(new Response.GameIds(gameIds));
     }
 
     /**
      * This method routes an incoming message to the proper handler.
      */
     public static void onMessage(WsMessageContext context) {
-        final Request request = context.message(Request.Default.class);
+        final var request = context.message(Request.Default.class);
 
         log.info("message received: " + request.type());
         switch (request.type()) {
@@ -62,7 +61,7 @@ public class WebSocket {
             case GET_GAME_IDS -> GameController.getGameIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
-//            case START_GAME -> Game
+            case START_GAME -> GameController.startGame(context);
             case PLAYER_GUESSED -> GameController.handleGuess(context);
         }
     }
@@ -85,24 +84,24 @@ public class WebSocket {
      */
     public static void sendToSessions(Set<String> sessionIds, Response response) {
         contexts.stream()
-                .filter(ctx -> sessionIds.contains(ctx.getSessionId()))
-                .forEach(ctx -> ctx.send(response));
+                .filter(context -> sessionIds.contains(context.getSessionId()))
+                .forEach(context -> context.send(response));
     }
 
     /**
      * Store the user's info as context attributes.
      */
     public static void setUserAttributes(WsContext context, User user) {
-        context.attribute("playerId", user.id());
+        context.attribute("userId", user.id());
         context.attribute("userName", user.name());
     }
 
     /**
      * Gets a user's info from the context.
-     * Assumes that there is a "playerId" attribute already set (which should be done on connect).
+     * Assumes that the "userId" attribute was set in onConnect().
      */
     public static User getUserFromContext(WsContext context) {
-        final var userId = Objects.requireNonNull(context.attribute("playerId")).toString();
+        final var userId = Objects.requireNonNull(context.attribute("userId")).toString();
 
         return userDao.getUserById(userId)
                 .orElseThrow(NoSuchElementException::new);

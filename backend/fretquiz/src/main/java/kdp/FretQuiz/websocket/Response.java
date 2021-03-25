@@ -15,12 +15,13 @@ public interface Response {
     enum Type {
         LOGIN_OK,
         LOGOUT_OK,
-        GET_GAME_IDS,
+        GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
         GAME_STARTED,
         GUESS_RESULT,
-        WELCOME;
+        WELCOME,
+        GAME_UPDATED;
     }
 
     record LoginOk(Type type, User user) implements Response {
@@ -41,9 +42,9 @@ public interface Response {
         }
     }
 
-    record GetGameIds(Type type, String[] gameIds) implements Response {
-        public GetGameIds(String[] gameIds) {
-            this(Type.GET_GAME_IDS, gameIds);
+    record GameIds(Type type, String[] gameIds) implements Response {
+        public GameIds(String[] gameIds) {
+            this(Type.GAME_IDS, gameIds);
         }
     }
 
@@ -59,15 +60,21 @@ public interface Response {
         }
     }
 
-    record GuessResult(Type type, boolean isCorrect, Game game) implements Response {
+    record GuessResult(Type type, boolean isCorrect, Map<String, Object> game) implements Response {
         public GuessResult(boolean isCorrect, Game game) {
-            this(Type.GUESS_RESULT, isCorrect, game);
+            this(Type.GUESS_RESULT, isCorrect, game.toMap());
         }
     }
 
-    record Welcome(Type type, String message) implements Response {
-        public Welcome(String message) {
+    record PlayerJoined(Type type, String message) implements Response {
+        public PlayerJoined(String message) {
             this(Type.WELCOME, message);
+        }
+    }
+
+    record GameUpdated(Type type, Map<String, Object> game) implements Response {
+        public GameUpdated(Game game) {
+            this(Type.GAME_UPDATED, game.toMap());
         }
     }
 }

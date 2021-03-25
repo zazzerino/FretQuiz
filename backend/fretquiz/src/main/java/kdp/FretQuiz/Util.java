@@ -48,29 +48,4 @@ public class Util {
     public static <R extends Record> R copyRecord(R template) {
         return copyRecord(template, Collections.emptyMap());
     }
-
-//    public static <T> List<T> copyList(List<T> list) {
-//        return new ArrayList<>(list);
-//    }
-//
-//    public static <T, U> Map<T, U> copyMap(Map<T, U> map) {
-//        return new HashMap<>(map);
-//    }
-
-//    /**
-//     * Combines two lists into a map.
-//     * Each entry has an element from list1 as the key, and an element from list2 as the value.
-//     */
-//    public static <T, U> Map<T, U> zip(List<T> list1, List<U> list2) {
-//        Map<T, U> map = new HashMap<>();
-//
-//        var iter1 = list1.iterator();
-//        var iter2 = list2.iterator();
-//
-//        while (iter1.hasNext() && iter2.hasNext()) {
-//            map.put(iter1.next(), iter2.next());
-//        }
-//
-//        return map;
-//    }
 }

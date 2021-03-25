@@ -13,17 +13,16 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public static void login(WsMessageContext context) {
-        var message = context.message(Request.Login.class);
-        var name = message.name();
+        final var message = context.message(Request.Login.class);
+        final var name = message.name();
 
-        var user = WebSocket.getUserFromContext(context)
+        final var user = WebSocket.getUserFromContext(context)
                 .withName(name);
 
         log.info("saving user: " + user);
         WebSocket.setUserAttributes(context, user);
         userDao.save(user);
 
-        var response = new Response.LoginOk(user);
-        context.send(response);
+        context.send(new Response.LoginOk(user));
     }
 }
