@@ -9,11 +9,9 @@ export function StartGameButton() {
   return (
     <div className="StartGameButton">
       <button onClick={() => {
-        if (gameId) {
-          sendStartGame(gameId)
-        } else {
-          console.log('must join game first');
-        }
+        gameId ?
+          sendStartGame(gameId) :
+          console.log('must join a game before starting it');
       }}>
         Start Game
       </button>

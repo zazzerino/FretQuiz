@@ -15,9 +15,10 @@ import java.util.Map;
  */
 public class Round {
 
+    private int secondsLeft;
+
     public final Note noteToGuess;
     public final Opts opts;
-    private int secondsLeft;
 
     private final @NotNull Map<String, Player> players;
     private final @NotNull List<Guess> guesses = new ArrayList<>();

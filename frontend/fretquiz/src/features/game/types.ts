@@ -1,9 +1,3 @@
-export type NoteName = string;
-
-export type PlayerId = string;
-
-export type GameId = string;
-
 export interface FretCoord {
   string: number,
   fret: number
@@ -16,19 +10,19 @@ export interface Note {
 }
 
 export interface Player {
-  id: PlayerId
+  id: string
 }
 
 export interface Guess {
-  playerId: PlayerId,
+  playerId: string,
   noteToGuess: Note,
   clickedFret: FretCoord,
-  fretboard: any
+  fretboard: Fretboard
 }
 
-export interface NewGuess {
-  gameId: GameId,
-  playerId: PlayerId,
+export interface ClientGuess {
+  gameId: string,
+  playerId: string,
   clickedFret: FretCoord
 }
 
@@ -49,10 +43,13 @@ export interface Round {
   guesses: Guess[]
 }
 
+export type State = 'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
+
 export interface Game {
-  id: GameId,
+  id: string,
   opts: Opts,
   players: Player[],
   rounds: Round[],
-  currentRound: Round
+  currentRound: Round,
+  state: State
 }

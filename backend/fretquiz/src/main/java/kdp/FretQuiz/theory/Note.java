@@ -102,7 +102,7 @@ public record Note(WhiteKey whiteKey,
             throw new IllegalArgumentException("halfSteps must be a positive number");
         }
 
-        var note = Util.copyRecord(this);
+        var note = new Note(whiteKey, accidental, octave);
 
         while (halfSteps > 0) {
             note = note.next();

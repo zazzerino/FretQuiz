@@ -2,8 +2,6 @@ package kdp.FretQuiz.user;
 
 import kdp.FretQuiz.Util;
 
-import java.util.Map;
-
 public record User(String id,
                    String name,
                    String sessionId) {
@@ -19,6 +17,6 @@ public record User(String id,
     }
 
     public User withName(String name) {
-        return Util.copyRecord(this, Map.of("name", name));
+        return new User(id, name, sessionId);
     }
 }

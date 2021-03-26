@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import static kdp.FretQuiz.App.userDao;
 
 public class UserController {
+
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public static void login(WsMessageContext context) {
@@ -19,10 +20,21 @@ public class UserController {
         final var user = WebSocket.getUserFromContext(context)
                 .withName(name);
 
-        log.info("saving user: " + user);
-        WebSocket.setUserAttributes(context, user);
         userDao.save(user);
+        WebSocket.setUserAttributes(context, user);
 
-        context.send(new Response.LoginOk(user));
+        context.send(new Response.LoggedIn(user));
+    }
+
+    public static void logout(WsMessageContext context) {
+        final var message = context.message(Request.Logout.class);
+
+        final var user = WebSocket.getUserFromContext(context)
+                .withName(User.DEFAULT_NAME);
+
+        userDao.save(user);
+        WebSocket.setUserAttributes(context, user);
+
+        context.send(new Response.LoggedOut());
     }
 }

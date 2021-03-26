@@ -13,26 +13,26 @@ public interface Response {
     Type type();
 
     enum Type {
-        LOGIN_OK,
-        LOGOUT_OK,
+        LOGGED_IN,
+        LOGGED_OUT,
         GAME_IDS,
         GAME_CREATED,
         GAME_JOINED,
         GAME_STARTED,
         GUESS_RESULT,
-        WELCOME,
+        PLAYER_JOINED,
         GAME_UPDATED;
     }
 
-    record LoginOk(Type type, User user) implements Response {
-        public LoginOk(User user) {
-            this(Type.LOGIN_OK, user);
+    record LoggedIn(Type type, User user) implements Response {
+        public LoggedIn(User user) {
+            this(Type.LOGGED_IN, user);
         }
     }
 
-    record LogoutOk(Type type) implements Response {
-        public LogoutOk() {
-            this(Type.LOGOUT_OK);
+    record LoggedOut(Type type) implements Response {
+        public LoggedOut() {
+            this(Type.LOGGED_OUT);
         }
     }
 
@@ -68,7 +68,7 @@ public interface Response {
 
     record PlayerJoined(Type type, String message) implements Response {
         public PlayerJoined(String message) {
-            this(Type.WELCOME, message);
+            this(Type.PLAYER_JOINED, message);
         }
     }
 

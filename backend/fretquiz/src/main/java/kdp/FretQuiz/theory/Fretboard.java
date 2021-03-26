@@ -25,9 +25,9 @@ public record Fretboard(Tuning tuning,
     public static Fretboard DEFAULT = Fretboard.create(Tuning.STANDARD_GUITAR, 0, 4);
 
     /**
-     * Creates a new Fretboard and calculates the notes on that can be found on that fretboard.
      * @param startFret the lowest fret (in pitch & number)
      * @param endFret the highest fret (in pitch & number)
+     * @return a new Fretboard and calculates the notes on that can be found on that fretboard.
      */
     public static Fretboard create(Tuning tuning, int startFret, int endFret) {
         final var notes = calculateNotes(tuning, startFret, endFret);
@@ -35,7 +35,7 @@ public record Fretboard(Tuning tuning,
     }
 
     /**
-     * Returns a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord.
+     * @return a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord.
      */
     public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
         Map<Coord, Note> notes = new HashMap<>();
@@ -56,14 +56,14 @@ public record Fretboard(Tuning tuning,
     }
 
     /**
-     * Find the Note at the given Fretboard.Coord (string & fret).
+     * @return the Note at the given Fretboard.Coord (string & fret).
      */
     public Optional<Note> findNoteAt(Coord coord) {
         return Optional.ofNullable(notes.get(coord));
     }
 
     /**
-     * Return the Fretboard.Coord where a given Note is played.
+     * @return the Fretboard.Coord where a given Note is played.
      */
     public Optional<Coord> findFret(Note note) {
         return notes.entrySet()
@@ -74,13 +74,18 @@ public record Fretboard(Tuning tuning,
     }
 
     /**
-     * Returns a random note on that can be played on the fretboard.
+     * @return the number of frets on the Fretboard
+     */
+    public int fretCount() {
+        return endFret - startFret;
+    }
+
+    /**
+     * @return a random note on that can be played on the fretboard.
      */
     public Note randomNote() {
-        final var fretCount = endFret - startFret;
-
         final var lowNote = Note.fromString(tuning.get(tuning.size() - 1));
-        final var highNote = Note.fromString(tuning.get(0)).transpose(fretCount);
+        final var highNote = Note.fromString(tuning.get(0)).transpose(fretCount());
 
         return Note.randomBetween(lowNote, highNote);
     }

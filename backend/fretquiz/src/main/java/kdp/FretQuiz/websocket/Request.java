@@ -17,7 +17,7 @@ public interface Request {
         CREATE_GAME,
         JOIN_GAME,
         START_GAME,
-        PLAYER_GUESSED;
+        PLAYER_GUESS;
     }
 
     /**
@@ -34,17 +34,29 @@ public interface Request {
         }
     }
 
+    record Logout(Type type) implements Request {
+        public Logout() {
+            this(Type.LOGOUT);
+        }
+    }
+
+    record GetGameIds(Type type) implements Request {
+        public GetGameIds() {
+            this(Type.GET_GAME_IDS);
+        }
+    }
+
     record CreateGame(Type type) implements Request {
         public CreateGame() {
             this(Type.CREATE_GAME);
         }
     }
 
-    record JoinGameMessage(Type type,
-                           String playerId,
-                           String gameId) implements Request {
-        public JoinGameMessage(String userId, String gameId) {
-            this(Type.JOIN_GAME, userId, gameId);
+    record JoinGame(Type type,
+                    String gameId,
+                    String playerId) implements Request {
+        public JoinGame(String gameId, String userId) {
+            this(Type.JOIN_GAME, gameId, userId);
         }
     }
 
@@ -54,9 +66,9 @@ public interface Request {
         }
     }
 
-    record PlayerGuessed(Type type, Guess.NewGuess newGuess) implements Request {
-        public PlayerGuessed(Guess.NewGuess newGuess) {
-            this(Type.PLAYER_GUESSED, newGuess);
+    record PlayerGuess(Type type, Guess.ClientGuess clientGuess) implements Request {
+        public PlayerGuess(Guess.ClientGuess clientGuess) {
+            this(Type.PLAYER_GUESS, clientGuess);
         }
     }
 }

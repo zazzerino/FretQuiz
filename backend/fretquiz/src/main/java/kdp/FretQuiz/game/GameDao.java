@@ -2,13 +2,14 @@ package kdp.FretQuiz.game;
 
 import io.javalin.websocket.WsContext;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A game database object.
+ * A game data access object.
  */
 public class GameDao {
 
@@ -23,13 +24,16 @@ public class GameDao {
      */
     private final Map<String, List<WsContext>> contexts = new ConcurrentHashMap<>();
 
+    public Collection<Game> getAll() {
+        return games.values();
+    }
+
     public Optional<Game> getGameById(String id) {
         return Optional.ofNullable(games.get(id));
     }
 
     public String[] getGameIds() {
-        return games.values()
-                .stream()
+        return getAll().stream()
                 .map(game -> game.id)
                 .toArray(String[]::new);
     }

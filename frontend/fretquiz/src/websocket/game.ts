@@ -2,24 +2,31 @@ import { store } from '../app/store';
 import { GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse } from './response';
 import { setCurrentGame, setGameIds } from "../features/game/gameSlice";
 import { 
-  makeSender, createGameRequest, getGameIdsRequest, joinGameRequest, newGuessRequest, startGameRequest 
+  createGameRequest, getGameIdsRequest, joinGameRequest, playerGuessRequest, startGameRequest 
 } from './request';
-import { NewGuess } from '../features/game/types';
+import { ClientGuess } from '../features/game/types';
+import { ws } from './socket';
 
 // send requests
 
-export const sendCreateGame = makeSender(createGameRequest());
+export function sendCreateGame() {
+  ws.send(JSON.stringify(createGameRequest()));
+}
 
-export const sendGetGameIds = makeSender(getGameIdsRequest());
+export function sendGetGameIds() {
+  ws.send(JSON.stringify(getGameIdsRequest()));
+}
 
-export const sendGuess = (guess: NewGuess) => makeSender(newGuessRequest(guess))();
+export function sendGuess(clientGuess: ClientGuess) {
+  ws.send(JSON.stringify(playerGuessRequest(clientGuess)));
+}
 
-export const sendJoinGame = (gameId: string, userId: string) => {
-  makeSender(joinGameRequest(gameId, userId))();
-};
+export function sendJoinGame(gameId: string, userId: string) {
+  ws.send(JSON.stringify(joinGameRequest(gameId, userId)));
+}
 
-export const sendStartGame = (gameId: string) => {
-  makeSender(startGameRequest(gameId))();
+export function sendStartGame(gameId: string) {
+  ws.send(JSON.stringify(startGameRequest(gameId)));
 }
 
 // handle responses

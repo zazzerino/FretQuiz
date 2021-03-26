@@ -19,25 +19,41 @@ import java.util.Optional;
 public class Game {
 
     public final String id;
+
     private Opts opts;
     private String hostId;
-    private boolean hasStarted;
+    private State state;
 
+    /**
+     * Maps a player's id to the Player record.
+     */
     private final @NotNull Map<String, Player> players = new HashMap<>();
+
+    /**
+     * The rounds that have been played. The current round is the last element.
+     */
     private final @NotNull List<Round> rounds = new ArrayList<>();
+
+    enum State {
+        INIT, // the game has been created but not started
+        PLAYING, // players are guessing
+        ROUND_OVER, // all players have guessed
+        GAME_OVER // all players have left
+    }
 
     public Game() {
         id = Util.randomId();
         opts = Opts.DEFAULT;
-        hasStarted = false;
+        state = State.INIT;
     }
 
-    /**
-     * Adds a player to the game.
-     * @return the updated Game
-     */
     public Game addPlayer(Player player) {
         players.put(player.id(), player);
+        return this;
+    }
+
+    public Game removePlayer(String playerId) {
+        players.remove(playerId);
         return this;
     }
 
@@ -55,7 +71,7 @@ public class Game {
      * @return the updated Game
      */
     public Game start() {
-        hasStarted = true;
+        state = State.PLAYING;
         nextRound();
         return this;
     }
@@ -91,17 +107,13 @@ public class Game {
         return this;
     }
 
-    public boolean hasStarted() {
-        return hasStarted;
-    }
-
     /**
      * Called when a user makes a guess.
      * @return whether the guess was correct
      */
-    public boolean guess(Guess.NewGuess newGuess) {
-        final var playerId = newGuess.playerId();
-        final var clickedFret = newGuess.clickedFret();
+    public boolean guess(Guess.ClientGuess clientGuess) {
+        final var playerId = clientGuess.playerId();
+        final var clickedFret = clientGuess.clickedFret();
 
         final var round = currentRound().orElseThrow(NoSuchElementException::new);
         final var isCorrect = round.guess(playerId, clickedFret);
@@ -113,8 +125,9 @@ public class Game {
         return isCorrect;
     }
 
-    public void setOpts(Opts opts) {
+    public Game setOpts(Opts opts) {
         this.opts = opts;
+        return this;
     }
 
     /**
@@ -133,7 +146,7 @@ public class Game {
                 "players", playerIds,
                 "currentRound", currentRound,
                 "hostId", hostId,
-                "hasStarted", hasStarted
+                "state", state
         );
     }
 }

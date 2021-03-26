@@ -1,5 +1,5 @@
 import { 
-  Response, LoginOkResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse
+  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse
 } from './response';
 import { handleLogin } from './user';
 import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated } from './game';
@@ -36,7 +36,7 @@ function onMessage(event: MessageEvent) {
   console.log('message received: ' + JSON.stringify(message));
 
   switch (message.type) {
-    case 'LOGIN_OK': return handleLogin(message as LoginOkResponse);
+    case 'LOGGED_IN': return handleLogin(message as LoggedInResponse);
     case 'GAME_IDS': return handleGameIds(message as GameIdsResponse);
     case 'GAME_CREATED': return handleGameCreated(message as GameCreatedResponse);
     case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);

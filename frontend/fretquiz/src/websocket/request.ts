@@ -1,18 +1,16 @@
-import { ws } from '../websocket/socket';
-import { NewGuess } from '../features/game/types';
+import { ClientGuess } from '../features/game/types';
 
 export type RequestType =
-  'LOGIN' | 'CREATE_GAME' | 'GET_GAME_IDS' | 'JOIN_GAME' | 'NEW_GUESS' | 'START_GAME';
+  'LOGIN'
+  | 'LOGOUT'
+  | 'GET_GAME_IDS'
+  | 'CREATE_GAME'
+  | 'JOIN_GAME'
+  | 'START_GAME'
+  | 'PLAYER_GUESS';
 
 export interface Request {
   type: RequestType
-}
-
-/**
- * Creates a function that sends the given Request when called.
- */
-export function makeSender(request: Request) {
-  return () => ws.send(JSON.stringify(request));
 }
 
 // user requests
@@ -29,15 +27,15 @@ export function loginRequest(name: string): LoginRequest {
   };
 }
 
+export interface LogoutRequest extends Request {
+  type: 'LOGOUT'
+}
+
+export function logoutRequest(): LogoutRequest {
+  return { type: 'LOGOUT' }
+}
+
 // game requests
-
-export interface CreateGameRequest extends Request {
-  type: 'CREATE_GAME'
-}
-
-export function createGameRequest(): CreateGameRequest {
-  return { type: 'CREATE_GAME' }
-}
 
 export interface GetGameIdsRequest extends Request {
   type: 'GET_GAME_IDS'
@@ -45,6 +43,14 @@ export interface GetGameIdsRequest extends Request {
 
 export function getGameIdsRequest(): GetGameIdsRequest {
   return { type: 'GET_GAME_IDS' }
+}
+
+export interface CreateGameRequest extends Request {
+  type: 'CREATE_GAME'
+}
+
+export function createGameRequest(): CreateGameRequest {
+  return { type: 'CREATE_GAME' }
 }
 
 export interface JoinGameRequest extends Request {
@@ -61,18 +67,6 @@ export function joinGameRequest(gameId: string, playerId: string): JoinGameReque
   }
 }
 
-export interface NewGuessRequest extends Request {
-  type: 'NEW_GUESS',
-  newGuess: NewGuess
-}
-
-export function newGuessRequest(newGuess: NewGuess): NewGuessRequest {
-  return {
-    type: 'NEW_GUESS',
-    newGuess
-  }
-}
-
 export interface StartGameRequest extends Request {
   type: 'START_GAME',
   gameId: string
@@ -82,5 +76,17 @@ export function startGameRequest(gameId: string): StartGameRequest {
   return {
     type: 'START_GAME',
     gameId
+  }
+}
+
+export interface PlayerGuessRequest extends Request {
+  type: 'PLAYER_GUESS',
+  clientGuess: ClientGuess
+}
+
+export function playerGuessRequest(clientGuess: ClientGuess): PlayerGuessRequest {
+  return {
+    type: 'PLAYER_GUESS',
+    clientGuess
   }
 }

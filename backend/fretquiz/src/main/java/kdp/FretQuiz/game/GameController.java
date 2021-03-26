@@ -62,9 +62,6 @@ public class GameController {
         notifyPlayers(game.id, new Response.GameUpdated(game));
     }
 
-    /**
-     * Sends a user a list of game ids.
-     */
     public static void getGameIds(WsMessageContext context) {
         final var ids = gameDao.getGameIds();
         context.send(new Response.GameIds(ids));
@@ -104,7 +101,7 @@ public class GameController {
      * Connect's a user to a game and then sends the user the game's info.
      */
     public static void joinGame(WsMessageContext context) {
-        final var message = context.message(Request.JoinGameMessage.class);
+        final var message = context.message(Request.JoinGame.class);
 
         final var userId = message.playerId();
         final var gameId = message.gameId();
@@ -139,9 +136,9 @@ public class GameController {
     }
 
     public static void handleGuess(WsMessageContext context) {
-        final var request = context.message(Request.PlayerGuessed.class);
+        final var request = context.message(Request.PlayerGuess.class);
 
-        final var newGuess = request.newGuess();
+        final var newGuess = request.clientGuess();
         final var gameId = newGuess.gameId();
 
         final var game = gameDao.getGameById(gameId)
@@ -153,5 +150,13 @@ public class GameController {
 
         context.send(new Response.GuessResult(isCorrect, game));
         sendUpdatedGameToPlayers(game.id);
+    }
+
+    /**
+     * Removes any games that don't have any players.
+     */
+    private static void cleanup() {
+        gameDao.getAll()
+                .removeIf(Game::isOver);
     }
 }

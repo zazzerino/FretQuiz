@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A user database object.
+ * A user data access object.
  */
 public class UserDao {
     private final Map<String, User> users = new ConcurrentHashMap<>();

@@ -44,7 +44,7 @@ public class WebSocket {
         userDao.save(user);
         setUserAttributes(context, user);
 
-        context.send(new Response.LoginOk(user));
+        context.send(new Response.LoggedIn(user));
         context.send(new Response.GameIds(gameIds));
     }
 
@@ -57,12 +57,12 @@ public class WebSocket {
         log.info("message received: " + request.type());
         switch (request.type()) {
             case LOGIN -> UserController.login(context);
-            case LOGOUT -> {}
+            case LOGOUT -> UserController.logout(context);
             case GET_GAME_IDS -> GameController.getGameIds(context);
             case CREATE_GAME -> GameController.createGame(context);
             case JOIN_GAME -> GameController.joinGame(context);
             case START_GAME -> GameController.startGame(context);
-            case PLAYER_GUESSED -> GameController.handleGuess(context);
+            case PLAYER_GUESS -> GameController.handleGuess(context);
         }
     }
 
@@ -89,7 +89,7 @@ public class WebSocket {
     }
 
     /**
-     * Store the user's info as context attributes.
+     * Store the user's info as session attributes.
      */
     public static void setUserAttributes(WsContext context, User user) {
         context.attribute("userId", user.id());
@@ -98,7 +98,7 @@ public class WebSocket {
 
     /**
      * Gets a user's info from the context.
-     * Assumes that the "userId" attribute was set in onConnect().
+     * Assumes that the "userId" attribute was set during onConnect().
      */
     public static User getUserFromContext(WsContext context) {
         final var userId = Objects.requireNonNull(context.attribute("userId")).toString();
