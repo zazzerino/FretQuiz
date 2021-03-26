@@ -57,10 +57,12 @@ public class Round {
     }
 
     public Map<String, Object> toMap() {
+        final var guessesMap = guesses.stream().map(Guess::toMap).toList();
+
         return Map.of(
                 "noteToGuess", noteToGuess,
                 "secondsLeft", secondsLeft,
-                "guesses", guesses
+                "guesses", guessesMap
         );
     }
 }

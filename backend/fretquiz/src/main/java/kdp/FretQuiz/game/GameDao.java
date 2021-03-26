@@ -33,8 +33,9 @@ public class GameDao {
     }
 
     public String[] getGameIds() {
-        return getAll().stream()
-                .map(game -> game.id)
+        return getAll()
+                .stream()
+                .map(Game::id)
                 .toArray(String[]::new);
     }
 

@@ -3,6 +3,7 @@ package kdp.FretQuiz.game;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -21,6 +22,14 @@ public record Guess(String playerId,
                 .orElseThrow(NoSuchElementException::new);
 
         return guessedNote.isEnharmonicWith(noteToGuess);
+    }
+
+    public Map<String, Object> toMap() {
+        return Map.of(
+                "playerId", playerId,
+                "noteToGuess", noteToGuess,
+                "clickedFret", clickedFret
+        );
     }
 
     /**

@@ -47,6 +47,10 @@ public class Game {
         state = State.INIT;
     }
 
+    public String id() {
+        return id;
+    }
+
     public Game addPlayer(Player player) {
         players.put(player.id(), player);
         return this;
