@@ -48,6 +48,8 @@ export const selectGameState = (state: RootState) => state.game.currentGame?.sta
 
 export const selectGuessResult = (state: RootState) => state.game.guessResult;
 
+export const selectClickedFret = (state: RootState) => state.game.clickedFret;
+
 export const { setCurrentGame, setGameIds, setClickedFret, setGuessResult } = gameSlice.actions;
 
 export default gameSlice.reducer;
