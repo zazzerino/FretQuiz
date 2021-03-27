@@ -27,7 +27,7 @@ const gameSlice = createSlice({
     setGameIds: (state: GameSliceState, action: PayloadAction<string[]>) => {
       state.gameIds = action.payload;
     },
-    setClickedFret: (state: GameSliceState, action: PayloadAction<FretCoord>) => {
+    setClickedFret: (state: GameSliceState, action: PayloadAction<FretCoord | null>) => {
       state.clickedFret = action.payload;
     },
     setGuessResult: (state: GameSliceState, action: PayloadAction<boolean>) => {

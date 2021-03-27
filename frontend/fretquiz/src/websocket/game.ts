@@ -62,5 +62,6 @@ export function handleGameUpdated(message: GameUpdatedResponse) {
 
 export function handleRoundStarted(message: RoundStartedResponse) {
   const game = message.game;
+  store.dispatch(setClickedFret(null));
   store.dispatch(setCurrentGame(game));
 }

@@ -1,8 +1,8 @@
 import { 
-  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, RoundStartedResponse
+  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, RoundStartedResponse, GuessResultResponse
 } from './response';
 import { handleLogin } from './user';
-import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted } from './game';
+import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -42,5 +42,6 @@ function onMessage(event: MessageEvent) {
     case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);
     case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdatedResponse);
     case 'ROUND_STARTED': return handleRoundStarted(message as RoundStartedResponse);
+    case 'GUESS_RESULT': return handleGuessResult(message as GuessResultResponse);
   }
 }
