@@ -26,7 +26,7 @@ public class GameController {
     private static final @NotNull Map<String, Set<String>> gameSessions = new HashMap<>();
 
     /**
-     * Returns a Set of sessionsIds belonging to the players of the game with gameId.
+     * Returns a set of sessionsIds belonging to the players of the game with gameId.
      */
     private static Set<String> getConnectedSessionIds(String gameId) {
         var sessionIds = gameSessions.get(gameId);
@@ -144,11 +144,11 @@ public class GameController {
         final var game = gameDao.getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
-        final var isCorrect = game.guess(clientGuess);
+        final var guess = game.guess(clientGuess);
 
         gameDao.save(game);
 
-        context.send(new Response.GuessResult(isCorrect, game));
+        context.send(new Response.GuessResult(guess, game));
         sendUpdatedGameToPlayers(game.id);
     }
 
@@ -169,7 +169,6 @@ public class GameController {
             game.nextRound();
             gameDao.save(game);
             notifyPlayers(game.id, new Response.RoundStarted(game));
-//            sendUpdatedGameToPlayers(gameId);
         }
     }
 

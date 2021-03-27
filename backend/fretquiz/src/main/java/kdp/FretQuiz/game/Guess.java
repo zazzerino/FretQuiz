@@ -24,12 +24,18 @@ public record Guess(String playerId,
         return guessedNote.isEnharmonicWith(noteToGuess);
     }
 
+    public Fretboard.Coord correctFret() {
+        return fretboard.findCoord(noteToGuess)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
     public Map<String, Object> toMap() {
         return Map.of(
                 "playerId", playerId,
                 "noteToGuess", noteToGuess,
                 "clickedFret", clickedFret,
-                "isCorrect", isCorrect()
+                "isCorrect", isCorrect(),
+                "correctFret", correctFret()
         );
     }
 

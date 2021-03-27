@@ -17,7 +17,8 @@ export interface Guess {
   playerId: string,
   noteToGuess: Note,
   clickedFret: FretCoord,
-  fretboard: Fretboard
+  correctFret: FretCoord,
+  isCorrect: boolean
 }
 
 export interface ClientGuess {

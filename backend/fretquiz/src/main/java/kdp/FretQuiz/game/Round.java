@@ -32,10 +32,10 @@ public class Round {
 
     /**
      * Decrements secondsLeft.
-     * @return the number of seconds left in the round
      */
-    public int tick() {
-        return --secondsLeft;
+    public Round tick() {
+        this.secondsLeft -= 1;
+        return this;
     }
 
     /**
@@ -49,11 +49,11 @@ public class Round {
      * Handles a new guess. Updates the guess list and returns whether the guess was correct.
      * @return true if the user correctly guessed the displayed note, false otherwise
      */
-    public boolean guess(String playerId, Fretboard.Coord clickedFret) {
+    public Guess guess(String playerId, Fretboard.Coord clickedFret) {
         final var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
-        return guess.isCorrect();
+        return guess;
     }
 
     public Map<String, Object> toMap() {

@@ -1,6 +1,7 @@
 package kdp.FretQuiz.websocket;
 
 import kdp.FretQuiz.game.Game;
+import kdp.FretQuiz.game.Guess;
 import kdp.FretQuiz.user.User;
 
 import java.util.Map;
@@ -61,9 +62,9 @@ public interface Response {
         }
     }
 
-    record GuessResult(Type type, boolean isCorrect, Map<String, Object> game) implements Response {
-        public GuessResult(boolean isCorrect, Game game) {
-            this(Type.GUESS_RESULT, isCorrect, game.toMap());
+    record GuessResult(Type type, Map<String, Object> guess, Map<String, Object> game) implements Response {
+        public GuessResult(Guess guess, Game game) {
+            this(Type.GUESS_RESULT, guess.toMap(), game.toMap());
         }
     }
 

@@ -38,7 +38,7 @@ public record Fretboard(Tuning tuning,
      * @return a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord.
      */
     public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
-        Map<Coord, Note> notes = new HashMap<>();
+        final Map<Coord, Note> notes = new HashMap<>();
         final var stringCount = tuning.notes().size();
 
         for (var string = 0; string < stringCount; string++) {
@@ -65,7 +65,7 @@ public record Fretboard(Tuning tuning,
     /**
      * @return the Fretboard.Coord where a given Note is played.
      */
-    public Optional<Coord> findFret(Note note) {
+    public Optional<Coord> findCoord(Note note) {
         return notes.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().isEnharmonicWith(note))

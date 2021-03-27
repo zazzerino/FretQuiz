@@ -42,9 +42,9 @@ public class Game {
     }
 
     public Game() {
-        id = Util.randomId();
-        opts = Opts.DEFAULT;
-        state = State.INIT;
+        this.id = Util.randomId();
+        this.opts = Opts.DEFAULT;
+        this.state = State.INIT;
     }
 
     public String id() {
@@ -52,12 +52,20 @@ public class Game {
     }
 
     public Game addPlayer(Player player) {
+        player.joinGame(this.id);
         players.put(player.id(), player);
+
         return this;
     }
 
     public Game removePlayer(String playerId) {
+        players.get(playerId).leaveGame(this.id);
         players.remove(playerId);
+
+        if (isOver()) {
+            this.state = State.GAME_OVER;
+        }
+
         return this;
     }
 
@@ -66,7 +74,7 @@ public class Game {
      * @return the updated Game
      */
     public Game assignHost(String playerId) {
-        hostId = playerId;
+        this.hostId = playerId;
         return this;
     }
 
@@ -75,8 +83,8 @@ public class Game {
      * @return the updated Game
      */
     public Game start() {
-        state = State.PLAYING;
         nextRound();
+        this.state = State.PLAYING;
         return this;
     }
 
@@ -108,7 +116,8 @@ public class Game {
     public Game nextRound() {
         final var round = new Round(opts, players);
         rounds.add(round);
-        state = State.PLAYING;
+
+        this.state = State.PLAYING;
         return this;
     }
 
@@ -116,18 +125,18 @@ public class Game {
      * Called when a user makes a guess.
      * @return whether the guess was correct
      */
-    public boolean guess(Guess.ClientGuess clientGuess) {
+    public Guess guess(Guess.ClientGuess clientGuess) {
         final var playerId = clientGuess.playerId();
         final var clickedFret = clientGuess.clickedFret();
 
         final var round = currentRound().orElseThrow(NoSuchElementException::new);
-        final var isCorrect = round.guess(playerId, clickedFret);
+        final var guess = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
-            state = State.ROUND_OVER;
+            this.state = State.ROUND_OVER;
         }
 
-        return isCorrect;
+        return guess;
     }
 
     public Game setOpts(Opts opts) {
@@ -143,7 +152,7 @@ public class Game {
      * A map representing the Game. This method is for sending the game's info as json to the client.
      */
     public Map<String, Object> toMap() {
-        final var playerIds = players.keySet();
+        final var playerIds = this.players.keySet();
 
         final var rounds = this.rounds
                 .stream()

@@ -1,4 +1,4 @@
-import { Game } from '../features/game/types';
+import { Game, Guess } from '../features/game/types';
 import { User } from "../features/user/userSlice";
 
 export type ResponseType =
@@ -52,7 +52,8 @@ export interface GameStartedResponse extends Response {
 
 export interface GuessResultResponse extends Response {
   type: 'GUESS_RESULT',
-  isCorrect: boolean,
+  // isCorrect: boolean,
+  guess: Guess,
   game: Game
 }
 
