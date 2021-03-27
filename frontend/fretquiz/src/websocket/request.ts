@@ -7,7 +7,8 @@ export type RequestType =
   | 'CREATE_GAME'
   | 'JOIN_GAME'
   | 'START_GAME'
-  | 'PLAYER_GUESS';
+  | 'PLAYER_GUESS'
+  | 'NEXT_ROUND';
 
 export interface Request {
   type: RequestType
@@ -88,5 +89,19 @@ export function playerGuessRequest(clientGuess: ClientGuess): PlayerGuessRequest
   return {
     type: 'PLAYER_GUESS',
     clientGuess
+  }
+}
+
+export interface NextRoundRequest extends Request {
+  type: 'NEXT_ROUND',
+  gameId: string,
+  playerId: string
+}
+
+export function nextRoundRequest(gameId: string, playerId: string): NextRoundRequest {
+  return {
+    type: 'NEXT_ROUND',
+    gameId,
+    playerId
   }
 }

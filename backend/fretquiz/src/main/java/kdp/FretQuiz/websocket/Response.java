@@ -21,7 +21,8 @@ public interface Response {
         GAME_STARTED,
         GUESS_RESULT,
         PLAYER_JOINED,
-        GAME_UPDATED;
+        GAME_UPDATED,
+        ROUND_STARTED;
     }
 
     record LoggedIn(Type type, User user) implements Response {
@@ -75,6 +76,12 @@ public interface Response {
     record GameUpdated(Type type, Map<String, Object> game) implements Response {
         public GameUpdated(Game game) {
             this(Type.GAME_UPDATED, game.toMap());
+        }
+    }
+
+    record RoundStarted(Type type, Map<String, Object> game) implements Response {
+        public RoundStarted(Game game) {
+            this(Type.ROUND_STARTED, game.toMap());
         }
     }
 }

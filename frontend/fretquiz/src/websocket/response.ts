@@ -10,7 +10,8 @@ export type ResponseType =
   | 'GAME_STARTED'
   | 'GUESS_RESULT'
   | 'PLAYER_JOINED'
-  | 'GAME_UPDATED';
+  | 'GAME_UPDATED'
+  | 'ROUND_STARTED';
 
 export interface Response {
   type: ResponseType
@@ -55,12 +56,17 @@ export interface GuessResultResponse extends Response {
   game: Game
 }
 
-export interface PlayerJoined extends Response {
+export interface PlayerJoinedResponse extends Response {
   type: 'PLAYER_JOINED'
   message: string
 }
 
 export interface GameUpdatedResponse extends Response {
   type: 'GAME_UPDATED',
+  game: Game
+}
+
+export interface RoundStartedResponse extends Response {
+  type: 'ROUND_STARTED',
   game: Game
 }

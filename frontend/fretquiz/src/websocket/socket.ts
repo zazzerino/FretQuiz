@@ -1,8 +1,8 @@
 import { 
-  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse
+  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, RoundStartedResponse
 } from './response';
 import { handleLogin } from './user';
-import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated } from './game';
+import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -41,5 +41,6 @@ function onMessage(event: MessageEvent) {
     case 'GAME_CREATED': return handleGameCreated(message as GameCreatedResponse);
     case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);
     case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdatedResponse);
+    case 'ROUND_STARTED': return handleRoundStarted(message as RoundStartedResponse);
   }
 }

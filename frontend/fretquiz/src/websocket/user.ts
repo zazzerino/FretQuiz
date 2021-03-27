@@ -1,6 +1,6 @@
 import { store } from '../app/store';
 import { ws } from './socket';
-import { LoggedInResponse } from './response';
+import { LoggedInResponse, LoggedOutResponse } from './response';
 import { setUser } from "../features/user/userSlice";
 import { loginRequest } from './request';
 

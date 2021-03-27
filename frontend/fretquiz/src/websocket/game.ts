@@ -1,33 +1,37 @@
 import { store } from '../app/store';
-import { GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse } from './response';
-import { setCurrentGame, setGameIds } from "../features/game/gameSlice";
+import { GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, GuessResultResponse, RoundStartedResponse } from './response';
+import { setClickedFret, setCurrentGame, setGameIds, setGuessResult } from "../features/game/gameSlice";
 import { 
-  createGameRequest, getGameIdsRequest, joinGameRequest, playerGuessRequest, startGameRequest 
+  createGameRequest, getGameIdsRequest, joinGameRequest, playerGuessRequest, Request, startGameRequest, nextRoundRequest
 } from './request';
 import { ClientGuess } from '../features/game/types';
 import { ws } from './socket';
 
 // send requests
 
-export function sendCreateGame() {
-  ws.send(JSON.stringify(createGameRequest()));
+function sendString(request: Request) {
+  ws.send(JSON.stringify(request));
 }
 
-export function sendGetGameIds() {
-  ws.send(JSON.stringify(getGameIdsRequest()));
-}
+export const sendCreateGame = () => sendString(createGameRequest());
 
-export function sendGuess(clientGuess: ClientGuess) {
-  ws.send(JSON.stringify(playerGuessRequest(clientGuess)));
-}
+export const sendGetGameIds = () => sendString(getGameIdsRequest());
 
-export function sendJoinGame(gameId: string, userId: string) {
-  ws.send(JSON.stringify(joinGameRequest(gameId, userId)));
-}
+export const sendGuess = (clientGuess: ClientGuess) => {
+  sendString(playerGuessRequest(clientGuess))
+};
 
-export function sendStartGame(gameId: string) {
-  ws.send(JSON.stringify(startGameRequest(gameId)));
-}
+export const sendJoinGame = (gameId: string, userId: string) => {
+  sendString(joinGameRequest(gameId, userId));
+};
+
+export const sendStartGame = (gameId: string) => {
+  sendString(startGameRequest(gameId))
+};
+
+export const sendNextRound = (gameId: string, playerId: string) => {
+  sendString(nextRoundRequest(gameId, playerId));
+};
 
 // handle responses
 
@@ -46,7 +50,17 @@ export function handleGameJoined(message: GameJoinedResponse) {
   store.dispatch(setCurrentGame(game));
 }
 
+export function handleGuessResult(message: GuessResultResponse) {
+  const isCorrect = message.isCorrect;
+  store.dispatch(setGuessResult(isCorrect));
+}
+
 export function handleGameUpdated(message: GameUpdatedResponse) {
+  const game = message.game;
+  store.dispatch(setCurrentGame(game));
+}
+
+export function handleRoundStarted(message: RoundStartedResponse) {
   const game = message.game;
   store.dispatch(setCurrentGame(game));
 }

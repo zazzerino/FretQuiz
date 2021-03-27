@@ -23,7 +23,7 @@ public class Round {
     private final @NotNull Map<String, Player> players;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    public Round(Opts opts, Map<String, Player> players) {
+    public Round(Opts opts, @NotNull Map<String, Player> players) {
         this.opts = opts;
         this.secondsLeft = opts.roundLength();
         this.noteToGuess = opts.fretboard().randomNote();
@@ -57,12 +57,15 @@ public class Round {
     }
 
     public Map<String, Object> toMap() {
-        final var guessesMap = guesses.stream().map(Guess::toMap).toList();
+        final var guesses = this.guesses
+                .stream()
+                .map(Guess::toMap)
+                .toList();
 
         return Map.of(
                 "noteToGuess", noteToGuess,
                 "secondsLeft", secondsLeft,
-                "guesses", guessesMap
+                "guesses", guesses
         );
     }
 }

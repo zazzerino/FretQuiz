@@ -44,10 +44,10 @@ public record Fretboard(Tuning tuning,
         for (var string = 0; string < stringCount; string++) {
             for (var fret = endFret; fret >= startFret; fret--) {
                 final var coord = new Coord(string + 1, fret);
-                final var openStringNote = Note.fromString(tuning.get(string));
+                final var openNote = Note.fromString(tuning.get(string));
 
                 // transpose the open string note up `fret` number of half-steps
-                final var note = openStringNote.transpose(fret);
+                final var note = openNote.transpose(fret);
                 notes.put(coord, note);
             }
         }

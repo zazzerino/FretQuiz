@@ -28,7 +28,7 @@ public class GameController {
     /**
      * Returns a Set of sessionsIds belonging to the players of the game with gameId.
      */
-    private static Set<String> getSessionIds(String gameId) {
+    private static Set<String> getConnectedSessionIds(String gameId) {
         var sessionIds = gameSessions.get(gameId);
 
         if (sessionIds == null) {
@@ -39,7 +39,7 @@ public class GameController {
     }
 
     private static void connectSessionToGame(String gameId, String sessionId) {
-        final var sessionIds = getSessionIds(gameId);
+        final var sessionIds = getConnectedSessionIds(gameId);
         sessionIds.add(sessionId);
         gameSessions.put(gameId, sessionIds);
     }
@@ -48,7 +48,7 @@ public class GameController {
      * Send a message to all players of a game.
      */
     private static void notifyPlayers(String gameId, Response response) {
-        final var sessionIds = getSessionIds(gameId);
+        final var sessionIds = getConnectedSessionIds(gameId);
         WebSocket.sendToSessions(sessionIds, response);
     }
 
@@ -122,9 +122,9 @@ public class GameController {
     }
 
     public static void startGame(WsMessageContext context) {
-        final var request = context.message(Request.StartGame.class);
+        final var message = context.message(Request.StartGame.class);
 
-        final var gameId = request.gameId();
+        final var gameId = message.gameId();
         final var game = gameDao.getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new)
                 .start();
@@ -136,15 +136,15 @@ public class GameController {
     }
 
     public static void handleGuess(WsMessageContext context) {
-        final var request = context.message(Request.PlayerGuess.class);
+        final var message = context.message(Request.PlayerGuess.class);
 
-        final var newGuess = request.clientGuess();
-        final var gameId = newGuess.gameId();
+        final var clientGuess = message.clientGuess();
+        final var gameId = clientGuess.gameId();
 
         final var game = gameDao.getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
-        final var isCorrect = game.guess(newGuess);
+        final var isCorrect = game.guess(clientGuess);
 
         gameDao.save(game);
 
@@ -152,10 +152,31 @@ public class GameController {
         sendUpdatedGameToPlayers(game.id);
     }
 
+    public static void startNextRound(WsMessageContext context) {
+        final var message = context.message(Request.NextRound.class);
+
+        final var gameId = message.gameId();
+        final var playerId = message.playerId();
+
+        final var game = gameDao.getGameById(gameId)
+                .orElseThrow(NoSuchElementException::new);
+
+        final var userIsHost = game.hostId().equals(playerId);
+        final var currentRound = game.currentRound();
+        final var roundIsOver = currentRound.isPresent() && currentRound.get().isOver();
+
+        if (userIsHost && roundIsOver) {
+            game.nextRound();
+            gameDao.save(game);
+            notifyPlayers(game.id, new Response.RoundStarted(game));
+//            sendUpdatedGameToPlayers(gameId);
+        }
+    }
+
     /**
-     * Removes any games that don't have any players.
+     * Removes finished games.
      */
-    private static void cleanup() {
+    public static void cleanupGames() {
         gameDao.getAll()
                 .removeIf(Game::isOver);
     }

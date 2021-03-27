@@ -37,14 +37,15 @@ public class WebSocket {
         final var sessionId = context.getSessionId();
         log.info("ws connection: " + sessionId);
 
+        // create user
         final var user = new User(sessionId);
-        final var gameIds = gameDao.getGameIds();
-
         log.info("saving user: " + user);
         userDao.save(user);
         setUserAttributes(context, user);
-
         context.send(new Response.LoggedIn(user));
+
+        // send a list of game ids
+        final var gameIds = gameDao.getGameIds();
         context.send(new Response.GameIds(gameIds));
     }
 
@@ -53,8 +54,8 @@ public class WebSocket {
      */
     public static void onMessage(WsMessageContext context) {
         final var request = context.message(Request.Default.class);
-
         log.info("message received: " + request.type());
+
         switch (request.type()) {
             case LOGIN -> UserController.login(context);
             case LOGOUT -> UserController.logout(context);
@@ -63,11 +64,13 @@ public class WebSocket {
             case JOIN_GAME -> GameController.joinGame(context);
             case START_GAME -> GameController.startGame(context);
             case PLAYER_GUESS -> GameController.handleGuess(context);
+            case NEXT_ROUND -> GameController.startNextRound(context);
         }
     }
 
     public static void onClose(WsCloseContext context) {
         contexts.remove(context);
+        GameController.cleanupGames();
     }
 
     /**

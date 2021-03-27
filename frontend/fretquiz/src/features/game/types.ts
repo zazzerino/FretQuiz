@@ -40,6 +40,7 @@ export interface Opts {
 
 export interface Round {
   noteToGuess: Note,
+  secondsLeft: number,
   guesses: Guess[]
 }
 

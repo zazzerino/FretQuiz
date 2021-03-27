@@ -17,7 +17,8 @@ public interface Request {
         CREATE_GAME,
         JOIN_GAME,
         START_GAME,
-        PLAYER_GUESS;
+        PLAYER_GUESS,
+        NEXT_ROUND;
     }
 
     /**
@@ -69,6 +70,12 @@ public interface Request {
     record PlayerGuess(Type type, Guess.ClientGuess clientGuess) implements Request {
         public PlayerGuess(Guess.ClientGuess clientGuess) {
             this(Type.PLAYER_GUESS, clientGuess);
+        }
+    }
+
+    record NextRound(Type type, String gameId, String playerId) implements Request {
+        public NextRound(String gameId, String playerId) {
+            this(Type.NEXT_ROUND, gameId, playerId);
         }
     }
 }

@@ -28,7 +28,8 @@ public record Guess(String playerId,
         return Map.of(
                 "playerId", playerId,
                 "noteToGuess", noteToGuess,
-                "clickedFret", clickedFret
+                "clickedFret", clickedFret,
+                "isCorrect", isCorrect()
         );
     }
 

@@ -108,6 +108,7 @@ public class Game {
     public Game nextRound() {
         final var round = new Round(opts, players);
         rounds.add(round);
+        state = State.PLAYING;
         return this;
     }
 
@@ -123,7 +124,7 @@ public class Game {
         final var isCorrect = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
-            nextRound();
+            state = State.ROUND_OVER;
         }
 
         return isCorrect;
@@ -134,11 +135,20 @@ public class Game {
         return this;
     }
 
+    public String hostId() {
+        return hostId;
+    }
+
     /**
      * A map representing the Game. This method is for sending the game's info as json to the client.
      */
     public Map<String, Object> toMap() {
-        final var playerIds = this.players.keySet();
+        final var playerIds = players.keySet();
+
+        final var rounds = this.rounds
+                .stream()
+                .map(Round::toMap)
+                .toList();
 
         // return the current round if it exists, or an empty map if it doesn't
         final var currentRound = currentRound().isPresent() ?
@@ -147,10 +157,11 @@ public class Game {
 
         return Map.of(
                 "id", id,
+                "state", state,
                 "players", playerIds,
+                "rounds", rounds,
                 "currentRound", currentRound,
-                "hostId", hostId,
-                "state", state
+                "hostId", hostId
         );
     }
 }
