@@ -11,26 +11,24 @@ public final class User {
     public final String id;
     public final String sessionId;
     private String name;
-    private final @NotNull List<String> gameIds;
+    private final @NotNull List<String> gameIds = new ArrayList<>();
 
     public static final String DEFAULT_NAME = "anon";
 
     public User(String id,
                 String sessionId,
-                String name,
-                @NotNull List<String> gameIds) {
+                String name) {
         this.id = id;
         this.sessionId = sessionId;
         this.name = name;
-        this.gameIds = gameIds;
     }
 
     public User(String name, String sessionId) {
-        this(Util.randomId(), sessionId, name, new ArrayList<>());
+        this(Util.randomId(), sessionId, name);
     }
 
     public User(String sessionId) {
-        this(Util.randomId(), sessionId, DEFAULT_NAME, new ArrayList<>());
+        this(Util.randomId(), sessionId, DEFAULT_NAME);
     }
 
     public User joinGame(String gameId) {

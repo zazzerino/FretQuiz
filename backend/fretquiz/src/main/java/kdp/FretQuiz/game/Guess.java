@@ -1,9 +1,9 @@
 package kdp.FretQuiz.game;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
 
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -17,26 +17,19 @@ public record Guess(String playerId,
     /**
      * Did the user click on the fret where the `noteToGuess` is played?
      */
+    @JsonProperty("isCorrect")
     public boolean isCorrect() {
-        final var guessedNote = fretboard.findNoteAt(clickedFret)
+        final var guessedNote = fretboard
+                .findNoteAt(clickedFret)
                 .orElseThrow(NoSuchElementException::new);
 
         return guessedNote.isEnharmonicWith(noteToGuess);
     }
 
+    @JsonProperty("correctFret")
     public Fretboard.Coord correctFret() {
         return fretboard.findCoord(noteToGuess)
                 .orElseThrow(NoSuchElementException::new);
-    }
-
-    public Map<String, Object> toMap() {
-        return Map.of(
-                "playerId", playerId,
-                "noteToGuess", noteToGuess,
-                "clickedFret", clickedFret,
-                "isCorrect", isCorrect(),
-                "correctFret", correctFret()
-        );
     }
 
     /**

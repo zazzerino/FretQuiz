@@ -1,8 +1,6 @@
 package kdp.FretQuiz.user;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -12,8 +10,16 @@ public class UserDao {
 
     private final Map<String, User> users = new ConcurrentHashMap<>();
 
-    public Optional<User> getUserById(String id) {
-        return Optional.ofNullable(users.get(id));
+    public User getById(String id) {
+        return Objects.requireNonNull(users.get(id));
+    }
+
+    public User getBySessionId(String sessionId) {
+        return users.values()
+                .stream()
+                .filter(user -> user.sessionId.equals(sessionId))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     public Collection<User> getAll() {

@@ -5,7 +5,6 @@ import kdp.FretQuiz.game.Guess;
 import kdp.FretQuiz.user.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * A Response is a message sent from the server to the client.
@@ -39,9 +38,9 @@ public interface Response {
         }
     }
 
-    record GameCreated(Type type, Map<String, Object> game) implements Response {
+    record GameCreated(Type type, Game game) implements Response {
         public GameCreated(Game game) {
-            this(Type.GAME_CREATED, game.toMap());
+            this(Type.GAME_CREATED, game);
         }
     }
 
@@ -51,21 +50,21 @@ public interface Response {
         }
     }
 
-    record GameJoined(Type type, Map<String, Object> game) implements Response {
+    record GameJoined(Type type, Game game) implements Response {
         public GameJoined(Game game) {
-            this(Type.GAME_JOINED, game.toMap());
+            this(Type.GAME_JOINED, game);
         }
     }
 
-    record GameStarted(Type type, Map<String, Object> game) implements Response {
+    record GameStarted(Type type, Game game) implements Response {
         public GameStarted(Game game) {
-            this(Type.GAME_STARTED, game.toMap());
+            this(Type.GAME_STARTED, game);
         }
     }
 
-    record GuessResult(Type type, Map<String, Object> guess, Map<String, Object> game) implements Response {
+    record GuessResult(Type type, Guess guess, Game game) implements Response {
         public GuessResult(Guess guess, Game game) {
-            this(Type.GUESS_RESULT, guess.toMap(), game.toMap());
+            this(Type.GUESS_RESULT, guess, game);
         }
     }
 
@@ -75,15 +74,15 @@ public interface Response {
         }
     }
 
-    record GameUpdated(Type type, Map<String, Object> game) implements Response {
+    record GameUpdated(Type type, Game game) implements Response {
         public GameUpdated(Game game) {
-            this(Type.GAME_UPDATED, game.toMap());
+            this(Type.GAME_UPDATED, game);
         }
     }
 
-    record RoundStarted(Type type, Map<String, Object> game) implements Response {
+    record RoundStarted(Type type, Game game) implements Response {
         public RoundStarted(Game game) {
-            this(Type.ROUND_STARTED, game.toMap());
+            this(Type.ROUND_STARTED, game);
         }
     }
 }

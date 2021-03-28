@@ -108,8 +108,7 @@ public class GameController {
         final var userId = message.playerId();
         final var gameId = message.gameId();
 
-        final var user = userDao.getUserById(userId)
-                .orElseThrow(NoSuchElementException::new);
+        final var user = userDao.getById(userId);
 
         log.info("adding user " + userId + " to game " + gameId);
         final var game = gameDao

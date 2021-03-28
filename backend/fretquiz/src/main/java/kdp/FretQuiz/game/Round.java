@@ -1,5 +1,6 @@
 package kdp.FretQuiz.game;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
 import kdp.FretQuiz.user.User;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class Round {
 
-    private int secondsLeft;
+    private int secondsElapsed;
 
     public final Note noteToGuess;
     public final Opts opts;
@@ -26,22 +27,23 @@ public class Round {
 
     public Round(Opts opts, @NotNull Map<String, User> players) {
         this.opts = opts;
-        this.secondsLeft = opts.roundLength();
+        this.secondsElapsed = opts.roundLength();
         this.noteToGuess = opts.fretboard().randomNote();
         this.players = players;
     }
 
     /**
-     * Decrements secondsLeft.
+     * Increment secondsElapsed.
      */
     public Round tick() {
-        this.secondsLeft -= 1;
+        this.secondsElapsed += 1;
         return this;
     }
 
     /**
      * The round is over once every player has guessed.
      */
+    @JsonProperty("isOver")
     public boolean isOver() {
         return players.size() == guesses.size();
     }
@@ -55,18 +57,5 @@ public class Round {
         guesses.add(guess);
 
         return guess;
-    }
-
-    public Map<String, Object> toMap() {
-        final var guesses = this.guesses
-                .stream()
-                .map(Guess::toMap)
-                .toList();
-
-        return Map.of(
-                "noteToGuess", noteToGuess,
-                "secondsLeft", secondsLeft,
-                "guesses", guesses
-        );
     }
 }

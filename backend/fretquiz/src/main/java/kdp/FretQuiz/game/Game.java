@@ -1,11 +1,11 @@
 package kdp.FretQuiz.game;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.Util;
 import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class Game {
         users.remove(userId);
 
         if (isOver()) {
-            this.state = State.GAME_OVER;
+            state = State.GAME_OVER;
         }
 
         return this;
@@ -71,7 +71,7 @@ public class Game {
      * @return the updated Game
      */
     public Game assignHost(String userId) {
-        this.hostId = userId;
+        hostId = userId;
         return this;
     }
 
@@ -81,13 +81,14 @@ public class Game {
      */
     public Game start() {
         nextRound();
-        this.state = State.PLAYING;
+        state = State.PLAYING;
         return this;
     }
 
     /**
      * The game ends when all the players leave.
      */
+    @JsonProperty("isOver")
     public boolean isOver() {
         return users.size() == 0;
     }
@@ -97,6 +98,7 @@ public class Game {
      * It returns an Optional because if the game hasn't started, there is no round yet.
      * @return Optional.empty() if the game hasn't started, otherwise the round being played
      */
+    @JsonProperty("currentRound")
     public Optional<Round> currentRound() {
         if (rounds.isEmpty()) {
             return Optional.empty();
@@ -114,7 +116,7 @@ public class Game {
         final var round = new Round(opts, users);
         rounds.add(round);
 
-        this.state = State.PLAYING;
+        state = State.PLAYING;
         return this;
     }
 
@@ -130,7 +132,7 @@ public class Game {
         final var guess = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
-            this.state = State.ROUND_OVER;
+            state = State.ROUND_OVER;
         }
 
         return guess;
@@ -147,31 +149,5 @@ public class Game {
 
     public String getHostId() {
         return hostId;
-    }
-
-    /**
-     * A map representing the Game. This method is for sending the game's info as json to the client.
-     */
-    public Map<String, Object> toMap() {
-        final var playerIds = this.users.keySet();
-
-        final var rounds = this.rounds
-                .stream()
-                .map(Round::toMap)
-                .toList();
-
-        // return the current round if it exists, or an empty map if it doesn't
-        final var currentRound = currentRound().isPresent()
-                ? currentRound().get().toMap()
-                : Collections.emptyMap();
-
-        return Map.of(
-                "id", id,
-                "state", state,
-                "players", playerIds,
-                "rounds", rounds,
-                "currentRound", currentRound,
-                "hostId", hostId
-        );
     }
 }

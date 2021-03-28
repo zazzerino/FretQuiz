@@ -50,6 +50,7 @@ public class WebSocket {
      * It logs them in as an anonymous user and sends them a list of game ids.
      */
     public static void onConnect(WsContext context) {
+        contexts.add(context);
         UserController.loginAnonymousUser(context);
 
         final var gameIds = gameDao.getGameIds();
@@ -76,7 +77,9 @@ public class WebSocket {
     }
 
     public static void onClose(WsCloseContext context) {
-        final var userId = UserController.getUserIdAttribute(context);
-        GameController.cleanupGames();
+        UserController.cleanupUser(context);
+
+        log.info("removing context with session id: " + context.getSessionId());
+        contexts.remove(context);
     }
 }

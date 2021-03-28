@@ -7,12 +7,8 @@ import kdp.FretQuiz.websocket.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import static kdp.FretQuiz.App.gameDao;
 import static kdp.FretQuiz.App.userDao;
 
 public class UserController {
@@ -22,8 +18,8 @@ public class UserController {
     public static void loginAnonymousUser(WsContext context) {
         final var sessionId = context.getSessionId();
         final var user = new User(sessionId);
-        log.info("new user: " + user);
 
+        log.info("saving user: " + user);
         userDao.save(user);
         setUserIdAttribute(context, user);
 
@@ -45,8 +41,6 @@ public class UserController {
     }
 
     public static void logout(WsMessageContext context) {
-        final var message = context.message(Request.Logout.class);
-
         final var user = getUserFromContext(context)
                 .setName(User.DEFAULT_NAME);
 
@@ -54,6 +48,12 @@ public class UserController {
         setUserIdAttribute(context, user);
 
         context.send(new Response.LoggedOut());
+    }
+
+    public static void cleanupUser(WsContext context) {
+        final var userId = getUserIdAttribute(context);
+        log.info("removing user: " + userId);
+        userDao.delete(userId);
     }
 
     /**
@@ -73,9 +73,6 @@ public class UserController {
      */
     public static User getUserFromContext(WsContext context) {
         final var userId = getUserIdAttribute(context);
-
-        return userDao
-                .getUserById(userId)
-                .orElseThrow(NoSuchElementException::new);
+        return userDao.getById(userId);
     }
 }
