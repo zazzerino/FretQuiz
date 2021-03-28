@@ -26,6 +26,11 @@ public class GameController {
     private static final @NotNull Map<String, Set<String>> gameSessions = new HashMap<>();
 
     /**
+     * Maps a playerId to a player.
+     */
+    private static final @NotNull Map<String, Player> players = new HashMap<>();
+
+    /**
      * Returns a set of sessionsIds belonging to the players of the game with gameId.
      */
     private static Set<String> getConnectedSessionIds(String gameId) {

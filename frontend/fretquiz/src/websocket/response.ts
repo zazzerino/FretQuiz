@@ -1,5 +1,5 @@
-import { Game, Guess } from '../features/game/types';
-import { User } from "../features/user/userSlice";
+import type { Game, Guess } from '../game/types';
+import type { User } from '../user/user';
 
 export type ResponseType =
   'LOGGED_IN'
@@ -52,7 +52,6 @@ export interface GameStartedResponse extends Response {
 
 export interface GuessResultResponse extends Response {
   type: 'GUESS_RESULT',
-  // isCorrect: boolean,
   guess: Guess,
   game: Game
 }

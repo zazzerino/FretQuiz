@@ -1,4 +1,4 @@
-import { ClientGuess } from '../features/game/types';
+import type { ClientGuess } from '../game/types';
 
 export type RequestType =
   'LOGIN'

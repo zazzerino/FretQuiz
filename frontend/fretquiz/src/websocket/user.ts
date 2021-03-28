@@ -1,14 +1,13 @@
-import { store } from '../app/store';
-import { ws } from './socket';
-import { LoggedInResponse, LoggedOutResponse } from './response';
-import { setUser } from "../features/user/userSlice";
-import { loginRequest } from './request';
+import { loginRequest } from '../websocket/request';
+import type { LoggedInResponse } from '../websocket/response';
+import { ws } from '../websocket/websocket';
+import { user } from '../stores';
 
 export function sendLogin(name: string) {
-  ws.send(JSON.stringify(loginRequest(name)));
+  const request = loginRequest(name);
+  ws.send(JSON.stringify(request));
 }
 
 export function handleLogin(message: LoggedInResponse) {
-  const user = message.user;
-  store.dispatch(setUser(user));
+  user.set(message.user);
 }
