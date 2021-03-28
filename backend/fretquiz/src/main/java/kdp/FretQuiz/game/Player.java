@@ -10,20 +10,17 @@ public record Player(String id, List<String> games) {
     }
 
     public Player joinGame(String gameId) {
-        this.games.add(gameId);
+        games.add(gameId);
         return this;
     }
 
     public Player leaveGame(String gameId) {
-        this.games.remove(gameId);
+        games.remove(gameId);
         return this;
     }
 
     public Player leaveAllGames() {
-        for (var gameId : this.games) {
-            leaveGame(gameId);
-        }
-
+        games.forEach(this::leaveGame);
         return this;
     }
 }
