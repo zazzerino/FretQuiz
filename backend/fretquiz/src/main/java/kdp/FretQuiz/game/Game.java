@@ -6,9 +6,7 @@ import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,10 +23,7 @@ public class Game {
     private String hostId;
     private State state;
 
-    /**
-     * Maps a user's id to the user.
-     */
-    private final @NotNull Map<String, User> users = new HashMap<>();
+    private final @NotNull List<String> userIds = new ArrayList<>();
 
     /**
      * The rounds that have been played. The current round is the last element.
@@ -48,16 +43,13 @@ public class Game {
         this.state = State.INIT;
     }
 
-    public Game addPlayer(User user) {
-        user.joinGame(this.id);
-        users.put(user.getId(), user);
-
+    public Game addPlayer(String userId) {
+        userIds.add(userId);
         return this;
     }
 
     public Game removePlayer(String userId) {
-        users.get(userId).leaveGame(this.id);
-        users.remove(userId);
+        userIds.remove(userId);
 
         if (isOver()) {
             state = State.GAME_OVER;
@@ -67,7 +59,7 @@ public class Game {
     }
 
     /**
-     * Sets the game host to `playerId`.
+     * Sets the game host to `userId`.
      * @return the updated Game
      */
     public Game assignHost(String userId) {
@@ -90,7 +82,7 @@ public class Game {
      */
     @JsonProperty("isOver")
     public boolean isOver() {
-        return users.size() == 0;
+        return userIds.size() == 0;
     }
 
     /**
@@ -113,7 +105,7 @@ public class Game {
      * Starts a new round.
      */
     public Game nextRound() {
-        final var round = new Round(opts, users);
+        final var round = new Round(opts, userIds);
         rounds.add(round);
 
         state = State.PLAYING;
@@ -121,8 +113,8 @@ public class Game {
     }
 
     /**
-     * Called when a user makes a guess.
-     * @return whether the guess was correct
+     * Called when a user makes a guess. Mutates the object it's called on.
+     * @return the Guess result
      */
     public Guess guess(Guess.ClientGuess clientGuess) {
         final var playerId = clientGuess.playerId();
@@ -145,6 +137,10 @@ public class Game {
     public Game setOpts(Opts opts) {
         this.opts = opts;
         return this;
+    }
+
+    public List<String> getUserIds() {
+        return userIds;
     }
 
     public String getHostId() {

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import static kdp.FretQuiz.App.gameDao;
 
@@ -32,7 +31,7 @@ public class WebSocket {
     /**
      * Send a response to each session in sessionIds.
      */
-    public static void sendToSessions(Set<String> sessionIds, Response response) {
+    public static void sendToSessionIds(List<String> sessionIds, Response response) {
         contexts.stream()
                 .filter(ctx -> sessionIds.contains(ctx.getSessionId()))
                 .forEach(ctx -> ctx.send(response));
@@ -57,6 +56,13 @@ public class WebSocket {
         context.send(new Response.GameIds(gameIds));
     }
 
+    public static void onClose(WsCloseContext context) {
+        UserController.cleanupUser(context);
+
+        log.info("removing context with session id: " + context.getSessionId());
+        contexts.remove(context);
+    }
+
     /**
      * This method routes an incoming message to the proper handler.
      */
@@ -74,12 +80,5 @@ public class WebSocket {
             case PLAYER_GUESS -> GameController.handleGuess(context);
             case NEXT_ROUND -> GameController.startNextRound(context);
         }
-    }
-
-    public static void onClose(WsCloseContext context) {
-        UserController.cleanupUser(context);
-
-        log.info("removing context with session id: " + context.getSessionId());
-        contexts.remove(context);
     }
 }

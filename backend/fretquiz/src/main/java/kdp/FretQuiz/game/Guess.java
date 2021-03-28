@@ -1,5 +1,6 @@
 package kdp.FretQuiz.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
@@ -9,9 +10,10 @@ import java.util.NoSuchElementException;
 /**
  * This class represents a user's guess during a round.
  */
-public record Guess(String playerId,
+public record Guess(String userId,
                     Note noteToGuess,
                     Fretboard.Coord clickedFret,
+                    @JsonIgnore
                     Fretboard fretboard) {
 
     /**

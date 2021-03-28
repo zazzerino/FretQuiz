@@ -3,12 +3,10 @@ package kdp.FretQuiz.game;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
-import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Every round, a new note will be displayed on the staff.
@@ -22,14 +20,14 @@ public class Round {
     public final Note noteToGuess;
     public final Opts opts;
 
-    private final @NotNull Map<String, User> players;
+    private final @NotNull List<String> userIds;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    public Round(Opts opts, @NotNull Map<String, User> players) {
+    public Round(Opts opts, List<String> userIds) {
         this.opts = opts;
         this.secondsElapsed = opts.roundLength();
         this.noteToGuess = opts.fretboard().randomNote();
-        this.players = players;
+        this.userIds = userIds;
     }
 
     /**
@@ -45,7 +43,7 @@ public class Round {
      */
     @JsonProperty("isOver")
     public boolean isOver() {
-        return players.size() == guesses.size();
+        return userIds.size() == guesses.size();
     }
 
     /**
@@ -57,5 +55,17 @@ public class Round {
         guesses.add(guess);
 
         return guess;
+    }
+
+    public int getSecondsElapsed() {
+        return secondsElapsed;
+    }
+
+    public List<String> getUserIds() {
+        return userIds;
+    }
+
+    public List<Guess> getGuesses() {
+        return guesses;
     }
 }

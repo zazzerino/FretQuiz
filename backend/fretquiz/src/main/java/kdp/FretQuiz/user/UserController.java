@@ -60,7 +60,7 @@ public class UserController {
      * Store the user's id as a session attribute.
      */
     public static void setUserIdAttribute(WsContext context, User user) {
-        context.attribute("userId", user.getId());
+        context.attribute("userId", user.id);
     }
 
     public static String getUserIdAttribute(WsContext context) {
