@@ -1,6 +1,6 @@
 import { handleGameCreated, handleGameIds } from './game';
-import type { Response, LoggedIn, GameIds } from './response';
-import { handleLogin } from './user';
+import type { Response, LoggedIn, GameIds, FlashMessage } from './response';
+import { handleLogin, handleFlashMessage } from './user';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -33,6 +33,9 @@ function onMessage(event: MessageEvent) {
   console.log('message received: ' + JSON.stringify(message));
 
   switch (message.type) {
+    case 'FLASH_MESSAGE':
+      return handleFlashMessage(message as FlashMessage);
+
     case 'LOGGED_IN':
       return handleLogin(message as LoggedIn);
 

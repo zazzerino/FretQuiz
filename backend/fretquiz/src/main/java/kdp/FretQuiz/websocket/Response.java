@@ -14,6 +14,7 @@ public interface Response {
     Type type();
 
     enum Type {
+        FLASH_MESSAGE,
         LOGGED_IN,
         LOGGED_OUT,
         GAME_IDS,
@@ -24,6 +25,12 @@ public interface Response {
         PLAYER_JOINED,
         GAME_UPDATED,
         ROUND_STARTED;
+    }
+
+    record FlashMessage(Type type, String message) implements Response {
+        public FlashMessage(String message) {
+            this(Type.FLASH_MESSAGE, message);
+        }
     }
 
     record LoggedIn(Type type, User user) implements Response {

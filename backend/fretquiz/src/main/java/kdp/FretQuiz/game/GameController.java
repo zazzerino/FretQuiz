@@ -88,6 +88,11 @@ public class GameController {
         final var user = userDao.getById(userId);
         final var game = gameDao.getById(gameId);
 
+        if (game.getUserIds().contains(userId)) {
+            context.send(new Response.FlashMessage("user has already joined game"));
+            return;
+        }
+
         log.info("adding user " + userId + " to game " + gameId);
         connectUserToGame(game.id, user.id);
 

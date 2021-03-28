@@ -2,7 +2,8 @@ import type { Game, Guess } from '../game/types';
 import type { User } from '../user/user';
 
 export type ResponseType =
-  'LOGGED_IN'
+  'FLASH_MESSAGE'
+  | 'LOGGED_IN'
   | 'LOGGED_OUT'
   | 'GAME_IDS'
   | 'GAME_CREATED'
@@ -15,6 +16,11 @@ export type ResponseType =
 
 export interface Response {
   type: ResponseType
+}
+
+export interface FlashMessage extends Response {
+  type: 'FLASH_MESSAGE',
+  message: string
 }
 
 // user messages
