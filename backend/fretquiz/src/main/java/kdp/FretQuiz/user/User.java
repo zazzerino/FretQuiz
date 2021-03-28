@@ -9,26 +9,28 @@ import java.util.List;
 public final class User {
 
     public final String id;
-
+    public final String sessionId;
     private String name;
     private final @NotNull List<String> gameIds;
 
     public static final String DEFAULT_NAME = "anon";
 
     public User(String id,
+                String sessionId,
                 String name,
                 @NotNull List<String> gameIds) {
         this.id = id;
+        this.sessionId = sessionId;
         this.name = name;
         this.gameIds = gameIds;
     }
 
-    public User(String name) {
-        this(Util.randomId(), name, new ArrayList<>());
+    public User(String name, String sessionId) {
+        this(Util.randomId(), sessionId, name, new ArrayList<>());
     }
 
-    public User() {
-        this(Util.randomId(), DEFAULT_NAME, new ArrayList<>());
+    public User(String sessionId) {
+        this(Util.randomId(), sessionId, DEFAULT_NAME, new ArrayList<>());
     }
 
     public User joinGame(String gameId) {
@@ -67,6 +69,7 @@ public final class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", sessionId='" + sessionId + '\'' +
                 ", name='" + name + '\'' +
                 ", gameIds=" + gameIds +
                 '}';

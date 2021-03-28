@@ -115,7 +115,6 @@ public class Game {
         rounds.add(round);
 
         this.state = State.PLAYING;
-
         return this;
     }
 
@@ -137,12 +136,16 @@ public class Game {
         return guess;
     }
 
+    public Opts getOpts() {
+        return opts;
+    }
+
     public Game setOpts(Opts opts) {
         this.opts = opts;
         return this;
     }
 
-    public String hostId() {
+    public String getHostId() {
         return hostId;
     }
 

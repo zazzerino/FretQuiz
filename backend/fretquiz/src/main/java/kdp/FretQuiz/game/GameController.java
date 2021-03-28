@@ -1,6 +1,7 @@
 package kdp.FretQuiz.game;
 
 import io.javalin.websocket.WsMessageContext;
+import kdp.FretQuiz.user.UserController;
 import kdp.FretQuiz.websocket.Request;
 import kdp.FretQuiz.websocket.Response;
 import kdp.FretQuiz.websocket.WebSocket;
@@ -74,7 +75,7 @@ public class GameController {
      * Then it sends the updated game id list to each connected client.
      */
     public static void createGame(WsMessageContext context) {
-        final var user = WebSocket.getUserFromContext(context);
+        final var user = UserController.getUserFromContext(context);
 
         final var game = new Game()
                 .addPlayer(user)
@@ -168,7 +169,7 @@ public class GameController {
                 .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
-        final var userIsHost = game.hostId().equals(playerId);
+        final var userIsHost = game.getHostId().equals(playerId);
         final var currentRound = game.currentRound();
         final var roundIsOver = currentRound.isPresent() && currentRound.get().isOver();
 
