@@ -17,11 +17,12 @@ public class UserController {
         final var message = context.message(Request.Login.class);
         final var name = message.name();
 
-        final var user = WebSocket.getUserFromContext(context)
-                .withName(name);
+        final var user = WebSocket
+                .getUserFromContext(context)
+                .setName(name);
 
         userDao.save(user);
-        WebSocket.setUserAttributes(context, user);
+        WebSocket.setUserIdAttribute(context, user);
 
         context.send(new Response.LoggedIn(user));
     }
@@ -29,11 +30,12 @@ public class UserController {
     public static void logout(WsMessageContext context) {
         final var message = context.message(Request.Logout.class);
 
-        final var user = WebSocket.getUserFromContext(context)
-                .withName(User.DEFAULT_NAME);
+        final var user = WebSocket
+                .getUserFromContext(context)
+                .setName(User.DEFAULT_NAME);
 
         userDao.save(user);
-        WebSocket.setUserAttributes(context, user);
+        WebSocket.setUserIdAttribute(context, user);
 
         context.send(new Response.LoggedOut());
     }

@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { FretboardDiagram } from 'fretboard-diagram';
 
-  let container: HTMLDivElement;
+  let container: HTMLElement;
   const divId = 'fretboard-div';
 
   onMount(() => {

@@ -15,45 +15,41 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static kdp.FretQuiz.App.gameDao;
+import static kdp.FretQuiz.App.userDao;
 
 public class GameController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     /**
-     * Maps a gameId to a set of sessionIds belonging to users playing the game.
+     * Maps a gameId to a set of playerIds.
      */
     private static final @NotNull Map<String, Set<String>> gameSessions = new HashMap<>();
 
     /**
-     * Maps a playerId to a player.
+     * Returns a set of playerIds belonging to the players of the game with gameId.
      */
-    private static final @NotNull Map<String, Player> players = new HashMap<>();
+    private static Set<String> getPlayerIds(String gameId) {
+        var playerIds = gameSessions.get(gameId);
 
-    /**
-     * Returns a set of sessionsIds belonging to the players of the game with gameId.
-     */
-    private static Set<String> getConnectedSessionIds(String gameId) {
-        var sessionIds = gameSessions.get(gameId);
-
-        if (sessionIds == null) {
-            sessionIds = new HashSet<>();
+        if (playerIds == null) {
+            playerIds = new HashSet<>();
         }
 
-        return sessionIds;
+        return playerIds;
     }
 
-    private static void connectSessionToGame(String gameId, String sessionId) {
-        final var sessionIds = getConnectedSessionIds(gameId);
-        sessionIds.add(sessionId);
-        gameSessions.put(gameId, sessionIds);
+    private static void connectUserToGame(String gameId, String userId) {
+        final var playerIds = getPlayerIds(gameId);
+        playerIds.add(userId);
+        gameSessions.put(gameId, playerIds);
     }
 
     /**
      * Send a message to all players of a game.
      */
     private static void notifyPlayers(String gameId, Response response) {
-        final var sessionIds = getConnectedSessionIds(gameId);
+        final var sessionIds = getPlayerIds(gameId);
         WebSocket.sendToSessions(sessionIds, response);
     }
 
@@ -61,7 +57,8 @@ public class GameController {
      * Send the new state of a game to all its players.
      */
     private static void sendUpdatedGameToPlayers(String gameId) {
-        final var game = gameDao.getGameById(gameId)
+        final var game = gameDao
+                .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
         notifyPlayers(game.id, new Response.GameUpdated(game));
@@ -78,16 +75,15 @@ public class GameController {
      */
     public static void createGame(WsMessageContext context) {
         final var user = WebSocket.getUserFromContext(context);
-        final var player = new Player(user.id()); // link the game player to the user id
 
         final var game = new Game()
-                .addPlayer(player)
-                .assignHost(player.id());
+                .addPlayer(user)
+                .assignHost(user.id());
 
         log.info("creating game: " + game);
         gameDao.save(game);
 
-        connectSessionToGame(game.id, context.getSessionId());
+        connectUserToGame(game.id, context.getSessionId());
         context.send(new Response.GameCreated(game));
 
         // let users know there's a new game
@@ -111,15 +107,18 @@ public class GameController {
         final var userId = message.playerId();
         final var gameId = message.gameId();
 
-        log.info("adding player " + userId + " to game " + gameId);
-        final var player = new Player(userId);
-        final var game = gameDao.getGameById(gameId)
+        final var user = userDao.getUserById(userId)
+                .orElseThrow(NoSuchElementException::new);
+
+        log.info("adding user " + userId + " to game " + gameId);
+        final var game = gameDao
+                .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new)
-                .addPlayer(player);
+                .addPlayer(user);
 
         gameDao.save(game);
 
-        connectSessionToGame(game.id, context.getSessionId());
+        connectUserToGame(game.id, context.getSessionId());
         context.send(new Response.GameJoined(game));
 
         notifyPlayers(game.id, new Response.PlayerJoined(userId + " has joined the game"));
@@ -130,7 +129,8 @@ public class GameController {
         final var message = context.message(Request.StartGame.class);
 
         final var gameId = message.gameId();
-        final var game = gameDao.getGameById(gameId)
+        final var game = gameDao
+                .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new)
                 .start();
 
@@ -146,7 +146,8 @@ public class GameController {
         final var clientGuess = message.clientGuess();
         final var gameId = clientGuess.gameId();
 
-        final var game = gameDao.getGameById(gameId)
+        final var game = gameDao
+                .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
         final var guess = game.guess(clientGuess);
@@ -163,7 +164,8 @@ public class GameController {
         final var gameId = message.gameId();
         final var playerId = message.playerId();
 
-        final var game = gameDao.getGameById(gameId)
+        final var game = gameDao
+                .getGameById(gameId)
                 .orElseThrow(NoSuchElementException::new);
 
         final var userIsHost = game.hostId().equals(playerId);

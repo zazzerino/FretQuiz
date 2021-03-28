@@ -6,9 +6,7 @@
 
 <h2>Login</h2>
 
-<label for="name-input">
-  Name
-</label>
+<label for="name-input">Name</label>
 <input id="name-input" bind:value={name}/>
 
 <button on:click={() => sendLogin(name)}>

@@ -4,6 +4,7 @@ import kdp.FretQuiz.game.Game;
 import kdp.FretQuiz.game.Guess;
 import kdp.FretQuiz.user.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,8 +45,8 @@ public interface Response {
         }
     }
 
-    record GameIds(Type type, String[] gameIds) implements Response {
-        public GameIds(String[] gameIds) {
+    record GameIds(Type type, List<String> gameIds) implements Response {
+        public GameIds(List<String> gameIds) {
             this(Type.GAME_IDS, gameIds);
         }
     }

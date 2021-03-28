@@ -1,6 +1,7 @@
 package kdp.FretQuiz.game;
 
 import kdp.FretQuiz.Util;
+import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class Game {
     private State state;
 
     /**
-     * Maps a player's id to the Player record.
+     * Maps a user's id to the user.
      */
-    private final @NotNull Map<String, Player> players = new HashMap<>();
+    private final @NotNull Map<String, User> users = new HashMap<>();
 
     /**
      * The rounds that have been played. The current round is the last element.
@@ -47,20 +48,16 @@ public class Game {
         this.state = State.INIT;
     }
 
-    public String id() {
-        return id;
-    }
-
-    public Game addPlayer(Player player) {
-        player.joinGame(this.id);
-        players.put(player.id(), player);
+    public Game addPlayer(User user) {
+        user.joinGame(this.id);
+        users.put(user.id(), user);
 
         return this;
     }
 
-    public Game removePlayer(String playerId) {
-        players.get(playerId).leaveGame(this.id);
-        players.remove(playerId);
+    public Game removePlayer(String userId) {
+        users.get(userId).leaveGame(this.id);
+        users.remove(userId);
 
         if (isOver()) {
             this.state = State.GAME_OVER;
@@ -73,8 +70,8 @@ public class Game {
      * Sets the game host to `playerId`.
      * @return the updated Game
      */
-    public Game assignHost(String playerId) {
-        this.hostId = playerId;
+    public Game assignHost(String userId) {
+        this.hostId = userId;
         return this;
     }
 
@@ -92,7 +89,7 @@ public class Game {
      * The game ends when all the players leave.
      */
     public boolean isOver() {
-        return players.size() == 0;
+        return users.size() == 0;
     }
 
     /**
@@ -114,10 +111,11 @@ public class Game {
      * Starts a new round.
      */
     public Game nextRound() {
-        final var round = new Round(opts, players);
+        final var round = new Round(opts, users);
         rounds.add(round);
 
         this.state = State.PLAYING;
+
         return this;
     }
 
@@ -152,7 +150,7 @@ public class Game {
      * A map representing the Game. This method is for sending the game's info as json to the client.
      */
     public Map<String, Object> toMap() {
-        final var playerIds = this.players.keySet();
+        final var playerIds = this.users.keySet();
 
         final var rounds = this.rounds
                 .stream()
@@ -160,9 +158,9 @@ public class Game {
                 .toList();
 
         // return the current round if it exists, or an empty map if it doesn't
-        final var currentRound = currentRound().isPresent() ?
-                currentRound().get().toMap() :
-                Collections.emptyMap();
+        final var currentRound = currentRound().isPresent()
+                ? currentRound().get().toMap()
+                : Collections.emptyMap();
 
         return Map.of(
                 "id", id,

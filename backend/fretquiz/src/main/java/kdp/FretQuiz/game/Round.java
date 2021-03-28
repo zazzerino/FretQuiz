@@ -2,6 +2,7 @@ package kdp.FretQuiz.game;
 
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
+import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class Round {
     public final Note noteToGuess;
     public final Opts opts;
 
-    private final @NotNull Map<String, Player> players;
+    private final @NotNull Map<String, User> players;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    public Round(Opts opts, @NotNull Map<String, Player> players) {
+    public Round(Opts opts, @NotNull Map<String, User> players) {
         this.opts = opts;
         this.secondsLeft = opts.roundLength();
         this.noteToGuess = opts.fretboard().randomNote();

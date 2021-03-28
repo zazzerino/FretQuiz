@@ -32,11 +32,11 @@ public class GameDao {
         return Optional.ofNullable(games.get(id));
     }
 
-    public String[] getGameIds() {
+    public List<String> getGameIds() {
         return getAll()
                 .stream()
-                .map(Game::id)
-                .toArray(String[]::new);
+                .map(game -> game.id)
+                .toList();
     }
 
     public void save(Game game) {

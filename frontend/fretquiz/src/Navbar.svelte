@@ -17,9 +17,3 @@
     </li>
   </ul>
 </nav>
-
-<!-- <style>
-  li {
-    float: left;
-  }
-</style> -->

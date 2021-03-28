@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * A user data access object.
  */
 public class UserDao {
+
     private final Map<String, User> users = new ConcurrentHashMap<>();
 
     public Optional<User> getUserById(String id) {

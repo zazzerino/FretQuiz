@@ -9,8 +9,8 @@ import kdp.FretQuiz.user.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
@@ -23,28 +23,28 @@ public class WebSocket {
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
     /**
-     * Holds the context for each connected user.
+     * Maps the user's id to their context.
      */
-    private static final List<WsContext> contexts = new ArrayList<>();
+    private static final Map<String, WsContext> contexts = new HashMap<>();
 
     /**
      * This method is run when a user first connects to the site.
      * It logs them in as an anonymous user and sends them a list of game ids.
      */
     public static void onConnect(WsContext context) {
-        contexts.add(context);
-
         final var sessionId = context.getSessionId();
         log.info("ws connection: " + sessionId);
 
         // create user
         final var user = new User(sessionId);
+        contexts.put(user.id(), context);
+
         log.info("saving user: " + user);
         userDao.save(user);
-        setUserAttributes(context, user);
+        setUserIdAttribute(context, user);
         context.send(new Response.LoggedIn(user));
 
-        // send a list of game ids
+        // send a list of game ids to the user
         final var gameIds = gameDao.getGameIds();
         context.send(new Response.GameIds(gameIds));
     }
@@ -69,7 +69,8 @@ public class WebSocket {
     }
 
     public static void onClose(WsCloseContext context) {
-        contexts.remove(context);
+        final var userId = getUserIdAttribute(context);
+        contexts.remove(userId);
         GameController.cleanupGames();
     }
 
@@ -77,26 +78,29 @@ public class WebSocket {
      * Send a Response to each connected user.
      */
     public static void broadcast(Response response) {
-        contexts.forEach(context -> {
-            context.send(response);
-        });
+        contexts.values()
+                .forEach(context -> context.send(response));
     }
 
     /**
      * Send a response to each session in sessionIds.
      */
     public static void sendToSessions(Set<String> sessionIds, Response response) {
-        contexts.stream()
+        contexts.values()
+                .stream()
                 .filter(context -> sessionIds.contains(context.getSessionId()))
                 .forEach(context -> context.send(response));
     }
 
     /**
-     * Store the user's info as session attributes.
+     * Store the user's id as a session attribute.
      */
-    public static void setUserAttributes(WsContext context, User user) {
+    public static void setUserIdAttribute(WsContext context, User user) {
         context.attribute("userId", user.id());
-        context.attribute("userName", user.name());
+    }
+
+    public static String getUserIdAttribute(WsContext context) {
+        return Objects.requireNonNull(context.attribute("userId"));
     }
 
     /**
@@ -104,9 +108,10 @@ public class WebSocket {
      * Assumes that the "userId" attribute was set during onConnect().
      */
     public static User getUserFromContext(WsContext context) {
-        final var userId = Objects.requireNonNull(context.attribute("userId")).toString();
+        final var userId = getUserIdAttribute(context);
 
-        return userDao.getUserById(userId)
+        return userDao
+                .getUserById(userId)
                 .orElseThrow(NoSuchElementException::new);
     }
 }
