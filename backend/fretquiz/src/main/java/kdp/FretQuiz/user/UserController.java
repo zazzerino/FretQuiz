@@ -21,6 +21,7 @@ public class UserController {
                 .getUserFromContext(context)
                 .setName(name);
 
+        log.info("saving user: " + user);
         userDao.save(user);
         WebSocket.setUserIdAttribute(context, user);
 

@@ -9,26 +9,26 @@ import java.util.List;
 public final class User {
 
     public final String id;
-    private String name;
 
+    private String name;
     private final @NotNull List<String> gameIds;
 
     public static final String DEFAULT_NAME = "anon";
 
     public User(String id,
                 String name,
-                List<String> gameIds) {
+                @NotNull List<String> gameIds) {
         this.id = id;
         this.name = name;
         this.gameIds = gameIds;
     }
 
-    public User() {
-        this(Util.randomId(), DEFAULT_NAME, new ArrayList<>());
-    }
-
     public User(String name) {
         this(Util.randomId(), name, new ArrayList<>());
+    }
+
+    public User() {
+        this(Util.randomId(), DEFAULT_NAME, new ArrayList<>());
     }
 
     public User joinGame(String gameId) {
@@ -46,20 +46,29 @@ public final class User {
         return this;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public User setName(String name) {
         this.name = name;
         return this;
     }
 
-    public String id() {
-        return id;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public List<String> gameIds() {
+    public List<String> getGameIds() {
         return gameIds;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", gameIds=" + gameIds +
+                '}';
     }
 }

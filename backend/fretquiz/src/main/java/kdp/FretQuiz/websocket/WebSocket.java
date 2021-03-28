@@ -25,26 +25,23 @@ public class WebSocket {
     /**
      * Maps the user's id to their context.
      */
-    private static final Map<String, WsContext> contexts = new HashMap<>();
+    private static final Map<String, WsContext> userContexts = new HashMap<>();
 
     /**
      * This method is run when a user first connects to the site.
      * It logs them in as an anonymous user and sends them a list of game ids.
      */
     public static void onConnect(WsContext context) {
-        final var sessionId = context.getSessionId();
-        log.info("ws connection: " + sessionId);
+        final var user = new User();
+        log.info("new user: " + user);
 
-        // create user
-        final var user = new User(sessionId);
-        contexts.put(user.id(), context);
-
-        log.info("saving user: " + user);
         userDao.save(user);
+        userContexts.put(user.getId(), context);
         setUserIdAttribute(context, user);
+
+        log.info(new Response.LoggedIn(user).toString());
         context.send(new Response.LoggedIn(user));
 
-        // send a list of game ids to the user
         final var gameIds = gameDao.getGameIds();
         context.send(new Response.GameIds(gameIds));
     }
@@ -70,7 +67,7 @@ public class WebSocket {
 
     public static void onClose(WsCloseContext context) {
         final var userId = getUserIdAttribute(context);
-        contexts.remove(userId);
+        userContexts.remove(userId);
         GameController.cleanupGames();
     }
 
@@ -78,7 +75,7 @@ public class WebSocket {
      * Send a Response to each connected user.
      */
     public static void broadcast(Response response) {
-        contexts.values()
+        userContexts.values()
                 .forEach(context -> context.send(response));
     }
 
@@ -86,7 +83,7 @@ public class WebSocket {
      * Send a response to each session in sessionIds.
      */
     public static void sendToSessions(Set<String> sessionIds, Response response) {
-        contexts.values()
+        userContexts.values()
                 .stream()
                 .filter(context -> sessionIds.contains(context.getSessionId()))
                 .forEach(context -> context.send(response));
@@ -96,7 +93,7 @@ public class WebSocket {
      * Store the user's id as a session attribute.
      */
     public static void setUserIdAttribute(WsContext context, User user) {
-        context.attribute("userId", user.id());
+        context.attribute("userId", user.getId());
     }
 
     public static String getUserIdAttribute(WsContext context) {

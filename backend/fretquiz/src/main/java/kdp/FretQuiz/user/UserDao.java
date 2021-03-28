@@ -21,7 +21,7 @@ public class UserDao {
     }
 
     public void save(User user) {
-        users.put(user.id(), user);
+        users.put(user.getId(), user);
     }
 
     public void delete(String id) {

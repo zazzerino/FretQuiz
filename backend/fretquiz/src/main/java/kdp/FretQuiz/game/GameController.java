@@ -22,7 +22,7 @@ public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     /**
-     * Maps a gameId to a set of playerIds.
+     * Maps a gameId to a set of userIds belonging to the game's players.
      */
     private static final @NotNull Map<String, Set<String>> gameSessions = new HashMap<>();
 
@@ -78,7 +78,7 @@ public class GameController {
 
         final var game = new Game()
                 .addPlayer(user)
-                .assignHost(user.id());
+                .assignHost(user.getId());
 
         log.info("creating game: " + game);
         gameDao.save(game);

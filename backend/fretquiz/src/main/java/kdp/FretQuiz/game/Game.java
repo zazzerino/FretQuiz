@@ -50,7 +50,7 @@ public class Game {
 
     public Game addPlayer(User user) {
         user.joinGame(this.id);
-        users.put(user.id(), user);
+        users.put(user.getId(), user);
 
         return this;
     }
