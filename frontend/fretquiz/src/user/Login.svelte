@@ -1,6 +1,5 @@
 <script lang="ts">
   import { sendLogin } from '../websocket/user'
-
   let name: string;
 </script>
 

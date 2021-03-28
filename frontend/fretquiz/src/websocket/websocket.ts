@@ -1,6 +1,5 @@
-import { handleGameIds } from './game';
-import type { Response } from './response';
-import type { LoggedInResponse, GameIdsResponse } from './response';
+import { handleGameCreated, handleGameIds } from './game';
+import type { Response, LoggedIn, GameIds } from './response';
 import { handleLogin } from './user';
 
 const WS_URL = 'ws://localhost:8080/ws';
@@ -35,10 +34,13 @@ function onMessage(event: MessageEvent) {
 
   switch (message.type) {
     case 'LOGGED_IN':
-      return handleLogin(message as LoggedInResponse);
+      return handleLogin(message as LoggedIn);
 
     case 'GAME_IDS':
-      return handleGameIds(message as GameIdsResponse);
+      return handleGameIds(message as GameIds);
+
+    // case 'GAME_CREATED':
+    //   return handleGameCreated(message as )
   }
 
   // switch (message.type) {

@@ -17,3 +17,19 @@
     </li>
   </ul>
 </nav>
+
+<style>
+  nav {
+    background: #eee;
+  }
+  nav ul {
+    display: flex;
+    margin: auto;
+    padding: 0;
+  }
+  nav li {
+    padding: 0;
+    list-style: none;
+    margin: auto;
+  }
+</style>

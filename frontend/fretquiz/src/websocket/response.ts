@@ -19,54 +19,54 @@ export interface Response {
 
 // user messages
 
-export interface LoggedInResponse extends Response {
+export interface LoggedIn extends Response {
   type: 'LOGGED_IN',
   user: User
 }
 
-export interface LoggedOutResponse extends Response {
+export interface LoggedOut extends Response {
   type: 'LOGGED_OUT'
 }
 
 // game messages
 
-export interface GameCreatedResponse extends Response {
+export interface GameCreated extends Response {
   type: 'GAME_CREATED',
   game: Game
 }
 
-export interface GameIdsResponse extends Response {
+export interface GameIds extends Response {
   type: 'GAME_IDS',
   gameIds: string[]
 }
 
-export interface GameJoinedResponse extends Response {
+export interface GameJoined extends Response {
   type: 'GAME_JOINED',
   game: Game
 }
 
-export interface GameStartedResponse extends Response {
+export interface GameStarted extends Response {
   type: 'GAME_STARTED',
   game: Game
 }
 
-export interface GuessResultResponse extends Response {
+export interface GuessResult extends Response {
   type: 'GUESS_RESULT',
   guess: Guess,
   game: Game
 }
 
-export interface PlayerJoinedResponse extends Response {
+export interface PlayerJoined extends Response {
   type: 'PLAYER_JOINED'
   message: string
 }
 
-export interface GameUpdatedResponse extends Response {
+export interface GameUpdated extends Response {
   type: 'GAME_UPDATED',
   game: Game
 }
 
-export interface RoundStartedResponse extends Response {
+export interface RoundStarted extends Response {
   type: 'ROUND_STARTED',
   game: Game
 }

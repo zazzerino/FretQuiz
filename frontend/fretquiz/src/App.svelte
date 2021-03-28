@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentPage } from "./stores";
+  import { page } from "./stores";
   import Navbar from "./Navbar.svelte";
   import Footer from "./Footer.svelte";
   import CreateGameButton from "./game/CreateGameButton.svelte";
@@ -7,7 +7,7 @@
 
 <div>
   <Navbar/>
-  <svelte:component this={$currentPage}/>
+  <svelte:component this={$page}/>
   <br/>
   <CreateGameButton/>
   <Footer/>
@@ -17,13 +17,13 @@
 	div {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
+		/* max-width: 240px; */
 		margin: 0 auto;
 	}
 
-	@media (min-width: 640px) {
+	/* @media (min-width: 640px) {
 		div {
 			max-width: none;
 		}
-	}
+	} */
 </style>
