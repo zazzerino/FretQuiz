@@ -1,7 +1,7 @@
 import { Writable, writable } from 'svelte/store';
 import Home from './Home.svelte';
 import { defaultUser } from './user/user';
-import type { Game, Guess } from './game/types';
+import type { FretCoord, Game, Guess, Note } from './game/types';
 
 /**
  * The current page to show. 
@@ -29,3 +29,5 @@ export const game: Writable<Game | null> = writable(null);
  * The user's most recent guess (or null).
  */
 export const guess: Writable<Guess | null> = writable(null);
+
+export const clickedFret: Writable<FretCoord | null> = writable(null);

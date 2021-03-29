@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static kdp.FretQuiz.App.gameDao;
 
@@ -21,12 +20,12 @@ public class WebSocket {
 
     private static final @NotNull List<WsContext> contexts = new ArrayList<>();
 
-    private WsContext getContext(String sessionId) {
-        return contexts.stream()
-                .filter(ctx -> ctx.getSessionId().equals(sessionId))
-                .findFirst()
-                .orElseThrow(NoSuchElementException::new);
-    }
+//    private WsContext getContext(String sessionId) {
+//        return contexts.stream()
+//                .filter(ctx -> ctx.getSessionId().equals(sessionId))
+//                .findFirst()
+//                .orElseThrow(NoSuchElementException::new);
+//    }
 
     /**
      * Send a response to each session in sessionIds.

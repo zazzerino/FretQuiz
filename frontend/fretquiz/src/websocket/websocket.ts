@@ -1,5 +1,10 @@
-import { handleGameCreated, handleGameIds } from './game';
-import type { Response, LoggedIn, GameIds, FlashMessage } from './response';
+import { handleGameCreated, handleGameIds, handleGameJoined, handleGameUpdated, 
+  handleGuessResult, handleRoundStarted 
+} from './game';
+import type { 
+  Response, LoggedIn, GameIds, FlashMessage, GameCreated, GameJoined, GameUpdated, 
+  RoundStarted, GuessResult 
+} from './response';
 import { handleLogin, handleFlashMessage } from './user';
 
 const WS_URL = 'ws://localhost:8080/ws';
@@ -33,26 +38,20 @@ function onMessage(event: MessageEvent) {
   console.log('message received: ' + JSON.stringify(message));
 
   switch (message.type) {
-    case 'FLASH_MESSAGE':
-      return handleFlashMessage(message as FlashMessage);
+    case 'FLASH_MESSAGE': return handleFlashMessage(message as FlashMessage);
 
-    case 'LOGGED_IN':
-      return handleLogin(message as LoggedIn);
+    case 'LOGGED_IN': return handleLogin(message as LoggedIn);
 
-    case 'GAME_IDS':
-      return handleGameIds(message as GameIds);
+    case 'GAME_IDS': return handleGameIds(message as GameIds);
 
-    // case 'GAME_CREATED':
-    //   return handleGameCreated(message as )
+    case 'GAME_CREATED': return handleGameCreated(message as GameCreated);
+
+    case 'GAME_JOINED': return handleGameJoined(message as GameJoined);
+
+    case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdated);
+
+    case 'ROUND_STARTED': return handleRoundStarted(message as RoundStarted);
+
+    case 'GUESS_RESULT': return handleGuessResult(message as GuessResult);
   }
-
-  // switch (message.type) {
-  //   case 'LOGGED_IN': return handleLogin(message as LoggedInResponse);
-  //   case 'GAME_IDS': return handleGameIds(message as GameIdsResponse);
-  //   case 'GAME_CREATED': return handleGameCreated(message as GameCreatedResponse);
-  //   case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);
-  //   case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdatedResponse);
-  //   case 'ROUND_STARTED': return handleRoundStarted(message as RoundStartedResponse);
-  //   case 'GUESS_RESULT': return handleGuessResult(message as GuessResultResponse);
-  // }
 }

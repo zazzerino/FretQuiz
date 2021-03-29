@@ -10,7 +10,7 @@ public class UserDao {
 
     private final Map<String, User> users = new ConcurrentHashMap<>();
 
-    public User getById(String userId) {
+    public User getUserById(String userId) {
         return Objects.requireNonNull(users.get(userId));
     }
 
@@ -23,7 +23,7 @@ public class UserDao {
 //    }
 
     public String getSessionId(String userId) {
-        return getById(userId).sessionId;
+        return getUserById(userId).sessionId;
     }
 
     public List<String> getSessionIds(List<String> userIds) {

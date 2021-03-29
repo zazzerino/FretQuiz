@@ -42,7 +42,7 @@ public final class User {
     }
 
     public User leaveAllGames() {
-        gameIds.forEach(this::leaveGame);
+        gameIds.clear();
         return this;
     }
 

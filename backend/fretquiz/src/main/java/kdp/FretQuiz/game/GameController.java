@@ -16,11 +16,11 @@ public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
     private static void connectUserToGame(String gameId, String userId) {
-        final var game = gameDao.getById(gameId);
+        final var game = gameDao.getGameById(gameId);
         game.addPlayer(userId);
         gameDao.save(game);
 
-        final var user = userDao.getById(userId);
+        final var user = userDao.getUserById(userId);
         user.joinGame(gameId);
         userDao.save(user);
     }
@@ -28,7 +28,7 @@ public class GameController {
     /**
      * Send a message to all players of a game.
      */
-    private static void notifyPlayers(String gameId, Response response) {
+    public static void notifyPlayers(String gameId, Response response) {
         final var userIds = gameDao.getUserIds(gameId);
         final var sessionIds = userDao.getSessionIds(userIds);
         WebSocket.sendToSessionIds(sessionIds, response);
@@ -37,14 +37,14 @@ public class GameController {
     /**
      * Send the new state of a game to all its players.
      */
-    private static void sendUpdatedGameToPlayers(String gameId) {
-        final var game = gameDao.getById(gameId);
+    public static void sendUpdatedGameToPlayers(String gameId) {
+        final var game = gameDao.getGameById(gameId);
         notifyPlayers(game.id, new Response.GameUpdated(game));
     }
 
     public static void getGameIds(WsMessageContext context) {
-        final var ids = gameDao.getGameIds();
-        context.send(new Response.GameIds(ids));
+        final var gameIds = gameDao.getGameIds();
+        context.send(new Response.GameIds(gameIds));
     }
 
     /**
@@ -55,7 +55,6 @@ public class GameController {
         final var user = UserController.getUserFromContext(context);
 
         final var game = new Game()
-                .addPlayer(user.id)
                 .assignHost(user.id);
 
         log.info("creating game: " + game);
@@ -72,8 +71,8 @@ public class GameController {
      * Sends an up to date array of game ids to every connected client.
      */
     public static void broadcastGameIds() {
-        final var ids = gameDao.getGameIds();
-        WebSocket.broadcast(new Response.GameIds(ids));
+        final var gameIds = gameDao.getGameIds();
+        WebSocket.broadcast(new Response.GameIds(gameIds));
     }
 
     /**
@@ -85,8 +84,8 @@ public class GameController {
         final var userId = message.playerId();
         final var gameId = message.gameId();
 
-        final var user = userDao.getById(userId);
-        final var game = gameDao.getById(gameId);
+        final var user = userDao.getUserById(userId);
+        final var game = gameDao.getGameById(gameId);
 
         if (game.getUserIds().contains(userId)) {
             context.send(new Response.FlashMessage("user has already joined game"));
@@ -107,7 +106,7 @@ public class GameController {
 
         final var gameId = message.gameId();
         final var game = gameDao
-                .getById(gameId)
+                .getGameById(gameId)
                 .start();
 
         gameDao.save(game);
@@ -122,7 +121,7 @@ public class GameController {
         final var clientGuess = message.clientGuess();
         final var gameId = clientGuess.gameId();
 
-        final var game = gameDao.getById(gameId);
+        final var game = gameDao.getGameById(gameId);
         final var guess = game.guess(clientGuess);
 
         gameDao.save(game);
@@ -137,7 +136,7 @@ public class GameController {
         final var gameId = message.gameId();
         final var playerId = message.playerId();
 
-        final var game = gameDao.getById(gameId);
+        final var game = gameDao.getGameById(gameId);
 
         final var userIsHost = game.getHostId().equals(playerId);
         final var currentRound = game.currentRound();

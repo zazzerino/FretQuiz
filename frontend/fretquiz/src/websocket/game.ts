@@ -3,9 +3,9 @@ import {
   createGame, getGameIds, joinGame, 
   nextRound, playerGuess, startGame 
 } from "./request";
-import type { GameCreated, GameIds, GameJoined } from "./response";
+import type { GameCreated, GameIds, GameJoined, GameUpdated, GuessResult, RoundStarted } from "./response";
 import { ws } from "./websocket";
-import { gameIds, game } from '../stores';
+import { gameIds, game, guess, clickedFret } from '../stores';
 
 // game request senders
 
@@ -47,18 +47,17 @@ export function handleGameJoined(message: GameJoined) {
   game.set(message.game);
 }
 
-// export function handleGuessResult(message: GuessResultResponse) {
-  // store.dispatch(setGuess(message.guess));
-// }
+export function handleGuessResult(message: GuessResult) {
+  guess.set(message.guess);
+  game.set(message.game);
+}
 
-// export function handleGameUpdated(message: GameUpdatedResponse) {
-//   const game = message.game;
-//   store.dispatch(setCurrentGame(game));
-// }
+export function handleGameUpdated(message: GameUpdated) {
+  game.set(message.game);
+}
 
-// export function handleRoundStarted(message: RoundStartedResponse) {
-//   const game = message.game;
-//   store.dispatch(setClickedFret(null));
-//   store.dispatch(setGuess(null));
-//   store.dispatch(setCurrentGame(game));
-// }
+export function handleRoundStarted(message: RoundStarted) {
+  clickedFret.set(null);
+  guess.set(null);
+  game.set(message.game)
+}

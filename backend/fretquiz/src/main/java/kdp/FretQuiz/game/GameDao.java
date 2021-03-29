@@ -2,7 +2,10 @@ package kdp.FretQuiz.game;
 
 import io.javalin.websocket.WsContext;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,7 +28,7 @@ public class GameDao {
         return games.values();
     }
 
-    public Game getById(String gameId) {
+    public Game getGameById(String gameId) {
         return Objects.requireNonNull(games.get(gameId));
     }
 
@@ -37,7 +40,7 @@ public class GameDao {
     }
 
     public List<String> getUserIds(String gameId) {
-        return getById(gameId).getUserIds();
+        return getGameById(gameId).getUserIds();
     }
 
     public void save(Game game) {

@@ -41,7 +41,7 @@ export interface Opts {
 
 export interface Round {
   noteToGuess: Note,
-  secondsLeft: number,
+  secondsElapsed: number,
   guesses: Guess[]
 }
 
@@ -52,6 +52,7 @@ export interface Game {
   opts: Opts,
   players: Player[],
   rounds: Round[],
-  currentRound: Round,
+  currentRound: Round | null,
+  isOver: boolean,
   state: State
 }

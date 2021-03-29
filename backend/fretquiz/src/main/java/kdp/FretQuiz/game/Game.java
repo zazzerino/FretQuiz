@@ -2,7 +2,6 @@ package kdp.FretQuiz.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.Util;
-import kdp.FretQuiz.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

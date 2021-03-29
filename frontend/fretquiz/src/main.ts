@@ -8,9 +8,6 @@ import GameList from './game/GameList.svelte';
 import { page } from "./stores";
 import { initWebSocket } from './websocket/websocket';
 
-initWebSocket();
-setupRoutes();
-
 function setupRoutes() {
   router('/', () => page.set(Home));
   router('/about', () => page.set(About));
@@ -19,6 +16,9 @@ function setupRoutes() {
   router('/games', () => page.set(GameList));
   router();
 }
+
+initWebSocket();
+setupRoutes();
 
 const app = new App({
   target: document.body

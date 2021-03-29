@@ -15,15 +15,14 @@ import java.util.List;
  */
 public class Round {
 
-    private int secondsElapsed;
-
     public final Note noteToGuess;
     public final Opts opts;
 
+    private int secondsElapsed;
     private final @NotNull List<String> userIds;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    public Round(Opts opts, List<String> userIds) {
+    public Round(Opts opts, @NotNull List<String> userIds) {
         this.opts = opts;
         this.secondsElapsed = opts.roundLength();
         this.noteToGuess = opts.fretboard().randomNote();
@@ -61,11 +60,19 @@ public class Round {
         return secondsElapsed;
     }
 
-    public List<String> getUserIds() {
+    public @NotNull List<String> getUserIds() {
         return userIds;
     }
 
-    public List<Guess> getGuesses() {
+    public @NotNull List<Guess> getGuesses() {
         return guesses;
+    }
+
+    public Note getNoteToGuess() {
+        return noteToGuess;
+    }
+
+    public Opts getOpts() {
+        return opts;
     }
 }
