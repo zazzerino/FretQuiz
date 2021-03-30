@@ -1,9 +1,8 @@
-import type { Game, Guess } from '../game/types';
-import type { User } from '../user/user';
+import { Game, Guess } from '../features/game/types';
+import { User } from "../features/user/userSlice";
 
 export type ResponseType =
-  'FLASH_MESSAGE'
-  | 'LOGGED_IN'
+  'LOGGED_IN'
   | 'LOGGED_OUT'
   | 'GAME_IDS'
   | 'GAME_CREATED'
@@ -18,61 +17,57 @@ export interface Response {
   type: ResponseType
 }
 
-export interface FlashMessage extends Response {
-  type: 'FLASH_MESSAGE',
-  message: string
-}
-
 // user messages
 
-export interface LoggedIn extends Response {
+export interface LoggedInResponse extends Response {
   type: 'LOGGED_IN',
   user: User
 }
 
-export interface LoggedOut extends Response {
+export interface LoggedOutResponse extends Response {
   type: 'LOGGED_OUT'
 }
 
 // game messages
 
-export interface GameCreated extends Response {
+export interface GameCreatedResponse extends Response {
   type: 'GAME_CREATED',
   game: Game
 }
 
-export interface GameIds extends Response {
+export interface GameIdsResponse extends Response {
   type: 'GAME_IDS',
   gameIds: string[]
 }
 
-export interface GameJoined extends Response {
+export interface GameJoinedResponse extends Response {
   type: 'GAME_JOINED',
   game: Game
 }
 
-export interface GameStarted extends Response {
+export interface GameStartedResponse extends Response {
   type: 'GAME_STARTED',
   game: Game
 }
 
-export interface GuessResult extends Response {
+export interface GuessResultResponse extends Response {
   type: 'GUESS_RESULT',
+  // isCorrect: boolean,
   guess: Guess,
   game: Game
 }
 
-export interface PlayerJoined extends Response {
+export interface PlayerJoinedResponse extends Response {
   type: 'PLAYER_JOINED'
   message: string
 }
 
-export interface GameUpdated extends Response {
+export interface GameUpdatedResponse extends Response {
   type: 'GAME_UPDATED',
   game: Game
 }
 
-export interface RoundStarted extends Response {
+export interface RoundStartedResponse extends Response {
   type: 'ROUND_STARTED',
   game: Game
 }

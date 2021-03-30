@@ -1,63 +1,67 @@
-import type { ClientGuess } from "../game/types";
+import { store } from '../app/store';
+import { GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, GuessResultResponse, RoundStartedResponse } from './response';
+import { setClickedFret, setCurrentGame, setGameIds, setGuess } from "../features/game/gameSlice";
 import { 
-  createGame, getGameIds, joinGame, 
-  nextRound, playerGuess, startGame 
-} from "./request";
-import type { GameCreated, GameIds, GameJoined, GameUpdated, GuessResult, RoundStarted } from "./response";
-import { ws } from "./websocket";
-import { gameIds, game, guess, clickedFret } from '../stores';
+  createGameRequest, getGameIdsRequest, joinGameRequest, playerGuessRequest, Request, startGameRequest, nextRoundRequest
+} from './request';
+import { ClientGuess } from '../features/game/types';
+import { ws } from './socket';
 
-// game request senders
+// send requests
 
-export function sendCreateGame() {
-  ws.send(JSON.stringify(createGame()));
+function sendRequest(request: Request) {
+  ws.send(JSON.stringify(request));
 }
 
-export function sendGetGameIds() {
-  ws.send(JSON.stringify(getGameIds()));
-} 
+export const sendCreateGame = () => sendRequest(createGameRequest());
 
-export function sendGuess(clientGuess: ClientGuess) {
-  ws.send(JSON.stringify(playerGuess(clientGuess)));
+export const sendGetGameIds = () => sendRequest(getGameIdsRequest());
+
+export const sendGuess = (clientGuess: ClientGuess) => {
+  sendRequest(playerGuessRequest(clientGuess))
+};
+
+export const sendJoinGame = (gameId: string, userId: string) => {
+  sendRequest(joinGameRequest(gameId, userId));
+};
+
+export const sendStartGame = (gameId: string) => {
+  sendRequest(startGameRequest(gameId))
+};
+
+export const sendNextRound = (gameId: string, playerId: string) => {
+  sendRequest(nextRoundRequest(gameId, playerId));
+};
+
+// handle responses
+
+export function handleGameCreated(message: GameCreatedResponse) {
+  const game = message.game;
+  store.dispatch(setCurrentGame(game));
 }
 
-export function sendJoinGame(gameId: string, userId: string) {
-  ws.send(JSON.stringify(joinGame(gameId, userId)));
+export function handleGameIds(message: GameIdsResponse) {
+  const gameIds = message.gameIds;
+  store.dispatch(setGameIds(gameIds));
 }
 
-export function sendStartGame(gameId: string) {
-  ws.send(JSON.stringify(startGame(gameId)));
+export function handleGameJoined(message: GameJoinedResponse) {
+  const game = message.game;
+  store.dispatch(setCurrentGame(game));
 }
 
-export function sendNextRound(gameId: string, playerId: string) {
-  ws.send(JSON.stringify(nextRound(gameId, playerId)));
+export function handleGuessResult(message: GuessResultResponse) {
+  store.dispatch(setGuess(message.guess));
 }
 
-// game response handlers
-
-export function handleGameIds(message: GameIds) {
-  gameIds.set(message.gameIds);
+export function handleGameUpdated(message: GameUpdatedResponse) {
+  const game = message.game;
+  store.dispatch(setCurrentGame(game));
 }
 
-export function handleGameCreated(message: GameCreated) {
-  game.set(message.game);
-}
-
-export function handleGameJoined(message: GameJoined) {
-  game.set(message.game);
-}
-
-export function handleGuessResult(message: GuessResult) {
-  guess.set(message.guess);
-  game.set(message.game);
-}
-
-export function handleGameUpdated(message: GameUpdated) {
-  game.set(message.game);
-}
-
-export function handleRoundStarted(message: RoundStarted) {
-  clickedFret.set(null);
-  guess.set(null);
-  game.set(message.game)
+export function handleRoundStarted(message: RoundStartedResponse) {
+  const game = message.game;
+  store.dispatch(setClickedFret(null));
+  store.dispatch(setGuess(null));
+  store.dispatch(setCurrentGame(game));
 }

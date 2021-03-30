@@ -1,4 +1,4 @@
-import type { ClientGuess } from '../game/types';
+import { ClientGuess } from '../features/game/types';
 
 export type RequestType =
   'LOGIN'
@@ -16,51 +16,51 @@ export interface Request {
 
 // user requests
 
-export interface Login extends Request {
+export interface LoginRequest extends Request {
   type: 'LOGIN',
   name: string
 }
 
-export function login(name: string): Login {
+export function loginRequest(name: string): LoginRequest {
   return {
     type: 'LOGIN',
     name
   };
 }
 
-export interface Logout extends Request {
+export interface LogoutRequest extends Request {
   type: 'LOGOUT'
 }
 
-export function logout(): Logout {
+export function logoutRequest(): LogoutRequest {
   return { type: 'LOGOUT' }
 }
 
 // game requests
 
-export interface GetGameIds extends Request {
+export interface GetGameIdsRequest extends Request {
   type: 'GET_GAME_IDS'
 }
 
-export function getGameIds(): GetGameIds {
+export function getGameIdsRequest(): GetGameIdsRequest {
   return { type: 'GET_GAME_IDS' }
 }
 
-export interface CreateGame extends Request {
+export interface CreateGameRequest extends Request {
   type: 'CREATE_GAME'
 }
 
-export function createGame(): CreateGame {
+export function createGameRequest(): CreateGameRequest {
   return { type: 'CREATE_GAME' }
 }
 
-export interface JoinGame extends Request {
+export interface JoinGameRequest extends Request {
   type: 'JOIN_GAME',
   gameId: string,
   playerId: string
 }
 
-export function joinGame(gameId: string, playerId: string): JoinGame {
+export function joinGameRequest(gameId: string, playerId: string): JoinGameRequest {
   return {
     type: 'JOIN_GAME',
     gameId,
@@ -68,37 +68,37 @@ export function joinGame(gameId: string, playerId: string): JoinGame {
   }
 }
 
-export interface StartGame extends Request {
+export interface StartGameRequest extends Request {
   type: 'START_GAME',
   gameId: string
 }
 
-export function startGame(gameId: string): StartGame {
+export function startGameRequest(gameId: string): StartGameRequest {
   return {
     type: 'START_GAME',
     gameId
   }
 }
 
-export interface PlayerGuess extends Request {
+export interface PlayerGuessRequest extends Request {
   type: 'PLAYER_GUESS',
   clientGuess: ClientGuess
 }
 
-export function playerGuess(clientGuess: ClientGuess): PlayerGuess {
+export function playerGuessRequest(clientGuess: ClientGuess): PlayerGuessRequest {
   return {
     type: 'PLAYER_GUESS',
     clientGuess
   }
 }
 
-export interface NextRound extends Request {
+export interface NextRoundRequest extends Request {
   type: 'NEXT_ROUND',
   gameId: string,
   playerId: string
 }
 
-export function nextRound(gameId: string, playerId: string): NextRound {
+export function nextRoundRequest(gameId: string, playerId: string): NextRoundRequest {
   return {
     type: 'NEXT_ROUND',
     gameId,
