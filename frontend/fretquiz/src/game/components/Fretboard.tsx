@@ -1,29 +1,26 @@
 import * as React from 'react';
-import { store } from '../../../app/store';
+import { store } from '../../app/store';
 import { FretboardDiagram } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../user/userSlice';
-import { 
-  selectClickedFret, selectCorrectFret, selectGameId, selectGameState, 
-  selectGuess, setClickedFret 
+import {
+  selectClickedFret, selectCorrectFret, selectGameId, selectGameState, selectGuess, setClickedFret
 } from '../gameSlice';
 import { FretCoord } from '../types';
-import { sendGuess } from '../../../websocket/game';
+import { sendGuess } from '../../websocket/game';
+import { emptyElementWithId } from '../../utils';
 
 interface Dot extends FretCoord {
   color?: string
 }
 
+// colors of the dots drawn on the fretboard will change depending on the user's guess
 const defaultColor = 'white';
 const correctColor = 'lime';
 const incorrectColor = 'deeppink';
 
-function handleClick(gameId: string, playerId: string, clickedFret: FretCoord) {
-  const guess = {
-    gameId,
-    playerId,
-    clickedFret
-  }
+function sendUserGuess(gameId: string, playerId: string, clickedFret: FretCoord) {
+  const guess = { gameId, playerId, clickedFret }
 
   store.dispatch(setClickedFret(clickedFret));
   sendGuess(guess);
@@ -45,9 +42,9 @@ function dotsToDraw(
   }
 
   const dots: Dot[] = clickedFret ? [{ ...clickedFret, color }] : [];
-  
+
   if (correctFret) {
-    dots.push({...correctFret, color: correctColor});
+    dots.push({ ...correctFret, color: correctColor });
   }
 
   return dots;
@@ -66,7 +63,10 @@ export function Fretboard() {
 
   React.useEffect(() => {
     const dots = dotsToDraw(isCorrect, clickedFret, correctFret);
-    const onClick = (clickedFret: FretCoord) => gameId && isPlaying && handleClick(gameId, userId, clickedFret);
+
+    const onClick = (clickedFret: FretCoord) => {
+      gameId && isPlaying && sendUserGuess(gameId, userId, clickedFret)
+    };
 
     new FretboardDiagram({
       id,
@@ -74,6 +74,8 @@ export function Fretboard() {
       drawDotOnHover: isPlaying,
       onClick
     });
+
+    return () => emptyElementWithId(id);
   });
 
   return (

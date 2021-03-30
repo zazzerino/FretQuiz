@@ -20,13 +20,6 @@ public class WebSocket {
 
     private static final @NotNull List<WsContext> contexts = new ArrayList<>();
 
-//    private WsContext getContext(String sessionId) {
-//        return contexts.stream()
-//                .filter(ctx -> ctx.getSessionId().equals(sessionId))
-//                .findFirst()
-//                .orElseThrow(NoSuchElementException::new);
-//    }
-
     /**
      * Send a response to each session in sessionIds.
      */

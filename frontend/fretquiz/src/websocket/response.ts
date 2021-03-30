@@ -1,5 +1,5 @@
-import { Game, Guess } from '../features/game/types';
-import { User } from "../features/user/userSlice";
+import { Game, Guess } from '../game/types';
+import { User } from "../user/userSlice";
 
 export type ResponseType =
   'FLASH_MESSAGE'

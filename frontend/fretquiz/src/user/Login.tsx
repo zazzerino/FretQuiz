@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { sendLogin } from "../../websocket/user";
+import { sendLogin } from "../websocket/user";
 
 export function Login() {
   const [name, setName] = React.useState('');

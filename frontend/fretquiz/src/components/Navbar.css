@@ -1,0 +1,15 @@
+.Navbar {
+  background: #eee;
+}
+
+.Navbar ul {
+  display: flex;
+  margin: auto;
+  padding: 0;
+}
+
+.Navbar li {
+  padding: 0;
+  list-style: none;
+  margin: auto;
+}

@@ -47,8 +47,6 @@ public class UserController {
                 .setName(User.DEFAULT_NAME);
 
         userDao.save(user);
-        setUserIdAttribute(context, user);
-
         context.send(new Response.LoggedOut());
     }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { sendCreateGame } from '../../../websocket/game';
+import { sendCreateGame } from '../../websocket/game';
 
 export function CreateGameButton() {
   return (

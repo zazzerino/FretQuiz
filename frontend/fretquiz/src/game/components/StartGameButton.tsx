@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { sendStartGame } from '../../../websocket/game';
+import { sendStartGame } from '../../websocket/game';
 import { selectGameId } from '../gameSlice';
 
 export function StartGameButton() {
@@ -8,11 +8,7 @@ export function StartGameButton() {
 
   return (
     <div className="StartGameButton">
-      <button onClick={() => {
-        gameId ?
-          sendStartGame(gameId) :
-          console.log('must join a game before starting it');
-      }}>
+      <button onClick={() => gameId && sendStartGame(gameId)}>
         Start Game
       </button>
     </div>

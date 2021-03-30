@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FretCoord } from "fretboard-diagram";
-import { RootState } from "../../app/store";
+import { RootState } from "../app/store";
 import { Game, Guess } from './types';
 
 export interface GameSliceState {

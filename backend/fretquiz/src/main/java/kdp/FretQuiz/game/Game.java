@@ -83,7 +83,7 @@ public class Game {
         return userIds.size() == 0;
     }
 
-   @JsonProperty("currentRound")
+    @JsonProperty("currentRound")
     public Round currentRound() {
         if (rounds.isEmpty()) {
             return null;

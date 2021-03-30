@@ -1,11 +1,11 @@
 import { store } from '../app/store';
 import { GameCreated, GameIds, GameJoined, GameUpdated, GuessResult, RoundStarted } from './response';
-import { setClickedFret, setCurrentGame, setGameIds, setGuess } from "../features/game/gameSlice";
+import { setClickedFret, setCurrentGame, setGameIds, setGuess } from "../game/gameSlice";
 import { 
   createGame, getGameIds, joinGame, playerGuess, startGame, nextRound
 } from './request';
-import { ClientGuess } from '../features/game/types';
-import { ws } from './websocket';
+import { ClientGuess } from '../game/types';
+import { ws } from './socket';
 
 // game request senders
 

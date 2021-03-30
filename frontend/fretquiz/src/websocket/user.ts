@@ -1,11 +1,11 @@
 import { store } from '../app/store';
-import { ws } from './websocket';
+import { ws } from './socket';
 import { FlashMessage, LoggedIn } from './response';
-import { setUser } from "../features/user/userSlice";
+import { setUser } from "../user/userSlice";
 import { login } from './request';
 
 export function handleFlashMessage(message: FlashMessage) {
-  console.log('message received: ' + JSON.stringify(message.message));
+  console.log('flash message received: ' + JSON.stringify(message.message));
 }
 
 export function sendLogin(name: string) {

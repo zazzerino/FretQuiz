@@ -1,8 +1,10 @@
 import { 
-  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult
+  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult, FlashMessage
 } from './response';
-import { handleLogin } from './user';
-import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult } from './game';
+import { handleFlashMessage, handleLogin } from './user';
+import { 
+  handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult 
+} from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
 
@@ -36,7 +38,7 @@ function onMessage(event: MessageEvent) {
   console.log(message);
 
   switch (message.type) {
-    // case 'FLASH_MESSAGE': return handleFla
+    case 'FLASH_MESSAGE': return handleFlashMessage(message as FlashMessage);
     case 'LOGGED_IN': return handleLogin(message as LoggedIn);
     case 'GAME_IDS': return handleGameIds(message as GameIds);
     case 'GAME_CREATED': return handleGameCreated(message as GameCreated);

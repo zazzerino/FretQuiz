@@ -10,17 +10,13 @@ public class UserDao {
 
     private final Map<String, User> users = new ConcurrentHashMap<>();
 
+    public Collection<User> getAllUsers() {
+        return users.values();
+    }
+
     public User getUserById(String userId) {
         return Objects.requireNonNull(users.get(userId));
     }
-
-//    public User getBySessionId(String sessionId) {
-//        return users.values()
-//                .stream()
-//                .filter(user -> user.sessionId.equals(sessionId))
-//                .findFirst()
-//                .orElseThrow(NoSuchElementException::new);
-//    }
 
     public String getSessionId(String userId) {
         return getUserById(userId).sessionId;
@@ -30,10 +26,6 @@ public class UserDao {
         return userIds.stream()
                 .map(this::getSessionId)
                 .toList();
-    }
-
-    public Collection<User> getAll() {
-        return users.values();
     }
 
     public void save(User user) {

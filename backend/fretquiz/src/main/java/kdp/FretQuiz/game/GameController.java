@@ -87,6 +87,7 @@ public class GameController {
         final var user = userDao.getUserById(userId);
         final var game = gameDao.getGameById(gameId);
 
+        // if the user has already joined the game, do nothing
         if (game.getUserIds().contains(userId)) {
             context.send(new Response.FlashMessage("user has already joined game"));
             return;
@@ -153,7 +154,7 @@ public class GameController {
      * Removes finished games.
      */
     public static void cleanupGames() {
-        gameDao.getAll()
+        gameDao.getAllGames()
                 .removeIf(Game::isOver);
     }
 }

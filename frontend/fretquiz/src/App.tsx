@@ -2,16 +2,15 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Footer } from './components/Footer';
-import { Home } from './components/Home';
+import { Home } from './pages/Home';
 import { Navbar } from './components/Navbar';
-import { CreateGameButton } from './features/game/components/CreateGameButton';
-import { StartGameButton } from './features/game/components/StartGameButton';
-import { GameList } from './features/game/GameList';
-import { GamePage } from './features/game/GamePage';
-import { Login } from './features/user/Login';
+import { CreateGameButton } from './game/components/CreateGameButton';
+import { StartGameButton } from './game/components/StartGameButton';
+import { GameList } from './game/GameList';
+import { Game } from './pages/Game';
+import { Login } from './user/Login';
 
 function App() {
-  
   return (
     <div className="App">
       <BrowserRouter>
@@ -24,16 +23,14 @@ function App() {
             <GameList />
           </Route>
           <Route path="/game">
-            <GamePage />
+            <Game />
           </Route>
           <Route path="/">
             <Home />
           </Route>
         </Switch>
-
         <CreateGameButton />
         <StartGameButton />
-
         <Footer />
       </BrowserRouter>
     </div>

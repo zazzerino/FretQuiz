@@ -1,7 +1,5 @@
 package kdp.FretQuiz.game;
 
-import io.javalin.websocket.WsContext;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +16,7 @@ public class GameDao {
      */
     private final Map<String, Game> games = new ConcurrentHashMap<>();
 
-    /**
-     * Stores a map of game-ids to websocket contexts.
-     * Each context belongs to a user who is playing the specified game.
-     */
-    private final Map<String, List<WsContext>> contexts = new ConcurrentHashMap<>();
-
-    public Collection<Game> getAll() {
+    public Collection<Game> getAllGames() {
         return games.values();
     }
 
@@ -33,7 +25,7 @@ public class GameDao {
     }
 
     public List<String> getGameIds() {
-        return getAll()
+        return getAllGames()
                 .stream()
                 .map(game -> game.id)
                 .toList();
