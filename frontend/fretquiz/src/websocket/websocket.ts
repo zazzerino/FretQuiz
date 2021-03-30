@@ -1,5 +1,5 @@
 import { 
-  Response, LoggedInResponse, GameCreatedResponse, GameIdsResponse, GameJoinedResponse, GameUpdatedResponse, RoundStartedResponse, GuessResultResponse
+  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult
 } from './response';
 import { handleLogin } from './user';
 import { handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult } from './game';
@@ -31,17 +31,18 @@ function onError() {
  * Receives incoming messages and dispatches them to the correct handler.
  */
 function onMessage(event: MessageEvent) {
-  // parse the message as a generic Response so we can get the type
   const message = JSON.parse(event.data) as Response;
-  console.log('message received: ' + JSON.stringify(message));
+  console.log('message received:');
+  console.log(message);
 
   switch (message.type) {
-    case 'LOGGED_IN': return handleLogin(message as LoggedInResponse);
-    case 'GAME_IDS': return handleGameIds(message as GameIdsResponse);
-    case 'GAME_CREATED': return handleGameCreated(message as GameCreatedResponse);
-    case 'GAME_JOINED': return handleGameJoined(message as GameJoinedResponse);
-    case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdatedResponse);
-    case 'ROUND_STARTED': return handleRoundStarted(message as RoundStartedResponse);
-    case 'GUESS_RESULT': return handleGuessResult(message as GuessResultResponse);
+    // case 'FLASH_MESSAGE': return handleFla
+    case 'LOGGED_IN': return handleLogin(message as LoggedIn);
+    case 'GAME_IDS': return handleGameIds(message as GameIds);
+    case 'GAME_CREATED': return handleGameCreated(message as GameCreated);
+    case 'GAME_JOINED': return handleGameJoined(message as GameJoined);
+    case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdated);
+    case 'ROUND_STARTED': return handleRoundStarted(message as RoundStarted);
+    case 'GUESS_RESULT': return handleGuessResult(message as GuessResult);
   }
 }

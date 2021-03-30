@@ -42,7 +42,7 @@ export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
 export const selectGameId = (state: RootState) => state.game.currentGame?.id;
 
-export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.currentRound.noteToGuess;
+export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.currentRound?.noteToGuess;
 
 export const selectGameState = (state: RootState) => state.game.currentGame?.state;
 
