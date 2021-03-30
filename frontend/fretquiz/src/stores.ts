@@ -1,4 +1,4 @@
-import { Writable, writable } from 'svelte/store';
+import { derived, Readable, Writable, writable } from 'svelte/store';
 import Home from './Home.svelte';
 import { defaultUser } from './user/user';
 import type { FretCoord, Game, Guess, Note } from './game/types';
@@ -26,8 +26,19 @@ export const gameIds: Writable<string[]> = writable([]);
 export const game: Writable<Game | null> = writable(null);
 
 /**
+ * The current note to guess (or null if no round is being played).
+ */
+export const noteToGuess: Readable<Note | null> = derived(
+  game,
+  $game => $game && $game.currentRound && $game.currentRound.noteToGuess
+);
+
+/**
  * The user's most recent guess (or null).
  */
 export const guess: Writable<Guess | null> = writable(null);
 
+/**
+ * The fret a user clicked on during a round.
+ */
 export const clickedFret: Writable<FretCoord | null> = writable(null);

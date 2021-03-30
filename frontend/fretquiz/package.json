@@ -16,19 +16,20 @@
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
+    "sirv-cli": "^1.0.0",
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "typescript": "^4.0.0",
     "tslib": "^2.0.0",
-    "@tsconfig/svelte": "^1.0.0"
+    "@tsconfig/svelte": "^1.0.0",
+    "@types/page": "^1.11.2",
+    "@types/vexflow": "^3.0.0"
   },
   "dependencies": {
-    "@types/page": "^1.11.2",
-    "@types/vexflow": "^3.0.0",
+    "fretboard-diagram": "^1.0.0",
     "page": "^1.11.6",
-    "sirv-cli": "^1.0.0",
     "vexflow": "^3.0.9"
   },
   "proxy": "http://localhost:8080"

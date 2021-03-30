@@ -35,23 +35,17 @@ function onError() {
  */
 function onMessage(event: MessageEvent) {
   const message = JSON.parse(event.data) as Response;
-  console.log('message received: ' + JSON.stringify(message));
+  console.log('message received:');
+  console.log(message);
 
   switch (message.type) {
     case 'FLASH_MESSAGE': return handleFlashMessage(message as FlashMessage);
-
     case 'LOGGED_IN': return handleLogin(message as LoggedIn);
-
     case 'GAME_IDS': return handleGameIds(message as GameIds);
-
     case 'GAME_CREATED': return handleGameCreated(message as GameCreated);
-
     case 'GAME_JOINED': return handleGameJoined(message as GameJoined);
-
     case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdated);
-
     case 'ROUND_STARTED': return handleRoundStarted(message as RoundStarted);
-
     case 'GUESS_RESULT': return handleGuessResult(message as GuessResult);
   }
 }

@@ -9,10 +9,6 @@ export interface Note {
   octave: string
 }
 
-export interface Player {
-  id: string
-}
-
 export interface Guess {
   playerId: string,
   noteToGuess: Note,
@@ -35,7 +31,6 @@ export interface Fretboard {
 }
 
 export interface Opts {
-  roundLength: number,
   fretboard: Fretboard
 }
 
@@ -50,7 +45,8 @@ export type State = 'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
 export interface Game {
   id: string,
   opts: Opts,
-  players: Player[],
+  userIds: string[],
+  hostId: string
   rounds: Round[],
   currentRound: Round | null,
   isOver: boolean,
