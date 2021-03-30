@@ -52,6 +52,10 @@ public class UserController {
         context.send(new Response.LoggedOut());
     }
 
+    /**
+     * Has the user leave each game they're connected to.
+     * If the game is over after the user leaves, deletes the game.
+     */
     public static void cleanupUser(WsContext context) {
         final var userId = getUserIdAttribute(context);
         final var user = userDao.getUserById(userId);

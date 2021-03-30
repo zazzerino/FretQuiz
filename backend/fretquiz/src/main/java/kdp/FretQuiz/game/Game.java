@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 /**
  * A Game consists of a series of round.
@@ -84,20 +83,14 @@ public class Game {
         return userIds.size() == 0;
     }
 
-    /**
-     * The round that is currently being played.
-     * It returns an Optional because if the game hasn't started, there is no round yet.
-     * @return Optional.empty() if the game hasn't started, otherwise the round being played
-     */
-    @JsonProperty("currentRound")
-    public Optional<Round> currentRound() {
+   @JsonProperty("currentRound")
+    public Round currentRound() {
         if (rounds.isEmpty()) {
-            return Optional.empty();
+            return null;
+        } else {
+            final var index = rounds.size() - 1;
+            return rounds.get(index);
         }
-
-        // return the last element of the rounds list
-        final var index = rounds.size() - 1;
-        return Optional.of(rounds.get(index));
     }
 
     /**
@@ -106,20 +99,24 @@ public class Game {
     public Game nextRound() {
         final var round = new Round(opts, userIds);
         rounds.add(round);
-
         state = State.PLAYING;
         return this;
     }
 
     /**
-     * Called when a user makes a guess. Mutates the object it's called on.
+     * Called when a user makes a guess. Mutates the game it's called on.
      * @return the Guess result
      */
-    public Guess guess(Guess.ClientGuess clientGuess) {
+    public Guess updateWithGuess(Guess.ClientGuess clientGuess) {
         final var playerId = clientGuess.playerId();
         final var clickedFret = clientGuess.clickedFret();
 
-        final var round = currentRound().orElseThrow(NoSuchElementException::new);
+        final var round = currentRound();
+
+        if (round == null) {
+            throw new NoSuchElementException("must start a round before guessing");
+        }
+
         final var guess = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
@@ -138,11 +135,19 @@ public class Game {
         return this;
     }
 
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
     public List<String> getUserIds() {
         return userIds;
     }
 
     public String getHostId() {
         return hostId;
+    }
+
+    public State getState() {
+        return state;
     }
 }

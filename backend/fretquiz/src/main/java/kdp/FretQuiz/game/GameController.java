@@ -122,7 +122,7 @@ public class GameController {
         final var gameId = clientGuess.gameId();
 
         final var game = gameDao.getGameById(gameId);
-        final var guess = game.guess(clientGuess);
+        final var guess = game.updateWithGuess(clientGuess);
 
         gameDao.save(game);
 
@@ -140,7 +140,7 @@ public class GameController {
 
         final var userIsHost = game.getHostId().equals(playerId);
         final var currentRound = game.currentRound();
-        final var roundIsOver = currentRound.isPresent() && currentRound.get().isOver();
+        final var roundIsOver = currentRound.isOver();
 
         if (userIsHost && roundIsOver) {
             game.nextRound();

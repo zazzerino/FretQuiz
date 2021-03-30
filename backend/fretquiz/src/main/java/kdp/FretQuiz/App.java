@@ -20,7 +20,7 @@ public class App {
     public static GameDao gameDao = new GameDao();
 
     public static void main( String[] args ) {
-        var app = Javalin.create();
+        final var app = Javalin.create();
 
         app.ws(WEBSOCKET_PATH, ws -> {
             ws.onConnect(WebSocket::onConnect);

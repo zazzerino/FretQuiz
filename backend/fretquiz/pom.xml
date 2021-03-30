@@ -8,7 +8,7 @@
   <artifactId>FretQuiz</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>fretquiz</name>
+  <name>FretQuiz</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -35,21 +35,19 @@
       <version>2.12.2</version>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jdk8</artifactId>
+      <version>2.12.2</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>20.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.0-M1</version>
     </dependency>
   </dependencies>
 

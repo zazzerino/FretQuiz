@@ -69,7 +69,8 @@ public record Note(WhiteKey whiteKey,
      * Returns the note a half step higher.
      */
     public Note next() {
-        // If we're at pitchClass == 11 (the notes "B", "A##", "Cb"), increment the octave. Otherwise, the octave stays the same.
+        // If we're at pitchClass == 11 (the notes "B", "A##", "Cb"), increment the octave.
+        // Otherwise, the octave stays the same.
         final var oct = pitchClass() == 11 ? octave.next() : octave;
 
         var key = whiteKey;

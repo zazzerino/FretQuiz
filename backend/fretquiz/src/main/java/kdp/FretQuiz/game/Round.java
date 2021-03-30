@@ -1,5 +1,6 @@
 package kdp.FretQuiz.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
@@ -24,7 +25,7 @@ public class Round {
 
     public Round(Opts opts, @NotNull List<String> userIds) {
         this.opts = opts;
-        this.secondsElapsed = opts.roundLength();
+        this.secondsElapsed = 0;
         this.noteToGuess = opts.fretboard().randomNote();
         this.userIds = userIds;
     }
@@ -60,6 +61,7 @@ public class Round {
         return secondsElapsed;
     }
 
+    @JsonIgnore
     public @NotNull List<String> getUserIds() {
         return userIds;
     }
