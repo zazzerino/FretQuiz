@@ -140,8 +140,7 @@ public class GameController {
         final var game = gameDao.getGameById(gameId);
 
         final var userIsHost = game.getHostId().equals(playerId);
-        final var currentRound = game.currentRound();
-        final var roundIsOver = currentRound.isOver();
+        final var roundIsOver = game.currentRound().isOver();
 
         if (userIsHost && roundIsOver) {
             game.nextRound();

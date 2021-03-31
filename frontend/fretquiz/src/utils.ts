@@ -13,9 +13,7 @@ export function empty(elem: Element) {
 export function emptyElementWithId(id: string) {
   const elem = document.getElementById(id);
 
-  if (!elem) {
-    throw new Error(`could not find element with id ${id}`);
+  if (elem) {
+    empty(elem);
   }
-
-  empty(elem);
 }
