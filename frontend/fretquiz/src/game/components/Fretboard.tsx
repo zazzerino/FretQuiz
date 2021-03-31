@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { store } from '../../app/store';
+import { store } from '../../store';
 import { FretboardDiagram } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../user/userSlice';
 import {
   selectClickedFret, selectCorrectFret, selectGameId, selectGameState, selectGuess, setClickedFret
 } from '../gameSlice';
-import { FretCoord } from '../types';
+import { ClientGuess, FretCoord } from '../types';
 import { sendGuess } from '../../websocket/game';
 import { emptyElementWithId } from '../../utils';
 
@@ -19,8 +19,8 @@ const defaultColor = 'white';
 const correctColor = 'lime';
 const incorrectColor = 'deeppink';
 
-function sendUserGuess(gameId: string, playerId: string, clickedFret: FretCoord) {
-  const guess = { gameId, playerId, clickedFret }
+function sendClientGuess(guess: ClientGuess) {
+  const { clickedFret } = guess;
 
   store.dispatch(setClickedFret(clickedFret));
   sendGuess(guess);
@@ -51,7 +51,7 @@ function dotsToDraw(
 }
 
 export function Fretboard() {
-  const id = 'fretboard-div';
+  const id = 'fretboard-element';
 
   const userId = useSelector(selectUserId);
   const gameId = useSelector(selectGameId);
@@ -65,13 +65,15 @@ export function Fretboard() {
     const dots = dotsToDraw(isCorrect, clickedFret, correctFret);
 
     const onClick = (clickedFret: FretCoord) => {
-      gameId && isPlaying && sendUserGuess(gameId, userId, clickedFret)
+      gameId && isPlaying && sendClientGuess({ gameId, playerId: userId, clickedFret })
     };
 
     new FretboardDiagram({
       id,
       dots,
       drawDotOnHover: isPlaying,
+      showStringNames: true,
+      showFretNums: true,
       onClick
     });
 

@@ -1,4 +1,4 @@
-import { store } from '../app/store';
+import { store } from '../store';
 import { GameCreated, GameIds, GameJoined, GameUpdated, GuessResult, RoundStarted } from './response';
 import { setClickedFret, setCurrentGame, setGameIds, setGuess } from "../game/gameSlice";
 import { 

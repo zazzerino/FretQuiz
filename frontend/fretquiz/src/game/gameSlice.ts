@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FretCoord } from "fretboard-diagram";
-import { RootState } from "../app/store";
+import { RootState } from "../store";
 import { Game, Guess } from './types';
 
 export interface GameSliceState {
@@ -51,6 +51,10 @@ export const selectGuess = (state: RootState) => state.game.guess;
 export const selectCorrectFret = (state: RootState) => state.game.guess?.correctFret;
 
 export const selectClickedFret = (state: RootState) => state.game.clickedFret;
+
+export const selectRoundIsOver = (state: RootState) => state.game.currentGame?.state === 'ROUND_OVER';
+
+export const selectReadyToStart = (state: RootState) => state.game.currentGame?.state === 'INIT';
 
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 

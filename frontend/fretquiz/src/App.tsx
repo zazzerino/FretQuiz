@@ -4,11 +4,9 @@ import './App.css';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { Navbar } from './components/Navbar';
-import { CreateGameButton } from './game/components/CreateGameButton';
-import { StartGameButton } from './game/components/StartGameButton';
-import { GameList } from './game/GameList';
 import { Game } from './pages/Game';
 import { Login } from './user/Login';
+import { Games } from './pages/Games';
 
 function App() {
   return (
@@ -20,7 +18,7 @@ function App() {
             <Login />
           </Route>
           <Route path="/games">
-            <GameList />
+            <Games />
           </Route>
           <Route path="/game">
             <Game />
@@ -29,8 +27,6 @@ function App() {
             <Home />
           </Route>
         </Switch>
-        <CreateGameButton />
-        <StartGameButton />
         <Footer />
       </BrowserRouter>
     </div>

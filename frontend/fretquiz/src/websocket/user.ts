@@ -1,4 +1,4 @@
-import { store } from '../app/store';
+import { store } from '../store';
 import { ws } from './socket';
 import { FlashMessage, LoggedIn } from './response';
 import { setUser } from "../user/userSlice";

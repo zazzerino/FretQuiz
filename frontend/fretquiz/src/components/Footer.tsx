@@ -19,9 +19,6 @@ function GameDisplay() {
 }
 
 export function Footer() {
-  const user = useSelector(selectUser);
-  const game = useSelector(selectCurrentGame);
-
   return (
     <div className="Footer">
       <UserDisplay />

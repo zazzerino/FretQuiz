@@ -2,12 +2,13 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Fretboard } from '../game/components/Fretboard';
 import { NextRoundButton } from '../game/components/NextRoundButton';
+import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
-import { selectGameState } from '../game/gameSlice';
+import { selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
 
 function GameCanvas() {
   return (
-    <div className="GameElements">
+    <div className="GameCanvas">
       <Stave />
       <Fretboard />
     </div>
@@ -17,18 +18,21 @@ function GameCanvas() {
 function RoundOverDisplay() {
   return (
     <div className="RoundOverDisplay">
-      <p>Round Over</p>
       <NextRoundButton />
+      <p>Round Over</p>
     </div>
   );
 }
 
 export function Game() {
-  const roundIsOver = useSelector(selectGameState) === 'ROUND_OVER';
+  const readyToStart = useSelector(selectReadyToStart);
+  // const roundIsOver = useSelector(selectGameState) === 'ROUND_OVER';
+  const roundIsOver = useSelector(selectRoundIsOver);
 
   return (
-    <div className="GamePage">
+    <div className="Game">
       <GameCanvas />
+      {readyToStart && <StartGameButton />}
       {roundIsOver && <RoundOverDisplay />}
     </div>
   );
