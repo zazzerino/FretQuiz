@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { store } from '../../store';
 import { FretboardDiagram } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';

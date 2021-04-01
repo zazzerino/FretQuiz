@@ -1,7 +1,7 @@
 import { 
-  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult, FlashMessage
+  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult, Flash
 } from './response';
-import { handleFlashMessage, handleLogin } from './user';
+import { handleFlash, handleLogin } from './user';
 import { 
   handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult 
 } from './game';
@@ -38,7 +38,7 @@ function onMessage(event: MessageEvent) {
   console.log(message);
 
   switch (message.type) {
-    case 'FLASH_MESSAGE': return handleFlashMessage(message as FlashMessage);
+    case 'FLASH': return handleFlash(message as Flash);
     case 'LOGGED_IN': return handleLogin(message as LoggedIn);
     case 'GAME_IDS': return handleGameIds(message as GameIds);
     case 'GAME_CREATED': return handleGameCreated(message as GameCreated);

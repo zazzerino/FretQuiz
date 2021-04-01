@@ -89,7 +89,7 @@ public class GameController {
 
         // if the user has already joined the game, do nothing
         if (game.getUserIds().contains(userId)) {
-            context.send(new Response.FlashMessage("user has already joined game"));
+            context.send(new Response.Flash("user has already joined game"));
             return;
         }
 
@@ -129,6 +129,10 @@ public class GameController {
 
         context.send(new Response.GuessResult(guess, game));
         sendUpdatedGameToPlayers(game.id);
+
+        if (game.isOver()) {
+            notifyPlayers(game.id, new Response.GameOver(game));
+        }
     }
 
     public static void startNextRound(WsMessageContext context) {

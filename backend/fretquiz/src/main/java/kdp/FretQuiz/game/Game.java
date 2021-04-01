@@ -32,7 +32,7 @@ public class Game {
         INIT, // the game has been created but not started
         PLAYING, // players are guessing
         ROUND_OVER, // all players have guessed
-        GAME_OVER // all players have left
+        GAME_OVER // all rounds have been played, or all players have left
     }
 
     public Game() {
@@ -49,7 +49,7 @@ public class Game {
     public Game removePlayer(String userId) {
         userIds.remove(userId);
 
-        if (isOver()) {
+        if (userIds.isEmpty()) {
             state = State.GAME_OVER;
         }
 
@@ -70,36 +70,37 @@ public class Game {
      * @return the updated Game
      */
     public Game start() {
-        nextRound();
         state = State.PLAYING;
+        nextRound();
         return this;
     }
 
     /**
-     * The game ends when all the players leave.
+     * The game ends when all the players leave or all rounds have been played.
      */
     @JsonProperty("isOver")
     public boolean isOver() {
-        return userIds.size() == 0;
+        return state == State.GAME_OVER
+                || roundsPlayed() == opts.roundCount();
     }
 
     @JsonProperty("currentRound")
     public Round currentRound() {
         if (rounds.isEmpty()) {
             return null;
-        } else {
-            final var index = rounds.size() - 1;
-            return rounds.get(index);
         }
+
+        final var index = rounds.size() - 1;
+        return rounds.get(index);
     }
 
     /**
      * Starts a new round.
      */
     public Game nextRound() {
+        state = State.PLAYING;
         final var round = new Round(opts, userIds);
         rounds.add(round);
-        state = State.PLAYING;
         return this;
     }
 
@@ -121,6 +122,10 @@ public class Game {
 
         if (round.isOver()) {
             state = State.ROUND_OVER;
+        }
+
+        if (roundsPlayed() == opts.roundCount()) {
+            state = State.GAME_OVER;
         }
 
         return guess;
@@ -149,5 +154,15 @@ public class Game {
 
     public State getState() {
         return state;
+    }
+
+    @JsonProperty("roundsPlayed")
+    public int roundsPlayed() {
+        return rounds.size();
+    }
+
+    @JsonProperty("roundsLeft")
+    public int roundsLeft() {
+        return opts.roundCount() -  rounds.size();
     }
 }

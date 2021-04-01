@@ -9,7 +9,7 @@ public class Util {
      * Selects a random element from an array.
      */
     public static <T> T randomElement(T[] array) {
-        var index = new Random().nextInt(array.length);
+        final var index = new Random().nextInt(array.length);
         return array[index];
     }
 

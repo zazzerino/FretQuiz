@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { sendStartGame } from '../../websocket/game';
 import { selectGameId } from '../gameSlice';

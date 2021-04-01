@@ -13,8 +13,7 @@ import java.util.NoSuchElementException;
 public record Guess(String userId,
                     Note noteToGuess,
                     Fretboard.Coord clickedFret,
-                    @JsonIgnore
-                    Fretboard fretboard) {
+                    @JsonIgnore Fretboard fretboard) {
 
     /**
      * Did the user click on the fret where the `noteToGuess` is played?

@@ -1,19 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { CreateGameButton } from '../game/components/CreateGameButton';
 import { Fretboard } from '../game/components/Fretboard';
 import { NextRoundButton } from '../game/components/NextRoundButton';
 import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
-import { selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
-
-function GameCanvas() {
-  return (
-    <div className="GameCanvas">
-      <Stave />
-      <Fretboard />
-    </div>
-  );
-}
+import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
 
 function RoundOverDisplay() {
   return (
@@ -24,16 +16,39 @@ function RoundOverDisplay() {
   );
 }
 
-export function Game() {
+function GameCanvas() {
+  const gameId = useSelector(selectGameId);
   const readyToStart = useSelector(selectReadyToStart);
-  // const roundIsOver = useSelector(selectGameState) === 'ROUND_OVER';
   const roundIsOver = useSelector(selectRoundIsOver);
 
   return (
-    <div className="Game">
-      <GameCanvas />
+    <div className="GameCanvas">
+      <Stave />
+      <Fretboard />
+      {!gameId && <CreateGameButton />}
       {readyToStart && <StartGameButton />}
       {roundIsOver && <RoundOverDisplay />}
+    </div>
+  );
+}
+
+function GameOverDisplay() {
+  return (
+    <div className="GameOverDisplay">
+      <h2>Game Over</h2>
+      <CreateGameButton />
+    </div>
+  )
+}
+
+export function Game() {
+  const gameIsOver = useSelector(selectGameIsOver);
+
+  return (
+    <div className="Game">
+      {gameIsOver
+        ? <GameOverDisplay />
+        : <GameCanvas />}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { Game, Guess } from '../game/types';
 import { User } from "../user/userSlice";
 
 export type ResponseType =
-  'FLASH_MESSAGE'
+  'FLASH'
   | 'LOGGED_IN'
   | 'LOGGED_OUT'
   | 'GAME_IDS'
@@ -12,14 +12,15 @@ export type ResponseType =
   | 'GUESS_RESULT'
   | 'PLAYER_JOINED'
   | 'GAME_UPDATED'
-  | 'ROUND_STARTED';
+  | 'ROUND_STARTED'
+  | 'GAME_OVER';
 
 export interface Response {
   type: ResponseType
 }
 
-export interface FlashMessage extends Response {
-  type: 'FLASH_MESSAGE',
+export interface Flash extends Response {
+  type: 'FLASH',
   message: string
 }
 
@@ -74,5 +75,10 @@ export interface GameUpdated extends Response {
 
 export interface RoundStarted extends Response {
   type: 'ROUND_STARTED',
+  game: Game
+}
+
+export interface GameOver extends Response {
+  type: 'GAME_OVER',
   game: Game
 }

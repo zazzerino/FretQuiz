@@ -1,10 +1,10 @@
 import { store } from '../store';
 import { ws } from './socket';
-import { FlashMessage, LoggedIn } from './response';
+import { Flash, LoggedIn } from './response';
 import { setUser } from "../user/userSlice";
 import { login } from './request';
 
-export function handleFlashMessage(message: FlashMessage) {
+export function handleFlash(message: Flash) {
   console.log('flash message received: ' + JSON.stringify(message.message));
 }
 

@@ -5,7 +5,7 @@ import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { Navbar } from './components/Navbar';
 import { Game } from './pages/Game';
-import { Login } from './user/Login';
+import { Login } from './pages/Login';
 import { Games } from './pages/Games';
 
 function App() {

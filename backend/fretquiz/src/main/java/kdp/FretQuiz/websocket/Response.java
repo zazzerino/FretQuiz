@@ -14,7 +14,7 @@ public interface Response {
     Type type();
 
     enum Type {
-        FLASH_MESSAGE,
+        FLASH,
         LOGGED_IN,
         LOGGED_OUT,
         GAME_IDS,
@@ -24,12 +24,13 @@ public interface Response {
         GUESS_RESULT,
         PLAYER_JOINED,
         GAME_UPDATED,
-        ROUND_STARTED;
+        ROUND_STARTED,
+        GAME_OVER;
     }
 
-    record FlashMessage(Type type, String message) implements Response {
-        public FlashMessage(String message) {
-            this(Type.FLASH_MESSAGE, message);
+    record Flash(Type type, String message) implements Response {
+        public Flash(String message) {
+            this(Type.FLASH, message);
         }
     }
 
@@ -90,6 +91,12 @@ public interface Response {
     record RoundStarted(Type type, Game game) implements Response {
         public RoundStarted(Game game) {
             this(Type.ROUND_STARTED, game);
+        }
+    }
+
+    record GameOver(Type type, Game game) implements Response {
+        public GameOver(Game game) {
+            this(Type.GAME_OVER, game);
         }
     }
 }

@@ -18,6 +18,9 @@ public class WebSocket {
 
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
+    /**
+     * The connected user sessions.
+     */
     private static final @NotNull List<WsContext> contexts = new ArrayList<>();
 
     /**

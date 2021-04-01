@@ -3,7 +3,7 @@ import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
 import { Game, Guess } from './types';
 
-export interface GameSliceState {
+interface GameSliceState {
   gameIds: string[],
   currentGame: Game | null,
   clickedFret: FretCoord | null,
@@ -21,7 +21,7 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setCurrentGame: (state: GameSliceState, action: PayloadAction<Game>) => {
+    setCurrentGame: (state: GameSliceState, action: PayloadAction<Game | null>) => {
       state.currentGame = action.payload;
     },
     setGameIds: (state: GameSliceState, action: PayloadAction<string[]>) => {
@@ -55,6 +55,8 @@ export const selectClickedFret = (state: RootState) => state.game.clickedFret;
 export const selectRoundIsOver = (state: RootState) => state.game.currentGame?.state === 'ROUND_OVER';
 
 export const selectReadyToStart = (state: RootState) => state.game.currentGame?.state === 'INIT';
+
+export const selectGameIsOver = (state: RootState) => state.game.currentGame?.state === 'GAME_OVER';
 
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 

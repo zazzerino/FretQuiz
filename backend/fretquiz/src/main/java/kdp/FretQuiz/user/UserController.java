@@ -93,7 +93,7 @@ public class UserController {
 
     /**
      * Gets a user's info from the context.
-     * Assumes that the "userId" attribute was set during onConnect().
+     * Assumes that the "userId" attribute was set during WebSocket::onConnect().
      */
     public static User getUserFromContext(WsContext context) {
         final var userId = getUserIdAttribute(context);
