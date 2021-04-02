@@ -20,8 +20,10 @@ public class Round {
     public final Opts opts;
 
     private int secondsElapsed;
-    private final @NotNull List<String> userIds;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
+
+    @JsonProperty("userIds")
+    private final @NotNull List<String> userIds;
 
     public Round(Opts opts, @NotNull List<String> userIds) {
         this.opts = opts;

@@ -26,6 +26,7 @@ public class Game {
     /**
      * The rounds that have been played. The current round is the last element.
      */
+    @JsonProperty("rounds")
     private final @NotNull List<Round> rounds = new ArrayList<>();
 
     enum State {
@@ -107,7 +108,7 @@ public class Game {
      * Called when a user makes a guess. Mutates the game it's called on.
      * @return the Guess result
      */
-    public Guess updateWithGuess(Guess.ClientGuess clientGuess) {
+    public Guess guess(Guess.ClientGuess clientGuess) {
         final var userId = clientGuess.userId();
         final var clickedFret = clientGuess.clickedFret();
 
@@ -121,10 +122,10 @@ public class Game {
 
         if (round.isOver()) {
             state = State.ROUND_OVER;
-        }
 
-        if (roundsPlayed() == opts.roundCount()) {
-            state = State.GAME_OVER;
+            if (roundsPlayed() == opts.roundCount()) {
+                state = State.GAME_OVER;
+            }
         }
 
         return guess;

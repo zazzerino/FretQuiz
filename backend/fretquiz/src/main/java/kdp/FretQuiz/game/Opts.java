@@ -9,8 +9,7 @@ import kdp.FretQuiz.theory.Fretboard;
 public record Opts(@JsonIgnore Fretboard fretboard,
                    int roundCount) {
 
-    // the number of rounds to play
-    public static int DEFAULT_ROUND_COUNT = 4;
+    public static int DEFAULT_ROUND_COUNT = 2;
 
     public static final Opts DEFAULT = new Opts(Fretboard.DEFAULT, DEFAULT_ROUND_COUNT);
 }

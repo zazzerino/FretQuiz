@@ -123,7 +123,7 @@ public class GameController {
         final var gameId = clientGuess.gameId();
 
         final var game = gameDao.getGameById(gameId);
-        final var guess = game.updateWithGuess(clientGuess);
+        final var guess = game.guess(clientGuess);
 
         gameDao.save(game);
 
