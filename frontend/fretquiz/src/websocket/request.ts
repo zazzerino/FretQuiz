@@ -57,14 +57,14 @@ export function createGame(): CreateGame {
 export interface JoinGame extends Request {
   type: 'JOIN_GAME',
   gameId: string,
-  playerId: string
+  userId: string
 }
 
-export function joinGame(gameId: string, playerId: string): JoinGame {
+export function joinGame(gameId: string, userId: string): JoinGame {
   return {
     type: 'JOIN_GAME',
     gameId,
-    playerId
+    userId: userId
   }
 }
 
@@ -95,13 +95,13 @@ export function playerGuess(clientGuess: ClientGuess): PlayerGuess {
 export interface NextRound extends Request {
   type: 'NEXT_ROUND',
   gameId: string,
-  playerId: string
+  userId: string
 }
 
-export function nextRound(gameId: string, playerId: string): NextRound {
+export function nextRound(gameId: string, userId: string): NextRound {
   return {
     type: 'NEXT_ROUND',
     gameId,
-    playerId
+    userId: userId
   }
 }

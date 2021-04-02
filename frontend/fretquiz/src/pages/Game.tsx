@@ -5,7 +5,9 @@ import { Fretboard } from '../game/components/Fretboard';
 import { NextRoundButton } from '../game/components/NextRoundButton';
 import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
-import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
+import {
+  selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver
+} from '../game/gameSlice';
 
 function RoundOverDisplay() {
   return (

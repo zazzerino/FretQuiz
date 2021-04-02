@@ -3,7 +3,7 @@ import { store } from '../store';
 import * as request from './request';
 import * as response from './response';
 import { ClientGuess } from '../game/types';
-import { setClickedFret, setCurrentGame, setGameIds, setGuess } from "../game/gameSlice";
+import { setClickedFret, setCurrentGame, setGameIds, setGuess } from '../game/gameSlice';
 
 function send(request: request.Request) {
   ws.send(JSON.stringify(request));
@@ -53,7 +53,8 @@ export function handleGameJoined(message: response.GameJoined) {
 }
 
 export function handleGuessResult(message: response.GuessResult) {
-  store.dispatch(setGuess(message.guess));
+  const guess = message.guess;
+  store.dispatch(setGuess(guess));
 }
 
 export function handleGameUpdated(message: response.GameUpdated) {
@@ -72,5 +73,4 @@ export function handleGameOver(message: response.GameOver) {
   store.dispatch(setClickedFret(null));
   store.dispatch(setGuess(null));
   store.dispatch(setCurrentGame(null));
-  console.log("game over");
 }

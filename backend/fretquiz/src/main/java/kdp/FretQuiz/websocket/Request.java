@@ -55,7 +55,7 @@ public interface Request {
 
     record JoinGame(Type type,
                     String gameId,
-                    String playerId) implements Request {
+                    String userId) implements Request {
         public JoinGame(String gameId, String userId) {
             this(Type.JOIN_GAME, gameId, userId);
         }
@@ -73,9 +73,9 @@ public interface Request {
         }
     }
 
-    record NextRound(Type type, String gameId, String playerId) implements Request {
-        public NextRound(String gameId, String playerId) {
-            this(Type.NEXT_ROUND, gameId, playerId);
+    record NextRound(Type type, String gameId, String userId) implements Request {
+        public NextRound(String gameId, String userId) {
+            this(Type.NEXT_ROUND, gameId, userId);
         }
     }
 }

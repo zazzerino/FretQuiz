@@ -81,7 +81,7 @@ public class GameController {
     public static void joinGame(WsMessageContext context) {
         final var message = context.message(Request.JoinGame.class);
 
-        final var userId = message.playerId();
+        final var userId = message.userId();
         final var gameId = message.gameId();
 
         final var user = userDao.getUserById(userId);
@@ -139,7 +139,7 @@ public class GameController {
         final var message = context.message(Request.NextRound.class);
 
         final var gameId = message.gameId();
-        final var playerId = message.playerId();
+        final var playerId = message.userId();
 
         final var game = gameDao.getGameById(gameId);
 

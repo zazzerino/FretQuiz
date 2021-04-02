@@ -39,7 +39,7 @@ public class Round {
     }
 
     /**
-     * The round is over once every player has guessed.
+     * The round is over once every user has guessed.
      */
     @JsonProperty("isOver")
     public boolean isOver() {
@@ -50,8 +50,8 @@ public class Round {
      * Handles a new guess. Updates the guess list and returns whether the guess was correct.
      * @return true if the user correctly guessed the displayed note, false otherwise
      */
-    public Guess guess(String playerId, Fretboard.Coord clickedFret) {
-        final var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
+    public Guess guess(String userId, Fretboard.Coord clickedFret) {
+        final var guess = new Guess(userId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
         return guess;

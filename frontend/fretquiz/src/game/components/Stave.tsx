@@ -18,7 +18,6 @@ export function Stave() {
     }
 
     const { context, stave } = makeVexObjects(elem, width, height);
-
     stave.draw();
 
     if (note) {

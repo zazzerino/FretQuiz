@@ -37,7 +37,7 @@ public record Guess(String userId,
      * ClientGuess represents the message that will be sent from the client when a guess is made.
      */
     public static record ClientGuess(String gameId,
-                                     String playerId,
+                                     String userId,
                                      Fretboard.Coord clickedFret) {
     }
 }

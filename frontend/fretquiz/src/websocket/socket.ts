@@ -1,9 +1,8 @@
-import { 
-  Response, LoggedIn, GameCreated, GameIds, GameJoined, GameUpdated, RoundStarted, GuessResult, Flash
-} from './response';
+import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
-  handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult 
+  handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, 
+  handleRoundStarted, handleGuessResult 
 } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
@@ -33,18 +32,18 @@ function onError() {
  * Receives incoming messages and dispatches them to the correct handler.
  */
 function onMessage(event: MessageEvent) {
-  const message = JSON.parse(event.data) as Response;
+  const message = JSON.parse(event.data) as response.Response;
   console.log('message received:');
   console.log(message);
 
   switch (message.type) {
-    case 'FLASH': return handleFlash(message as Flash);
-    case 'LOGGED_IN': return handleLogin(message as LoggedIn);
-    case 'GAME_IDS': return handleGameIds(message as GameIds);
-    case 'GAME_CREATED': return handleGameCreated(message as GameCreated);
-    case 'GAME_JOINED': return handleGameJoined(message as GameJoined);
-    case 'GAME_UPDATED': return handleGameUpdated(message as GameUpdated);
-    case 'ROUND_STARTED': return handleRoundStarted(message as RoundStarted);
-    case 'GUESS_RESULT': return handleGuessResult(message as GuessResult);
+    case 'FLASH': return handleFlash(message as response.Flash);
+    case 'LOGGED_IN': return handleLogin(message as response.LoggedIn);
+    case 'GAME_IDS': return handleGameIds(message as response.GameIds);
+    case 'GAME_CREATED': return handleGameCreated(message as response.GameCreated);
+    case 'GAME_JOINED': return handleGameJoined(message as response.GameJoined);
+    case 'GAME_UPDATED': return handleGameUpdated(message as response.GameUpdated);
+    case 'ROUND_STARTED': return handleRoundStarted(message as response.RoundStarted);
+    case 'GUESS_RESULT': return handleGuessResult(message as response.GuessResult);
   }
 }

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
-import { Game, Guess } from './types';
+import { Game, Guess } from "./types";
 
 interface GameSliceState {
   gameIds: string[],
@@ -48,15 +49,19 @@ export const selectGameState = (state: RootState) => state.game.currentGame?.sta
 
 export const selectGuess = (state: RootState) => state.game.guess;
 
+export const selectGuessIsCorrect = (state: RootState) => state.game.guess?.isCorrect;
+
 export const selectCorrectFret = (state: RootState) => state.game.guess?.correctFret;
 
 export const selectClickedFret = (state: RootState) => state.game.clickedFret;
 
-export const selectRoundIsOver = (state: RootState) => state.game.currentGame?.state === 'ROUND_OVER';
+export const selectReadyToStart = createSelector(selectGameState, state => state === 'INIT');
 
-export const selectReadyToStart = (state: RootState) => state.game.currentGame?.state === 'INIT';
+export const selectGameIsPlaying = createSelector(selectGameState, state => state === 'PLAYING');
 
-export const selectGameIsOver = (state: RootState) => state.game.currentGame?.state === 'GAME_OVER';
+export const selectRoundIsOver = createSelector(selectGameState, state => state === 'ROUND_OVER');
+
+export const selectGameIsOver = createSelector(selectGameState, state => state === 'GAME_OVER');
 
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 

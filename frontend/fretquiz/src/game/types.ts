@@ -10,7 +10,7 @@ export interface Note {
 }
 
 export interface Guess {
-  playerId: string,
+  userId: string,
   noteToGuess: Note,
   clickedFret: FretCoord,
   correctFret: FretCoord,
@@ -19,7 +19,7 @@ export interface Guess {
 
 export interface ClientGuess {
   gameId: string,
-  playerId: string,
+  userId: string,
   clickedFret: FretCoord
 }
 
