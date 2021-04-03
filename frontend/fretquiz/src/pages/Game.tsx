@@ -5,15 +5,13 @@ import { Fretboard } from '../game/components/Fretboard';
 import { NextRoundButton } from '../game/components/NextRoundButton';
 import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
-import {
-  selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver
-} from '../game/gameSlice';
+import { UserScore } from '../game/components/UserScore';
+import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
 
-function RoundOverDisplay() {
+function RoundOver() {
   return (
-    <div className="RoundOverDisplay">
+    <div className="RoundOver">
       <NextRoundButton />
-      <p>Round Over</p>
     </div>
   );
 }
@@ -29,15 +27,16 @@ function GameCanvas() {
       <Fretboard />
       {!gameId && <CreateGameButton />}
       {readyToStart && <StartGameButton />}
-      {roundIsOver && <RoundOverDisplay />}
+      {roundIsOver && <RoundOver />}
     </div>
   );
 }
 
-function GameOverDisplay() {
+function GameOver() {
   return (
-    <div className="GameOverDisplay">
+    <div className="GameOver">
       <h2>Game Over</h2>
+      <UserScore />
       <CreateGameButton />
     </div>
   )
@@ -49,7 +48,7 @@ export function Game() {
   return (
     <div className="Game">
       {gameIsOver
-        ? <GameOverDisplay />
+        ? <GameOver />
         : <GameCanvas />}
     </div>
   );

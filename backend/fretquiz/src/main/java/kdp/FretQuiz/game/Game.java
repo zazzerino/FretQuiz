@@ -134,8 +134,8 @@ public class Game {
     /**
      * @return The guesses made by the user with `userId`.
      */
-    public List<Guess> userGuesses(String userId) {
-        final List<Guess> guesses = new ArrayList<>();
+    public List<Guess> guesses(String userId) {
+        final var guesses = new ArrayList<Guess>();
 
         for (final var round : rounds) {
             for (final var guess : round.getGuesses()) {
@@ -154,7 +154,7 @@ public class Game {
     public int score(String userId) {
         var score = 0;
 
-        for (final var guess : userGuesses(userId)) {
+        for (final var guess : guesses(userId)) {
             if (guess.isCorrect()) {
                 score += 1;
             } else {
@@ -165,14 +165,15 @@ public class Game {
         return score;
     }
 
-    record UserScore(String userId, int score) {}
+    record UserScore(String userId, int score) {};
 
-    @JsonProperty("userScores")
-    public List<UserScore> userScores() {
-        final List<UserScore> scores = new ArrayList<>();
+    @JsonProperty("scores")
+    public List<UserScore> scores() {
+        final var scores = new ArrayList<UserScore>();
 
         for (final var userId : userIds) {
-            scores.add(new UserScore(userId, score(userId)));
+            final var userScore = new UserScore(userId, score(userId));
+            scores.add(userScore);
         }
 
         return scores;

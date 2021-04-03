@@ -1,8 +1,7 @@
 import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
-  handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, 
-  handleRoundStarted, handleGuessResult 
+  handleGameIds, handleGameCreated, handleGameJoined, handleGameUpdated, handleRoundStarted, handleGuessResult 
 } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';

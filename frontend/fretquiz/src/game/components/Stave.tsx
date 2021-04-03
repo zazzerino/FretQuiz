@@ -6,7 +6,8 @@ import { makeVexObjects, drawNote } from './vexflow-utils';
 
 export function Stave() {
   const id = 'stave-element';
-  const [width, height] = [200, 130];
+  const width = 200;
+  const height = 130;
 
   const note = useSelector(selectNoteToGuess);
 

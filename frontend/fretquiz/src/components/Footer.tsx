@@ -15,7 +15,7 @@ function GameDisplay() {
     return null;
   }
 
-  return <p>{`game: ${JSON.stringify(game)}`}</p>
+  return <p>{`game: ${JSON.stringify(game)}`}</p>;
 }
 
 export function Footer() {

@@ -55,6 +55,8 @@ export const selectCorrectFret = (state: RootState) => state.game.guess?.correct
 
 export const selectClickedFret = (state: RootState) => state.game.clickedFret;
 
+export const selectUserScores = (state: RootState) => state.game.currentGame?.scores;
+
 export const selectReadyToStart = createSelector(selectGameState, state => state === 'INIT');
 
 export const selectGameIsPlaying = createSelector(selectGameState, state => state === 'PLAYING');

@@ -42,6 +42,11 @@ export interface Round {
 
 export type State = 'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
 
+export interface UserScore {
+  userId: string,
+  score: number
+}
+
 export interface Game {
   id: string,
   opts: Opts,
@@ -50,5 +55,6 @@ export interface Game {
   rounds: Round[],
   currentRound: Round | null,
   isOver: boolean,
-  state: State
+  state: State,
+  scores: UserScore[]
 }
