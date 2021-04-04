@@ -35,6 +35,10 @@ export const sendNextRound = (gameId: string, playerId: string) => {
   send(request.nextRound(gameId, playerId));
 }
 
+export const sendToggleString = (gameId: string, string: number) => {
+  send(request.toggleString(gameId, string));
+}
+
 // handle responses
 
 export function handleGameCreated(message: response.GameCreated) {

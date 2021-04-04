@@ -18,7 +18,8 @@ public interface Request {
         JOIN_GAME,
         START_GAME,
         PLAYER_GUESS,
-        NEXT_ROUND;
+        NEXT_ROUND,
+        TOGGLE_STRING;
     }
 
     /**
@@ -76,6 +77,12 @@ public interface Request {
     record NextRound(Type type, String gameId, String userId) implements Request {
         public NextRound(String gameId, String userId) {
             this(Type.NEXT_ROUND, gameId, userId);
+        }
+    }
+
+    record ToggleString(Type type, String gameId, int string) implements Request {
+        public ToggleString(String gameId, int string) {
+            this(Type.TOGGLE_STRING, gameId, string);
         }
     }
 }

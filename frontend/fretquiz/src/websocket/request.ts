@@ -8,7 +8,8 @@ export type RequestType =
   | 'JOIN_GAME'
   | 'START_GAME'
   | 'PLAYER_GUESS'
-  | 'NEXT_ROUND';
+  | 'NEXT_ROUND'
+  | 'TOGGLE_STRING';
 
 export interface Request {
   type: RequestType
@@ -22,10 +23,7 @@ export interface Login extends Request {
 }
 
 export function login(name: string): Login {
-  return {
-    type: 'LOGIN',
-    name
-  };
+  return { type: 'LOGIN', name };
 }
 
 export interface Logout extends Request {
@@ -61,11 +59,7 @@ export interface JoinGame extends Request {
 }
 
 export function joinGame(gameId: string, userId: string): JoinGame {
-  return {
-    type: 'JOIN_GAME',
-    gameId,
-    userId: userId
-  }
+  return { type: 'JOIN_GAME', gameId, userId: userId }
 }
 
 export interface StartGame extends Request {
@@ -74,10 +68,7 @@ export interface StartGame extends Request {
 }
 
 export function startGame(gameId: string): StartGame {
-  return {
-    type: 'START_GAME',
-    gameId
-  }
+  return { type: 'START_GAME', gameId }
 }
 
 export interface PlayerGuess extends Request {
@@ -86,10 +77,7 @@ export interface PlayerGuess extends Request {
 }
 
 export function playerGuess(clientGuess: ClientGuess): PlayerGuess {
-  return {
-    type: 'PLAYER_GUESS',
-    clientGuess
-  }
+  return { type: 'PLAYER_GUESS', clientGuess }
 }
 
 export interface NextRound extends Request {
@@ -99,9 +87,15 @@ export interface NextRound extends Request {
 }
 
 export function nextRound(gameId: string, userId: string): NextRound {
-  return {
-    type: 'NEXT_ROUND',
-    gameId,
-    userId: userId
-  }
+  return { type: 'NEXT_ROUND', gameId, userId: userId }
+}
+
+export interface ToggleString extends Request {
+  type: 'TOGGLE_STRING',
+  gameId: string,
+  string: number
+}
+
+export function toggleString(gameId: string, string: number): ToggleString {
+  return { type: 'TOGGLE_STRING', gameId, string }
 }

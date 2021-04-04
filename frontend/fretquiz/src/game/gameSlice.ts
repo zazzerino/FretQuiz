@@ -55,7 +55,7 @@ export const selectCorrectFret = (state: RootState) => state.game.guess?.correct
 
 export const selectClickedFret = (state: RootState) => state.game.clickedFret;
 
-export const selectUserScores = (state: RootState) => state.game.currentGame?.scores;
+export const selectScores = (state: RootState) => state.game.currentGame?.scores;
 
 export const selectReadyToStart = createSelector(selectGameState, state => state === 'INIT');
 
@@ -64,6 +64,12 @@ export const selectGameIsPlaying = createSelector(selectGameState, state => stat
 export const selectRoundIsOver = createSelector(selectGameState, state => state === 'ROUND_OVER');
 
 export const selectGameIsOver = createSelector(selectGameState, state => state === 'GAME_OVER');
+
+export const selectOpts = (state: RootState) => state.game.currentGame?.opts;
+
+export const selectStringCount = createSelector(selectOpts, opts => opts?.fretboard.tuning.notes.length);
+
+export const selectStringsToUse = createSelector(selectOpts, opts => opts?.stringsToUse);
 
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 

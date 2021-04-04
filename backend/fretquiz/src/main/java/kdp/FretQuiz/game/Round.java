@@ -17,18 +17,18 @@ import java.util.List;
 public class Round {
 
     public final Note noteToGuess;
-    public final Opts opts;
-
+    private Opts opts;
     private int secondsElapsed;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
+    @NotNull
     @JsonProperty("playerIds")
-    private final @NotNull List<String> playerIds;
+    private final List<String> playerIds;
 
     public Round(Opts opts, @NotNull List<String> playerIds) {
         this.opts = opts;
         this.secondsElapsed = 0;
-        this.noteToGuess = opts.fretboard().randomNote();
+        this.noteToGuess = opts.randomNote();
         this.playerIds = playerIds;
     }
 
@@ -63,12 +63,14 @@ public class Round {
         return secondsElapsed;
     }
 
+    @NotNull
     @JsonIgnore
-    public @NotNull List<String> getPlayerIds() {
+    public List<String> getPlayerIds() {
         return playerIds;
     }
 
-    public @NotNull List<Guess> getGuesses() {
+    @NotNull
+    public List<Guess> getGuesses() {
         return guesses;
     }
 
@@ -78,5 +80,10 @@ public class Round {
 
     public Opts getOpts() {
         return opts;
+    }
+
+    public Round setOpts(Opts opts) {
+        this.opts = opts;
+        return this;
     }
 }

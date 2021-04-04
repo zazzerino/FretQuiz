@@ -4,7 +4,8 @@ import { FretboardDiagram, Dot } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../user/userSlice';
 import {
-  selectClickedFret, selectCorrectFret, selectGameId, selectGameIsPlaying, selectGuessIsCorrect, setClickedFret
+  selectClickedFret, selectCorrectFret, selectGameId, 
+  selectGameIsPlaying, selectGuessIsCorrect, setClickedFret
 } from '../gameSlice';
 import { ClientGuess, FretCoord } from '../types';
 import { sendGuess } from '../../websocket/game';

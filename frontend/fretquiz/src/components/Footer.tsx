@@ -5,7 +5,7 @@ import { selectUser } from '../user/userSlice';
 
 function UserDisplay() {
   const user = useSelector(selectUser);
-  return <p>{`user: ${JSON.stringify(user)}`}</p>
+  return <p>{`user: ${user.name}`}</p>
 }
 
 function GameDisplay() {
@@ -15,14 +15,14 @@ function GameDisplay() {
     return null;
   }
 
-  return <p>{`game: ${JSON.stringify(game)}`}</p>;
+  return <p>{`game: ${game.id}`}</p>;
 }
 
 export function Footer() {
   return (
     <div className="Footer">
       <UserDisplay />
-      {/* <GameDisplay /> */}
+      <GameDisplay />
     </div>
   );
 }

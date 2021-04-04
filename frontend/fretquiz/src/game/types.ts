@@ -23,15 +23,21 @@ export interface ClientGuess {
   clickedFret: FretCoord
 }
 
+interface Tuning {
+  notes: string[]
+}
+
 export interface Fretboard {
-  tuning: string[],
+  tuning: Tuning,
   startFret: number,
   endFret: number,
   notes: any
 }
 
 export interface Opts {
-  fretboard: Fretboard
+  fretboard: Fretboard,
+  roundCount: number,
+  stringsToUse: number[]
 }
 
 export interface Round {

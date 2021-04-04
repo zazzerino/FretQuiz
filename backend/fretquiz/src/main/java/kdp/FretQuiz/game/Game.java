@@ -38,7 +38,7 @@ public class Game {
 
     public Game() {
         this.id = Util.randomId();
-        this.opts = Opts.DEFAULT;
+        this.opts = new Opts();
         this.state = State.INIT;
     }
 
@@ -155,7 +155,7 @@ public class Game {
     }
 
     /**
-     * A player gets a point for guessing correctly and loses a point for guessing incorrectly.
+     * A player gets a point for guessing correctly.
      */
     public int score(String playerId) {
         var score = 0;
@@ -163,8 +163,6 @@ public class Game {
         for (final var guess : guesses(playerId)) {
             if (guess.isCorrect()) {
                 score += 1;
-            } else {
-                score -= 1;
             }
         }
 
@@ -213,6 +211,11 @@ public class Game {
 
     @JsonProperty("roundsLeft")
     public int roundsLeft() {
-        return opts.roundCount() -  rounds.size();
+        return opts.roundCount() - rounds.size();
+    }
+
+    public Game toggleString(int string) {
+        this.opts = opts.withToggledString(string);
+        return this;
     }
 }

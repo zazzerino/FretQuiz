@@ -2,6 +2,7 @@ package kdp.FretQuiz.theory;
 
 import kdp.FretQuiz.Util;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public record Note(WhiteKey whiteKey,
@@ -117,9 +118,9 @@ public record Note(WhiteKey whiteKey,
      * Returns a random note.
      */
     public static Note random() {
-        final var whiteKey = Util.randomElement(WhiteKey.values());
-        final var accidental = Util.randomElement(Accidental.values());
-        final var octave = Util.randomElement(Octave.values());
+        final var whiteKey = Util.randomElement(Arrays.asList(WhiteKey.values()));
+        final var accidental = Util.randomElement(Arrays.asList(Accidental.values()));
+        final var octave = Util.randomElement(Arrays.asList(Octave.values()));
 
         return new Note(whiteKey, accidental, octave);
     }
@@ -134,7 +135,6 @@ public record Note(WhiteKey whiteKey,
         Note note;
         int midi;
 
-        // TODO search for a better way, the right way
         do {
             note = Note.random();
             midi = note.midiNum();

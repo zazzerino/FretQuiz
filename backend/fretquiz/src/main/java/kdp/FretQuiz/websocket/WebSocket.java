@@ -28,8 +28,8 @@ public class WebSocket {
      */
     public static void sendToSessionIds(List<String> sessionIds, Response response) {
         contexts.stream()
-                .filter(ctx -> sessionIds.contains(ctx.getSessionId()))
-                .forEach(ctx -> ctx.send(response));
+                .filter(context -> sessionIds.contains(context.getSessionId()))
+                .forEach(context -> context.send(response));
     }
 
     /**
@@ -74,6 +74,7 @@ public class WebSocket {
             case START_GAME -> GameController.startGame(context);
             case PLAYER_GUESS -> GameController.handleGuess(context);
             case NEXT_ROUND -> GameController.startNextRound(context);
+            case TOGGLE_STRING -> GameController.toggleString(context);
         }
     }
 }

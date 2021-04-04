@@ -7,6 +7,7 @@ import { Navbar } from './components/Navbar';
 import { Game } from './pages/Game';
 import { Login } from './pages/Login';
 import { Games } from './pages/Games';
+import { Settings } from './game/components/Settings';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route path="/game">
             <Game />
+          </Route>
+          <Route path="/settings">
+            <Settings />
           </Route>
           <Route path="/">
             <Home />

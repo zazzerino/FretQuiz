@@ -155,6 +155,20 @@ public class GameController {
         }
     }
 
+    public static void toggleString(WsMessageContext context) {
+        final var message = context.message(Request.ToggleString.class);
+
+        final var gameId = message.gameId();
+        final var string = message.string();
+
+        final var game = gameDao
+                .getGameById(gameId)
+                .toggleString(string);
+
+        gameDao.save(game);
+        sendUpdatedGameToPlayers(game.id);
+    }
+
     /**
      * Removes finished games.
      */

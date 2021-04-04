@@ -1,7 +1,10 @@
 package kdp.FretQuiz.theory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -80,6 +83,10 @@ public record Fretboard(Tuning tuning,
         return endFret - startFret;
     }
 
+    public int stringCount() {
+        return tuning.size();
+    }
+
     /**
      * @return a random note on that can be played on the fretboard.
      */
@@ -88,5 +95,23 @@ public record Fretboard(Tuning tuning,
         final var highNote = Note.fromString(tuning.get(0)).transpose(fretCount());
 
         return Note.randomBetween(lowNote, highNote);
+    }
+
+    public List<Note> notesOnString(int string) {
+        if (string < 1 || string > stringCount() + 1) {
+            throw new IllegalArgumentException();
+        }
+
+        final var notes = new ArrayList<Note>();
+
+        for (var fret = startFret; fret <= endFret; fret++) {
+            final var coord = new Fretboard.Coord(string, fret);
+            final var note = findNoteAt(coord)
+                    .orElseThrow(NoSuchElementException::new);
+
+            notes.add(note);
+        }
+
+        return notes;
     }
 }
