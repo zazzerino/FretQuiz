@@ -84,16 +84,16 @@ public class UserController {
      * Store the user's id as a session attribute.
      */
     public static void setUserIdAttribute(WsContext context, User user) {
-        context.attribute("userId", user.id);
+        context.attribute("id", user.id);
     }
 
     public static String getUserIdAttribute(WsContext context) {
-        return Objects.requireNonNull(context.attribute("userId"));
+        return Objects.requireNonNull(context.attribute("id"));
     }
 
     /**
      * Gets a user's info from the context.
-     * Assumes that the "userId" attribute was set during WebSocket::onConnect().
+     * Assumes that the "id" attribute was set during WebSocket::onConnect().
      */
     public static User getUserFromContext(WsContext context) {
         final var userId = getUserIdAttribute(context);

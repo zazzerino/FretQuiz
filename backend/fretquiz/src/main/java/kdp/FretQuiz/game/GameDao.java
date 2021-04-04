@@ -31,8 +31,8 @@ public class GameDao {
                 .toList();
     }
 
-    public List<String> getUserIds(String gameId) {
-        return getGameById(gameId).getUserIds();
+    public List<String> getPlayerIds(String gameId) {
+        return getGameById(gameId).playerIds();
     }
 
     public void save(Game game) {

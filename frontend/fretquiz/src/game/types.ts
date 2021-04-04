@@ -10,7 +10,7 @@ export interface Note {
 }
 
 export interface Guess {
-  userId: string,
+  playerId: string,
   noteToGuess: Note,
   clickedFret: FretCoord,
   correctFret: FretCoord,
@@ -19,7 +19,7 @@ export interface Guess {
 
 export interface ClientGuess {
   gameId: string,
-  userId: string,
+  playerId: string,
   clickedFret: FretCoord
 }
 
@@ -42,19 +42,24 @@ export interface Round {
 
 export type State = 'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
 
-export interface UserScore {
-  userId: string,
+export interface Player {
+  id: string,
+  name: string
+}
+
+export interface PlayerScore {
+  player: Player,
   score: number
 }
 
 export interface Game {
   id: string,
   opts: Opts,
-  userIds: string[],
+  playerIds: string[],
   hostId: string,
   rounds: Round[],
   currentRound: Round | null,
   isOver: boolean,
   state: State,
-  scores: UserScore[]
+  scores: PlayerScore[]
 }

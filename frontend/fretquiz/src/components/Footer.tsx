@@ -22,7 +22,7 @@ export function Footer() {
   return (
     <div className="Footer">
       <UserDisplay />
-      <GameDisplay />
+      {/* <GameDisplay /> */}
     </div>
   );
 }

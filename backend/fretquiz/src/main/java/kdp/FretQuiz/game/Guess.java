@@ -8,15 +8,15 @@ import kdp.FretQuiz.theory.Note;
 import java.util.NoSuchElementException;
 
 /**
- * This class represents a user's guess during a round.
+ * This class represents a player's guess during a round.
  */
-public record Guess(String userId,
+public record Guess(String playerId,
                     Note noteToGuess,
                     Fretboard.Coord clickedFret,
                     @JsonIgnore Fretboard fretboard) {
 
     /**
-     * Did the user click on the fret where the `noteToGuess` is played?
+     * Did the player click on the fret where the `noteToGuess` is played?
      */
     @JsonProperty("isCorrect")
     public boolean isCorrect() {
@@ -37,7 +37,7 @@ public record Guess(String userId,
      * ClientGuess represents the message that will be sent from the client when a guess is made.
      */
     public static record ClientGuess(String gameId,
-                                     String userId,
+                                     String playerId,
                                      Fretboard.Coord clickedFret) {
     }
 }

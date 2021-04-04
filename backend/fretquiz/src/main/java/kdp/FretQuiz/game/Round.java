@@ -11,8 +11,8 @@ import java.util.List;
 
 /**
  * Every round, a new note will be displayed on the staff.
- * The users have `secondsLeft` to guess the note's location on the fretboard.
- * This class keeps a record of every user's Guess.
+ * The players have `secondsLeft` to guess the note's location on the fretboard.
+ * This class keeps a record of every player's Guess.
  */
 public class Round {
 
@@ -22,14 +22,14 @@ public class Round {
     private int secondsElapsed;
     private final @NotNull List<Guess> guesses = new ArrayList<>();
 
-    @JsonProperty("userIds")
-    private final @NotNull List<String> userIds;
+    @JsonProperty("playerIds")
+    private final @NotNull List<String> playerIds;
 
-    public Round(Opts opts, @NotNull List<String> userIds) {
+    public Round(Opts opts, @NotNull List<String> playerIds) {
         this.opts = opts;
         this.secondsElapsed = 0;
         this.noteToGuess = opts.fretboard().randomNote();
-        this.userIds = userIds;
+        this.playerIds = playerIds;
     }
 
     /**
@@ -41,19 +41,19 @@ public class Round {
     }
 
     /**
-     * The round is over once every user has guessed.
+     * The round is over once every player has guessed.
      */
     @JsonProperty("isOver")
     public boolean isOver() {
-        return userIds.size() == guesses.size();
+        return playerIds.size() == guesses.size();
     }
 
     /**
      * Handles a new guess. Updates the guess list and returns whether the guess was correct.
-     * @return true if the user correctly guessed the displayed note, false otherwise
+     * @return true if the player correctly guessed the displayed note, false otherwise
      */
-    public Guess guess(String userId, Fretboard.Coord clickedFret) {
-        final var guess = new Guess(userId, noteToGuess, clickedFret, opts.fretboard());
+    public Guess guess(String playerId, Fretboard.Coord clickedFret) {
+        final var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
         return guess;
@@ -64,8 +64,8 @@ public class Round {
     }
 
     @JsonIgnore
-    public @NotNull List<String> getUserIds() {
-        return userIds;
+    public @NotNull List<String> getPlayerIds() {
+        return playerIds;
     }
 
     public @NotNull List<Guess> getGuesses() {

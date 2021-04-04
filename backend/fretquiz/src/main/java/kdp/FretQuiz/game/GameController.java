@@ -1,6 +1,7 @@
 package kdp.FretQuiz.game;
 
 import io.javalin.websocket.WsMessageContext;
+import kdp.FretQuiz.user.User;
 import kdp.FretQuiz.user.UserController;
 import kdp.FretQuiz.websocket.Request;
 import kdp.FretQuiz.websocket.Response;
@@ -15,12 +16,13 @@ public class GameController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    private static void connectUserToGame(String gameId, String userId) {
+    private static void connectUserToGame(String gameId, User user) {
         final var game = gameDao.getGameById(gameId);
-        game.addPlayer(userId);
+        final var player = new Player(user.id, user.getName());
+
+        game.addPlayer(player);
         gameDao.save(game);
 
-        final var user = userDao.getUserById(userId);
         user.joinGame(gameId);
         userDao.save(user);
     }
@@ -29,7 +31,7 @@ public class GameController {
      * Send a message to all players of a game.
      */
     public static void notifyPlayers(String gameId, Response response) {
-        final var userIds = gameDao.getUserIds(gameId);
+        final var userIds = gameDao.getPlayerIds(gameId);
         final var sessionIds = userDao.getSessionIds(userIds);
         WebSocket.sendToSessionIds(sessionIds, response);
     }
@@ -60,7 +62,7 @@ public class GameController {
         log.info("creating game: " + game);
         gameDao.save(game);
 
-        connectUserToGame(game.id, user.id);
+        connectUserToGame(game.id, user);
         context.send(new Response.GameCreated(game));
 
         // let users know there's a new game
@@ -88,13 +90,13 @@ public class GameController {
         final var game = gameDao.getGameById(gameId);
 
         // if the user has already joined the game, do nothing
-        if (game.getUserIds().contains(userId)) {
+        if (game.playerIds().contains(userId)) {
             context.send(new Response.Flash("user has already joined game"));
             return;
         }
 
         log.info("adding user " + userId + " to game " + gameId);
-        connectUserToGame(game.id, user.id);
+        connectUserToGame(game.id, user);
 
         context.send(new Response.GameJoined(game));
 

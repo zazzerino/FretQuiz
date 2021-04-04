@@ -10,8 +10,8 @@ import java.util.NoSuchElementException;
 
 /**
  * A Game consists of a series of rounds.
- * Every round a note will be displayed on a staff and every user guesses the note's position on the fretboard.
- * The game ends when all the rounds have been played, or all the users have left.
+ * Every round a note will be displayed on a staff and every player guesses the note's position on the fretboard.
+ * The game ends when all the rounds have been played, or all the players have left.
  */
 public class Game {
 
@@ -21,7 +21,7 @@ public class Game {
     private String hostId;
     private State state;
 
-    private final @NotNull List<String> userIds = new ArrayList<>();
+    private final @NotNull List<Player> players = new ArrayList<>();
 
     /**
      * The rounds that have been played. The current round is the last element.
@@ -31,9 +31,9 @@ public class Game {
 
     enum State {
         INIT, // the game has been created but not started
-        PLAYING, // users are guessing
-        ROUND_OVER, // all users have guessed
-        GAME_OVER // all rounds have been played, or all users have left
+        PLAYING, // players are guessing
+        ROUND_OVER, // all players have guessed
+        GAME_OVER // all rounds have been played, or all players have left
     }
 
     public Game() {
@@ -42,15 +42,15 @@ public class Game {
         this.state = State.INIT;
     }
 
-    public Game addPlayer(String userId) {
-        userIds.add(userId);
+    public Game addPlayer(Player player) {
+        players.add(player);
         return this;
     }
 
-    public Game removePlayer(String userId) {
-        userIds.remove(userId);
+    public Game removePlayer(String playerId) {
+        players.removeIf(player -> player.id().equals(playerId));
 
-        if (userIds.isEmpty()) {
+        if (players.isEmpty()) {
             state = State.GAME_OVER;
         }
 
@@ -58,11 +58,11 @@ public class Game {
     }
 
     /**
-     * Sets the game host to `userId`.
+     * Sets the game host to `id`.
      * @return the updated Game
      */
-    public Game assignHost(String userId) {
-        hostId = userId;
+    public Game assignHost(String playerId) {
+        hostId = playerId;
         return this;
     }
 
@@ -77,7 +77,7 @@ public class Game {
     }
 
     /**
-     * The game ends when all the users leave or all rounds have been played.
+     * The game ends when all the players leave or all rounds have been played.
      */
     @JsonProperty("isOver")
     public boolean isOver() {
@@ -94,22 +94,28 @@ public class Game {
         return rounds.get(index);
     }
 
+    public List<String> playerIds() {
+        return players.stream()
+                .map(Player::id)
+                .toList();
+    }
+
     /**
      * Starts a new round.
      */
     public Game nextRound() {
         state = State.PLAYING;
-        final var round = new Round(opts, userIds);
+        final var round = new Round(opts, playerIds());
         rounds.add(round);
         return this;
     }
 
     /**
-     * Called when a user makes a guess. Mutates the game it's called on.
+     * Called when a player makes a guess. Mutates the game it's called on.
      * @return the Guess result
      */
     public Guess guess(Guess.ClientGuess clientGuess) {
-        final var userId = clientGuess.userId();
+        final var playerId = clientGuess.playerId();
         final var clickedFret = clientGuess.clickedFret();
 
         final var round = currentRound();
@@ -118,7 +124,7 @@ public class Game {
             throw new NoSuchElementException("must start a round before guessing");
         }
 
-        final var guess = round.guess(userId, clickedFret);
+        final var guess = round.guess(playerId, clickedFret);
 
         if (round.isOver()) {
             state = State.ROUND_OVER;
@@ -132,14 +138,14 @@ public class Game {
     }
 
     /**
-     * @return The guesses made by the user with `userId`.
+     * @return The guesses made by the player with `id`.
      */
-    public List<Guess> guesses(String userId) {
+    public List<Guess> guesses(String playerId) {
         final var guesses = new ArrayList<Guess>();
 
         for (final var round : rounds) {
             for (final var guess : round.getGuesses()) {
-                if (guess.userId().equals(userId)) {
+                if (guess.playerId().equals( playerId)) {
                     guesses.add(guess);
                 }
             }
@@ -149,12 +155,12 @@ public class Game {
     }
 
     /**
-     * A user gets a point for guessing correctly and loses a point for guessing incorrectly.
+     * A player gets a point for guessing correctly and loses a point for guessing incorrectly.
      */
-    public int score(String userId) {
+    public int score(String playerId) {
         var score = 0;
 
-        for (final var guess : guesses(userId)) {
+        for (final var guess : guesses(playerId)) {
             if (guess.isCorrect()) {
                 score += 1;
             } else {
@@ -165,15 +171,15 @@ public class Game {
         return score;
     }
 
-    record UserScore(String userId, int score) {};
+    record PlayerScore(Player player, int score) {};
 
     @JsonProperty("scores")
-    public List<UserScore> scores() {
-        final var scores = new ArrayList<UserScore>();
+    public List<PlayerScore> scores() {
+        final var scores = new ArrayList<PlayerScore>();
 
-        for (final var userId : userIds) {
-            final var userScore = new UserScore(userId, score(userId));
-            scores.add(userScore);
+        for (final var player : players) {
+            final var playerScore = new PlayerScore(player, score(player.id()));
+            scores.add(playerScore);
         }
 
         return scores;
@@ -190,10 +196,6 @@ public class Game {
 
     public List<Round> getRounds() {
         return rounds;
-    }
-
-    public List<String> getUserIds() {
-        return userIds;
     }
 
     public String getHostId() {

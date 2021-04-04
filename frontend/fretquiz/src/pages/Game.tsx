@@ -5,7 +5,7 @@ import { Fretboard } from '../game/components/Fretboard';
 import { NextRoundButton } from '../game/components/NextRoundButton';
 import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
-import { UserScore } from '../game/components/UserScore';
+import { ScoreTable } from '../game/components/PlayerScore';
 import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
 
 function RoundOver() {
@@ -36,7 +36,7 @@ function GameOver() {
   return (
     <div className="GameOver">
       <h2>Game Over</h2>
-      <UserScore />
+      <ScoreTable />
       <CreateGameButton />
     </div>
   )

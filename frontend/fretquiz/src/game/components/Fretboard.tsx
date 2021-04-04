@@ -62,7 +62,7 @@ export function Fretboard() {
     const dots = dotsToDraw(guessIsCorrect, clickedFret, correctFret);
 
     const onClick = (clickedFret: FretCoord) => {
-      gameId && isPlaying && sendClientGuess({ gameId, userId: userId, clickedFret })
+      gameId && isPlaying && sendClientGuess({ gameId, playerId: userId, clickedFret })
     };
 
     new FretboardDiagram({
