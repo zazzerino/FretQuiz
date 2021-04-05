@@ -3,9 +3,11 @@ export interface FretCoord {
   fret: number
 }
 
+export type Accidental = 'FLAT' | 'NONE' | 'SHARP';
+
 export interface Note {
   whiteKey: string,
-  accidental: string,
+  accidental: Accidental,
   octave: string
 }
 
@@ -33,8 +35,6 @@ export interface Fretboard {
   endFret: number,
   notes: any
 }
-
-export type Accidental = 'FLAT' | 'NONE' | 'SHARP';
 
 export interface Opts {
   fretboard: Fretboard,

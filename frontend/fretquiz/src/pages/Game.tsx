@@ -7,11 +7,24 @@ import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
 import { ScoreTable } from '../game/components/ScoreTable';
 import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
+import { useHistory } from 'react-router';
 
 function RoundOver() {
   return (
     <div className="RoundOver">
       <NextRoundButton />
+    </div>
+  );
+}
+
+function SettingsLink() {
+  const history = useHistory();
+
+  return (
+    <div className="SettingsLink">
+      <button onClick={() => history.push('/settings')}>
+        Change Settings
+      </button>
     </div>
   );
 }
@@ -26,6 +39,7 @@ function GameCanvas() {
       <Stave />
       <Fretboard />
       {!gameId && <CreateGameButton />}
+      {gameId && <SettingsLink />}
       {readyToStart && <StartGameButton />}
       {roundIsOver && <RoundOver />}
     </div>

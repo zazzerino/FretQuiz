@@ -4,7 +4,7 @@ import { sendCreateGame } from '../../websocket/game';
 export function CreateGameButton() {
   return (
     <button onClick={sendCreateGame}>
-      Create Game
+      New Game
     </button>
   );
 }

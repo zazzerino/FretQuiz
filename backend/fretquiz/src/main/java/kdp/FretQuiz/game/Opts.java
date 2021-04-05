@@ -42,7 +42,13 @@ public class Opts {
             notes.addAll(notesOnString);
         }
 
-        return Util.randomElement(notes);
+        Note note;
+
+        do {
+            note = Util.randomElement(notes);
+        } while (!accidentals.contains(note.accidental()));
+
+        return note;
     }
 
     public Opts setRoundCount(int roundCount) {
@@ -78,5 +84,10 @@ public class Opts {
     @JsonProperty("accidentals")
     public List<Accidental> accidentals() {
         return accidentals;
+    }
+
+    public Opts setFretboard(Fretboard fretboard) {
+        this.fretboard = fretboard;
+        return this;
     }
 }

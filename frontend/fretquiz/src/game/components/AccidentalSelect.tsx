@@ -8,6 +8,7 @@ import './AccidentalSelect.css';
 function accidentalName(accidental: Accidental): string {
   switch (accidental) {
     case 'FLAT': return 'Flats';
+    case 'NONE': return 'Naturals';
     case 'SHARP': return 'Sharps';
     default: throw new Error('invalid argument');
   }
@@ -45,6 +46,7 @@ export function AccidentalSelect() {
   }
 
   const usingFlats = accidentalsToUse?.includes('FLAT');
+  const usingNone = accidentalsToUse.includes('NONE');
   const usingSharps = accidentalsToUse?.includes('SHARP');
 
   return (
@@ -54,6 +56,11 @@ export function AccidentalSelect() {
         <AccidentalCheckbox
           accidental="FLAT"
           isUsed={usingFlats}
+          gameId={gameId}
+        />
+        <AccidentalCheckbox
+          accidental="NONE"
+          isUsed={usingNone}
           gameId={gameId}
         />
         <AccidentalCheckbox
