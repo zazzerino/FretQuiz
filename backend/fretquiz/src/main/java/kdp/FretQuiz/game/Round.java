@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.theory.Fretboard;
 import kdp.FretQuiz.theory.Note;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +18,12 @@ public class Round {
     public final Note noteToGuess;
     private Opts opts;
     private int secondsElapsed;
-    private final @NotNull List<Guess> guesses = new ArrayList<>();
+    private final List<Guess> guesses = new ArrayList<>();
 
-    @NotNull
     @JsonProperty("playerIds")
     private final List<String> playerIds;
 
-    public Round(Opts opts, @NotNull List<String> playerIds) {
+    public Round(Opts opts, List<String> playerIds) {
         this.opts = opts;
         this.secondsElapsed = 0;
         this.noteToGuess = opts.randomNote();
@@ -63,13 +61,11 @@ public class Round {
         return secondsElapsed;
     }
 
-    @NotNull
     @JsonIgnore
     public List<String> getPlayerIds() {
         return playerIds;
     }
 
-    @NotNull
     public List<Guess> getGuesses() {
         return guesses;
     }

@@ -2,7 +2,7 @@ package kdp.FretQuiz.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.FretQuiz.Util;
-import org.jetbrains.annotations.NotNull;
+import kdp.FretQuiz.theory.Accidental;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,13 @@ public class Game {
     private String hostId;
     private State state;
 
-    private final @NotNull List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
 
     /**
      * The rounds that have been played. The current round is the last element.
      */
     @JsonProperty("rounds")
-    private final @NotNull List<Round> rounds = new ArrayList<>();
+    private final List<Round> rounds = new ArrayList<>();
 
     enum State {
         INIT, // the game has been created but not started
@@ -145,7 +145,7 @@ public class Game {
 
         for (final var round : rounds) {
             for (final var guess : round.getGuesses()) {
-                if (guess.playerId().equals( playerId)) {
+                if (guess.playerId().equals(playerId)) {
                     guesses.add(guess);
                 }
             }
@@ -215,7 +215,12 @@ public class Game {
     }
 
     public Game toggleString(int string) {
-        this.opts = opts.withToggledString(string);
+        opts.toggleString(string);
+        return this;
+    }
+
+    public Game toggleAccidental(Accidental accidental) {
+        opts.toggleAccidental(accidental);
         return this;
     }
 }

@@ -34,10 +34,13 @@ export interface Fretboard {
   notes: any
 }
 
+export type Accidental = 'FLAT' | 'NONE' | 'SHARP';
+
 export interface Opts {
   fretboard: Fretboard,
   roundCount: number,
-  stringsToUse: number[]
+  strings: number[],
+  accidentals: Accidental[]
 }
 
 export interface Round {

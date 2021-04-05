@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectScores } from '../gameSlice';
-import './PlayerScore.css';
+import './ScoreTable.css';
 
 export function ScoreTable() {
-  const userScores = useSelector(selectScores);
+  const scores = useSelector(selectScores);
 
-  if (!userScores) {
+  if (!scores) {
     throw new Error('could not load user scores');
   }
 
@@ -20,8 +20,8 @@ export function ScoreTable() {
           </tr>
         </thead>
         <tbody>
-          {userScores.map((userScore, index) => {
-            const { player, score } = userScore;
+          {scores.map((playerScore, index) => {
+            const { player, score } = playerScore;
             return (
               <tr key={index}>
                 <td>{player.name}</td>

@@ -1,7 +1,5 @@
 package kdp.FretQuiz.theory;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  * It contains a list of notes that each string is tuned to
  * starting from the highest-pitched string (string 1) to the lowest.
  */
-public record Tuning(@NotNull List<String> notes) {
+public record Tuning(List<String> notes) {
 
     public static final Tuning STANDARD_GUITAR = new Tuning(
             List.of("E5", "B4", "G4", "D4", "A3", "E3")

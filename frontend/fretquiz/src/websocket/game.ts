@@ -76,5 +76,5 @@ export function handleRoundStarted(message: response.RoundStarted) {
 export function handleGameOver(message: response.GameOver) {
   store.dispatch(setClickedFret(null));
   store.dispatch(setGuess(null));
-  store.dispatch(setCurrentGame(null));
+  // store.dispatch(setCurrentGame(null));
 }

@@ -69,7 +69,7 @@ export const selectOpts = (state: RootState) => state.game.currentGame?.opts;
 
 export const selectStringCount = createSelector(selectOpts, opts => opts?.fretboard.tuning.notes.length);
 
-export const selectStringsToUse = createSelector(selectOpts, opts => opts?.stringsToUse);
+export const selectStringsToUse = createSelector(selectOpts, opts => opts?.strings);
 
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 

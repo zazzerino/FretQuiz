@@ -2,7 +2,7 @@ import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
   handleGameIds, handleGameCreated, handleGameJoined, 
-  handleGameUpdated, handleRoundStarted, handleGuessResult 
+  handleGameUpdated, handleRoundStarted, handleGuessResult, handleGameOver 
 } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
@@ -45,5 +45,6 @@ function onMessage(event: MessageEvent) {
     case 'GAME_UPDATED': return handleGameUpdated(message as response.GameUpdated);
     case 'ROUND_STARTED': return handleRoundStarted(message as response.RoundStarted);
     case 'GUESS_RESULT': return handleGuessResult(message as response.GuessResult);
+    case 'GAME_OVER': return handleGameOver(message as response.GameOver);
   }
 }

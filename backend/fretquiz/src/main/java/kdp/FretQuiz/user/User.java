@@ -2,7 +2,6 @@ package kdp.FretQuiz.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import kdp.FretQuiz.Util;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public final class User {
     public final String sessionId;
 
     @JsonIgnore
-    private final @NotNull List<String> gameIds = new ArrayList<>();
+    private final List<String> gameIds = new ArrayList<>();
 
     public static final String DEFAULT_NAME = "anon";
 

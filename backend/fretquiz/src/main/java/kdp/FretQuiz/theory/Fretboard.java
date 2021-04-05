@@ -8,9 +8,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * This class represents a slice of a fretboard from `startFret` to `endFret`
- * in the given `tuning`. The `notes` field maps each Fretboard.Coord to the
- * note found at that Coord.
+ * This class represents a slice of a fretboard from `startFret` to `endFret` in the given `tuning`.
+ * The `notes` field maps each Fretboard.Coord to the note found at that Coord.
  */
 public record Fretboard(Tuning tuning,
                         int startFret,
@@ -30,7 +29,7 @@ public record Fretboard(Tuning tuning,
     /**
      * @param startFret the lowest fret (in pitch & number)
      * @param endFret the highest fret (in pitch & number)
-     * @return a new Fretboard and calculates the notes on that can be found on that fretboard.
+     * @return a new Fretboard and calculates the notes on that can be found on that fretboard
      */
     public static Fretboard create(Tuning tuning, int startFret, int endFret) {
         final var notes = calculateNotes(tuning, startFret, endFret);
@@ -38,7 +37,7 @@ public record Fretboard(Tuning tuning,
     }
 
     /**
-     * @return a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord.
+     * @return a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord
      */
     public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
         final Map<Coord, Note> notes = new HashMap<>();
@@ -59,7 +58,7 @@ public record Fretboard(Tuning tuning,
     }
 
     /**
-     * @return the Note at the given Fretboard.Coord (string & fret).
+     * @return the Note at the given Fretboard.Coord (string & fret)
      */
     public Optional<Note> findNoteAt(Coord coord) {
         return Optional.ofNullable(notes.get(coord));

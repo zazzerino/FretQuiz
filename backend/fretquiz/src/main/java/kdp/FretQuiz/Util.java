@@ -20,6 +20,9 @@ public class Util {
         return UUID.randomUUID().toString();
     }
 
+    /**
+     * @return a list of Integers from `start` to `endExclusive` - 1.
+     */
     public static List<Integer> range(int start, int endExclusive) {
         return IntStream
                 .range(start, endExclusive)

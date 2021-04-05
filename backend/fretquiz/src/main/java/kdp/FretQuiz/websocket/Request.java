@@ -2,6 +2,7 @@ package kdp.FretQuiz.websocket;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import kdp.FretQuiz.game.Guess;
+import kdp.FretQuiz.theory.Accidental;
 
 /**
  * A Request is a message originating from the client (the browser).
@@ -19,7 +20,8 @@ public interface Request {
         START_GAME,
         PLAYER_GUESS,
         NEXT_ROUND,
-        TOGGLE_STRING;
+        TOGGLE_STRING,
+        TOGGLE_ACCIDENTAL;
     }
 
     /**
@@ -83,6 +85,12 @@ public interface Request {
     record ToggleString(Type type, String gameId, int string) implements Request {
         public ToggleString(String gameId, int string) {
             this(Type.TOGGLE_STRING, gameId, string);
+        }
+    }
+
+    record ToggleAccidental(Type type, String gameId, Accidental accidental) implements Request {
+        public ToggleAccidental(String gameId, Accidental accidental) {
+            this(Type.TOGGLE_ACCIDENTAL, gameId, accidental);
         }
     }
 }

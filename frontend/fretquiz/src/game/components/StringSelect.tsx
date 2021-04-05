@@ -6,12 +6,12 @@ import './StringSelect.css';
 
 interface StringCheckboxProps {
   gameId: string,
-  stringsToUse: number[],
-  string: number
+  string: number,
+  stringsToUse: number[]
 }
 
 function StringCheckbox(props: StringCheckboxProps) {
-  const { gameId, stringsToUse, string } = props;
+  const { gameId, string, stringsToUse } = props;
   const name = `string-${string}`;
   const usingString = stringsToUse?.includes(string);
 

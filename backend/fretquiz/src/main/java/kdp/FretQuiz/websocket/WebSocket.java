@@ -5,7 +5,6 @@ import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import kdp.FretQuiz.game.GameController;
 import kdp.FretQuiz.user.UserController;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ public class WebSocket {
     /**
      * The connected user sessions.
      */
-    private static final @NotNull List<WsContext> contexts = new ArrayList<>();
+    private static final List<WsContext> contexts = new ArrayList<>();
 
     /**
      * Send a response to each session in sessionIds.

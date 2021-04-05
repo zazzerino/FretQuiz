@@ -141,11 +141,11 @@ public class GameController {
         final var message = context.message(Request.NextRound.class);
 
         final var gameId = message.gameId();
-        final var playerId = message.userId();
+        final var userId = message.userId();
 
         final var game = gameDao.getGameById(gameId);
 
-        final var userIsHost = game.getHostId().equals(playerId);
+        final var userIsHost = game.getHostId().equals(userId);
         final var roundIsOver = game.currentRound().isOver();
 
         if (userIsHost && roundIsOver) {
@@ -164,6 +164,20 @@ public class GameController {
         final var game = gameDao
                 .getGameById(gameId)
                 .toggleString(string);
+
+        gameDao.save(game);
+        sendUpdatedGameToPlayers(game.id);
+    }
+
+    public static void toggleAccidental(WsMessageContext context) {
+        final var message = context.message(Request.ToggleAccidental.class);
+
+        final var gameId = message.gameId();
+        final var accidental = message.accidental();
+
+        final var game = gameDao
+                .getGameById(gameId)
+                .toggleAccidental(accidental);
 
         gameDao.save(game);
         sendUpdatedGameToPlayers(game.id);
