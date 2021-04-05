@@ -1,4 +1,4 @@
-import { ClientGuess } from '../game/types';
+import { ClientGuess, Accidental } from '../game/types';
 
 export type RequestType =
   'LOGIN'
@@ -9,7 +9,8 @@ export type RequestType =
   | 'START_GAME'
   | 'PLAYER_GUESS'
   | 'NEXT_ROUND'
-  | 'TOGGLE_STRING';
+  | 'TOGGLE_STRING'
+  | 'TOGGLE_ACCIDENTAL';
 
 export interface Request {
   type: RequestType
@@ -98,4 +99,14 @@ export interface ToggleString extends Request {
 
 export function toggleString(gameId: string, string: number): ToggleString {
   return { type: 'TOGGLE_STRING', gameId, string }
+}
+
+export interface ToggleAccidental extends Request {
+  type: 'TOGGLE_ACCIDENTAL',
+  gameId: string,
+  accidental: Accidental
+}
+
+export function toggleAccidental(gameId: string, accidental: Accidental): ToggleAccidental {
+  return { type: 'TOGGLE_ACCIDENTAL', gameId, accidental };
 }

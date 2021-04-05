@@ -2,7 +2,7 @@ import { ws } from './socket';
 import { store } from '../store';
 import * as request from './request';
 import * as response from './response';
-import { ClientGuess } from '../game/types';
+import { Accidental, ClientGuess } from '../game/types';
 import { setClickedFret, setCurrentGame, setGameIds, setGuess } from '../game/gameSlice';
 
 function send(request: request.Request) {
@@ -37,6 +37,10 @@ export const sendNextRound = (gameId: string, playerId: string) => {
 
 export const sendToggleString = (gameId: string, string: number) => {
   send(request.toggleString(gameId, string));
+}
+
+export const sendToggleAccidental = (gameId: string, accidental: Accidental) => {
+  send(request.toggleAccidental(gameId, accidental));
 }
 
 // handle responses
@@ -76,5 +80,4 @@ export function handleRoundStarted(message: response.RoundStarted) {
 export function handleGameOver(message: response.GameOver) {
   store.dispatch(setClickedFret(null));
   store.dispatch(setGuess(null));
-  // store.dispatch(setCurrentGame(null));
 }

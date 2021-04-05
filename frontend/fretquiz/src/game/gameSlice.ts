@@ -71,6 +71,8 @@ export const selectStringCount = createSelector(selectOpts, opts => opts?.fretbo
 
 export const selectStringsToUse = createSelector(selectOpts, opts => opts?.strings);
 
+export const selectAccidentalsToUse = createSelector(selectOpts, opts => opts?.accidentals);
+
 export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
 
 export default gameSlice.reducer;
