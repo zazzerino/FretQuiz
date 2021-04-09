@@ -22,7 +22,7 @@ public class Game {
     private State state;
 
     @JsonProperty("players")
-    private final List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
     /**
      * The rounds that have been played. The current round is the last element.
@@ -224,6 +224,16 @@ public class Game {
 
     public Game toggleAccidental(Accidental accidental) {
         opts.toggleAccidental(accidental);
+        return this;
+    }
+
+    public Game setPlayerName(String playerId, String playerName) {
+        players = players.stream()
+                .map(player -> playerId.equals(player.id())
+                        ? player.withName(playerName)
+                        : player)
+                .toList();
+
         return this;
     }
 }
