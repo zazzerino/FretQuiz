@@ -6,45 +6,46 @@ import { NextRoundButton } from '../game/components/NextRoundButton';
 import { StartGameButton } from '../game/components/StartGameButton';
 import { Stave } from '../game/components/Stave';
 import { ScoreTable } from '../game/components/ScoreTable';
-import { selectGameId, selectGameIsOver, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
+import { selectGameId, selectGameIsOver, selectGameState, selectReadyToStart, selectRoundIsOver } from '../game/gameSlice';
 import { useHistory } from 'react-router';
+import { GameLobby } from '../game/GameLobby';
 
-function RoundOver() {
-  return (
-    <div className="RoundOver">
-      <NextRoundButton />
-    </div>
-  );
-}
+// function RoundOver() {
+//   return (
+//     <div className="RoundOver">
+//       <NextRoundButton />
+//     </div>
+//   );
+// }
 
-function SettingsLink() {
-  const history = useHistory();
+// function SettingsLink() {
+//   const history = useHistory();
 
-  return (
-    <div className="SettingsLink">
-      <button onClick={() => history.push('/settings')}>
-        Change Settings
-      </button>
-    </div>
-  );
-}
+//   return (
+//     <div className="SettingsLink">
+//       <button onClick={() => history.push('/settings')}>
+//         Change Settings
+//       </button>
+//     </div>
+//   );
+// }
 
-function GameCanvas() {
-  const gameId = useSelector(selectGameId);
-  const readyToStart = useSelector(selectReadyToStart);
-  const roundIsOver = useSelector(selectRoundIsOver);
+// function GameCanvas() {
+//   const gameId = useSelector(selectGameId);
+//   const readyToStart = useSelector(selectReadyToStart);
+//   const roundIsOver = useSelector(selectRoundIsOver);
 
-  return (
-    <div className="GameCanvas">
-      <Stave />
-      <Fretboard />
-      {!gameId && <CreateGameButton />}
-      {gameId && <SettingsLink />}
-      {readyToStart && <StartGameButton />}
-      {roundIsOver && <RoundOver />}
-    </div>
-  );
-}
+//   return (
+//     <div className="GameCanvas">
+//       <Stave />
+//       <Fretboard />
+//       {!gameId && <CreateGameButton />}
+//       {gameId && <SettingsLink />}
+//       {readyToStart && <StartGameButton />}
+//       {roundIsOver && <RoundOver />}
+//     </div>
+//   );
+// }
 
 function GameOver() {
   return (
@@ -57,13 +58,23 @@ function GameOver() {
 }
 
 export function Game() {
-  const gameIsOver = useSelector(selectGameIsOver);
+  const state = useSelector(selectGameState);
 
   return (
     <div className="Game">
-      {gameIsOver
-        ? <GameOver />
-        : <GameCanvas />}
+      {state === 'INIT' && <GameLobby />}
     </div>
   );
 }
+
+// export function Game() {
+//   const gameIsOver = useSelector(selectGameIsOver);
+  
+//   return (
+//     <div className="Game">
+//       {gameIsOver
+//         ? <GameOver />
+//         : <GameCanvas />}
+//     </div>
+//   );
+// }

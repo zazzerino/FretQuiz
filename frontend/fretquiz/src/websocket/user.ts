@@ -5,7 +5,7 @@ import { setUser } from "../user/userSlice";
 import { login } from './request';
 
 export function handleFlash(message: Flash) {
-  console.log('flash message received: ' + JSON.stringify(message.message));
+  console.log('flash: ' + JSON.stringify(message.message));
 }
 
 export function sendLogin(name: string) {

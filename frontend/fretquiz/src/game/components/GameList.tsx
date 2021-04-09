@@ -36,7 +36,11 @@ export function GameList() {
       <h2>Games</h2>
       <ul>
         {gameIds.map((gameId, index) => {
-          return <GameListItem key={index} gameId={gameId} userId={userId} />
+          return <GameListItem
+            key={index}
+            gameId={gameId}
+            userId={userId}
+          />
         })}
       </ul>
     </div>

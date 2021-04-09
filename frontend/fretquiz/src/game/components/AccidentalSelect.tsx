@@ -7,10 +7,14 @@ import './AccidentalSelect.css';
 
 function accidentalName(accidental: Accidental): string {
   switch (accidental) {
-    case 'FLAT': return 'Flats';
-    case 'NONE': return 'Naturals';
-    case 'SHARP': return 'Sharps';
-    default: throw new Error('invalid argument');
+    case 'FLAT':
+      return 'Flats';
+    case 'NONE':
+      return 'Naturals';
+    case 'SHARP':
+      return 'Sharps';
+    default:
+      throw new Error('invalid argument');
   }
 }
 

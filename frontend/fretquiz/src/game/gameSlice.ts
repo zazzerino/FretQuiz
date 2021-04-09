@@ -57,6 +57,10 @@ export const selectClickedFret = (state: RootState) => state.game.clickedFret;
 
 export const selectScores = (state: RootState) => state.game.currentGame?.scores;
 
+export const selectPlayers = (state: RootState) => state.game.currentGame?.players;
+
+export const selectPlayerNames = createSelector(selectPlayers, players => players?.map(player => player.name));
+
 export const selectReadyToStart = createSelector(selectGameState, state => state === 'INIT');
 
 export const selectGameIsPlaying = createSelector(selectGameState, state => state === 'PLAYING');

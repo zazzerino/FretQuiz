@@ -64,7 +64,7 @@ export interface PlayerScore {
 export interface Game {
   id: string,
   opts: Opts,
-  playerIds: string[],
+  players: Player[],
   hostId: string,
   rounds: Round[],
   currentRound: Round | null,

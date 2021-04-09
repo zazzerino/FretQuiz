@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
 import { sendToggleString } from '../../websocket/game';
 import { selectGameId, selectStringCount, selectStringsToUse } from '../gameSlice';
 import './StringSelect.css';

@@ -13,6 +13,7 @@ export function Login() {
         onChange={event => setName(event.target.value)}
         placeholder="Type your username"
       />
+      <br />
       <button
         id="login-button"
         onClick={() => sendLogin(name)}

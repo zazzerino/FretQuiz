@@ -8,11 +8,13 @@ export function NextRoundButton() {
   const userId = useSelector(selectUserId);
   const gameId = useSelector(selectGameId);
 
-  const onClick = () => gameId && userId && sendNextRound(gameId, userId);
+  if (!userId || !gameId) {
+    throw new Error('userId or gameId is null');
+  }
 
   return (
     <div className="NextRoundButton">
-      <button onClick={onClick}>
+      <button onClick={() => sendNextRound(gameId, userId)}>
         Next Round
       </button>
     </div>

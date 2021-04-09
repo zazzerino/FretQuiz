@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentGame } from '../game/gameSlice';
 import { selectUser } from '../user/userSlice';
+import "./Footer.css";
 
 function UserDisplay() {
   const user = useSelector(selectUser);
@@ -11,7 +12,7 @@ function UserDisplay() {
 function GameDisplay() {
   const game = useSelector(selectCurrentGame);
 
-  if (!game) {
+  if (game == null) {
     return null;
   }
 
