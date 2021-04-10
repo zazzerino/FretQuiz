@@ -1,9 +1,8 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Link, IconButton, makeStyles, StylesProvider } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import './Navbar.css';
 
-function NavbarItem(props: { path: string, text: string }) {
+function NavbarLink(props: { path: string, text: string }) {
   const { path, text } = props;
 
   return (
@@ -19,11 +18,20 @@ function NavbarItem(props: { path: string, text: string }) {
   );
 }
 
+const navLinks = [
+  ['/', 'Home'],
+  ['/login', 'Login'],
+  ['/game', 'Game'],
+];
+
 const useStyles = makeStyles({
   root: {
+    '& div': {
+      display: 'flex',
+    },
     '& a': {
       marginLeft: '2rem',
-    }
+    },
   }
 });
 
@@ -34,9 +42,12 @@ export function Navbar() {
     <div className={styles.root}>
       <AppBar position="static">
         <Toolbar>
-          <NavbarItem path="/home" text="Home" />
-          <NavbarItem path="/login" text="Login" />
-          <NavbarItem path="/game" text="Game" />
+          <div className="Navbar-links">
+            {navLinks.map((link, index) => {
+              const [path, name] = link;
+              return <NavbarLink key={index} path={path} text={name} />
+            })}
+          </div>
         </Toolbar>
       </AppBar>
     </div>
