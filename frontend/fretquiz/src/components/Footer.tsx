@@ -1,10 +1,9 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import { Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectCurrentGame } from '../game/gameSlice';
 import { selectUser } from '../user/userSlice';
-import "./Footer.css";
 
 function UserDisplay() {
   const user = useSelector(selectUser);
@@ -30,9 +29,17 @@ function GameDisplay() {
   );
 }
 
+const useStyles = makeStyles({
+  footer: {
+    marginTop: "2rem"
+  }
+});
+
 export function Footer() {
+  const styles = useStyles();
+
   return (
-    <div className="Footer">
+    <div className={styles.footer}>
       <Divider />
       <UserDisplay />
       <GameDisplay />
