@@ -6,7 +6,6 @@ import { Home } from './pages/Home';
 import { Navbar } from './components/Navbar';
 import { Game } from './pages/Game';
 import { Login } from './pages/Login';
-import { Games } from './pages/Games';
 import { Settings } from './game/components/Settings';
 
 function App() {
@@ -17,9 +16,6 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login />
-          </Route>
-          <Route path="/games">
-            <Games />
           </Route>
           <Route path="/game">
             <Game />

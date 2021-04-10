@@ -6,8 +6,8 @@ import './ScoreTable.css';
 export function ScoreTable() {
   const scores = useSelector(selectScores);
 
-  if (!scores) {
-    throw new Error('could not load user scores');
+  if (scores == null) {
+    return null;
   }
 
   return (

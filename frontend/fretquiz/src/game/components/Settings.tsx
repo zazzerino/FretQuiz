@@ -10,8 +10,8 @@ function GameLink() {
   const history = useHistory();
   const gameId = useSelector(selectGameId);
 
-  if (!gameId) {
-    throw new Error(`couldn't find game with id: ${gameId}`);
+  if (gameId == null) {
+    return null;
   }
 
   const onClick = () => {

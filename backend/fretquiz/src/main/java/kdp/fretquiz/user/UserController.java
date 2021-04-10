@@ -39,7 +39,7 @@ public class UserController {
         userDao.save(user);
         setUserIdAttribute(context, user);
 
-        // let the other players know this user's name has changed
+        // let other players know the user's name has changed
         for (final var gameId : user.gameIds()) {
             final var game = gameDao.getGameById(gameId);
             game.setPlayerName(user.id, user.name());

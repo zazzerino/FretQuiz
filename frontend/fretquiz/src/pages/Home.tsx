@@ -7,7 +7,7 @@ import { selectGameIds } from '../game/gameSlice';
 export function Home() {
   return (
     <div className="Home">
-      <h2>Hello FretQuiz</h2>
+      <h2>FretQuiz</h2>
       <GameListBox />
       <CreateGameButton />
     </div>
