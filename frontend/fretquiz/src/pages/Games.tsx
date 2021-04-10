@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateGameButton } from '../game/components/CreateGameButton';
+import { CreateGameButton } from '../game/CreateGameButton';
 import { GameListBox } from '../game/GameListBox';
 
 export function Games() {

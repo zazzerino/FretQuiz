@@ -1,15 +1,15 @@
 import React from 'react';
-import { store } from '../../store';
+import { store } from '../store';
 import { FretboardDiagram, Dot } from 'fretboard-diagram';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../user/userSlice';
+import { selectUserId } from '../user/userSlice';
 import {
   selectClickedFret, selectCorrectFret, selectGameId, 
   selectGameIsPlaying, selectGuessIsCorrect, setClickedFret
-} from '../gameSlice';
-import { ClientGuess, FretCoord } from '../types';
-import { sendGuess } from '../../websocket/game';
-import { emptyElementWithId } from '../../utils';
+} from './gameSlice';
+import { ClientGuess, FretCoord } from './types';
+import { sendGuess } from '../websocket/game';
+import { emptyElementWithId } from '../utils';
 
 const defaultColor = 'white';
 const correctColor = 'lime';
@@ -28,7 +28,6 @@ function dotColor(isCorrect: boolean | undefined) {
 
 function sendClientGuess(guess: ClientGuess) {
   const { clickedFret } = guess;
-
   store.dispatch(setClickedFret(clickedFret));
   sendGuess(guess);
 }

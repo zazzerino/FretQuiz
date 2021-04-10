@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { CreateGameButton } from '../game/components/CreateGameButton';
-import { Fretboard } from '../game/components/Fretboard';
-import { NextRoundButton } from '../game/components/NextRoundButton';
-import { Stave } from '../game/components/Stave'; 
-import { ScoreTable } from '../game/components/ScoreTable';
+import { CreateGameButton } from '../game/CreateGameButton';
+import { Fretboard } from '../game/Fretboard';
+import { NextRoundButton } from '../game/NextRoundButton';
+import { Stave } from '../game/Stave'; 
+import { ScoreTable } from '../game/ScoreTable';
 import { selectGameState, selectRoundIsOver } from '../game/gameSlice';
-import { GameLobby } from '../game/GameLobby';
+import { GameLobby } from '../game/WaitingRoom';
 
 function GameCanvas() {
   const roundIsOver = useSelector(selectRoundIsOver);

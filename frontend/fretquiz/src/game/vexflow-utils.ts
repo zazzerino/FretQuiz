@@ -1,5 +1,5 @@
 import Vex from 'vexflow';
-import { Note } from '../types';
+import { Note } from './types';
 
 /**
  * A helper function for formatNote().

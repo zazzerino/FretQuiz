@@ -1,13 +1,17 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { CreateGameButton } from '../game/components/CreateGameButton';
+import { CreateGameButton } from '../game/CreateGameButton';
 import { GameListBox } from '../game/GameListBox';
-import { selectGameIds } from '../game/gameSlice';
 
 export function Home() {
   return (
     <div className="Home">
-      <h2>FretQuiz</h2>
+      <Typography
+        variant="h2"
+        style={{ margin: "1rem" }}
+      >
+        FretQuiz
+      </Typography>
       <GameListBox />
       <CreateGameButton />
     </div>

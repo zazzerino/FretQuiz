@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectScores } from '../gameSlice';
+import { selectScores } from './gameSlice';
 import './ScoreTable.css';
 
 export function ScoreTable() {

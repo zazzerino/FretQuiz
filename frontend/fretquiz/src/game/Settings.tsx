@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { sendStartGame } from '../../websocket/game';
-import { selectGameId } from '../gameSlice';
+import { sendStartGame } from '../websocket/game';
+import { selectGameId } from './gameSlice';
 import { AccidentalSelect } from './AccidentalSelect';
 import { StringSelect } from './StringSelect';
 

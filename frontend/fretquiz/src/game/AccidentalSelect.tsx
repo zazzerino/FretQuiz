@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { sendToggleAccidental } from '../../websocket/game';
-import { selectAccidentalsToUse, selectGameId } from '../gameSlice';
-import { Accidental } from '../types';
+import { sendToggleAccidental } from '../websocket/game';
+import { selectAccidentalsToUse, selectGameId } from './gameSlice';
+import { Accidental } from './types';
 import './AccidentalSelect.css';
 
 function accidentalName(accidental: Accidental): string {

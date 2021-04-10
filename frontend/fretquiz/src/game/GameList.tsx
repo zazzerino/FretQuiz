@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { sendJoinGame } from '../../websocket/game';
-import { selectUserId } from '../../user/userSlice';
-import { selectGameIds } from '../gameSlice';
+import { sendJoinGame } from '../websocket/game';
+import { selectUserId } from '../user/userSlice';
+import { selectGameIds } from './gameSlice';
 
 interface GameListItemProps { 
   gameId: string, 
