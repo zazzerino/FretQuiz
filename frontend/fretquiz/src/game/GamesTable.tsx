@@ -4,16 +4,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from  '@material-ui/core/Paper';
 // import TableFooter from '@material-ui/core/TableFooter'
 // import TablePagination from '@material-ui/core/TablePagination';
 import { selectGameInfos } from './gameSlice';
+import { minutesSince } from '../utils';
 
 const useStyles = makeStyles({
-  table: {}
+  table: {
+    width: '80%',
+    margin: 'auto',
+  }
 });
 
 export function GamesTable() {
@@ -21,27 +23,34 @@ export function GamesTable() {
   const gameInfos = useSelector(selectGameInfos);
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Game ID</TableCell>
-            <TableCell>Host</TableCell>
-            <TableCell>Players</TableCell>
-            <TableCell>Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {gameInfos.map(info => (
-            <TableRow key={info.gameId}>
-              <TableCell>{info.gameId}</TableCell>
+    <Table className={classes.table}>
+      <TableHead>
+        <TableRow>
+          <TableCell>ID</TableCell>
+          <TableCell>Host</TableCell>
+          <TableCell>Players</TableCell>
+          <TableCell>Status</TableCell>
+          <TableCell>Created</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {gameInfos.map(info => {
+          const shortId = info.gameId.substring(0, 8);
+          const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
+
+
+          return (
+            <TableRow key={info.gameId} data-game-id={info.gameId}>
+              <TableCell>{shortId}</TableCell>
               <TableCell>{info.hostName}</TableCell>
               <TableCell>{info.playerCount}</TableCell>
               <TableCell>{info.state}</TableCell>
+              <TableCell>{minutes} minutes ago</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-        {/* <TableFooter>
+          )
+        })}
+      </TableBody>
+      {/* <TableFooter>
           <TableRow>
             <TablePagination
               component="div"
@@ -49,7 +58,6 @@ export function GamesTable() {
             />
           </TableRow>
         </TableFooter> */}
-      </Table>
-    </TableContainer>
+    </Table>
   );
 }

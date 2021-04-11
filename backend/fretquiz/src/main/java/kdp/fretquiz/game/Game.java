@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.fretquiz.Util;
 import kdp.fretquiz.theory.Accidental;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 public class Game {
 
     public final String id;
+    public final String createdAt; // in ISO 8601 format
 
     private Opts opts;
     private String hostId;
@@ -39,6 +41,7 @@ public class Game {
 
     public Game() {
         this.id = Util.randomId();
+        this.createdAt = Instant.now().toString();
         this.opts = new Opts();
         this.state = State.INIT;
     }
@@ -78,13 +81,18 @@ public class Game {
     }
 
     public record Info(String gameId,
+                       String createdAt,
                        String hostName,
                        int playerCount,
                        State state) {
     };
 
     public Info info() {
-        return new Info(id, hostName(), players.size(), state);
+        return new Info(id, createdAt, hostName(), playerCount(), state);
+    }
+
+    public int playerCount() {
+        return players.size();
     }
 
     public String hostName() {
@@ -159,7 +167,7 @@ public class Game {
     /**
      * @return The guesses made by the player with `id`.
      */
-    public List<Guess> guesses(String playerId) {
+    public List<Guess> playerGuesses(String playerId) {
         final var guesses = new ArrayList<Guess>();
 
         for (final var round : rounds) {
@@ -176,10 +184,10 @@ public class Game {
     /**
      * A player gets a point for guessing correctly.
      */
-    public int score(String playerId) {
+    public int playerScore(String playerId) {
         var score = 0;
 
-        for (final var guess : guesses(playerId)) {
+        for (final var guess : playerGuesses(playerId)) {
             if (guess.isCorrect()) {
                 score += 1;
             }
@@ -195,7 +203,7 @@ public class Game {
         final var scores = new ArrayList<PlayerScore>();
 
         for (final var player : players) {
-            final var playerScore = new PlayerScore(player, score(player.id()));
+            final var playerScore = new PlayerScore(player, playerScore(player.id()));
             scores.add(playerScore);
         }
 
@@ -216,7 +224,7 @@ public class Game {
         return rounds;
     }
 
-    public String getHostId() {
+    public String hostId() {
         return hostId;
     }
 

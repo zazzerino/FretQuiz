@@ -9,7 +9,7 @@ export function CreateGameButton() {
       color="primary"
       onClick={sendCreateGame}
     >
-      Create Game
+      New Game
     </Button>
   );
 }

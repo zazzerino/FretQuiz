@@ -151,7 +151,7 @@ public class GameController {
 
         final var game = gameDao.getGameById(gameId);
 
-        final var userIsHost = game.getHostId().equals(userId);
+        final var userIsHost = game.hostId().equals(userId);
         final var roundIsOver = game.currentRound().isOver();
 
         if (userIsHost && roundIsOver) {
