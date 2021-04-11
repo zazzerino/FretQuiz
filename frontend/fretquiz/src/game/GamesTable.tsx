@@ -38,7 +38,6 @@ export function GamesTable() {
           const shortId = info.gameId.substring(0, 8);
           const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
 
-
           return (
             <TableRow key={info.gameId} data-game-id={info.gameId}>
               <TableCell>{shortId}</TableCell>
