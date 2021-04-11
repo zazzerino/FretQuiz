@@ -262,4 +262,8 @@ public class Game {
 
         return this;
     }
+
+    public String createdAt() {
+        return createdAt;
+    }
 }

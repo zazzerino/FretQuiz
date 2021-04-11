@@ -1,9 +1,6 @@
 package kdp.fretquiz.game;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,6 +32,7 @@ public class GameDao {
         return getAllGames()
                 .stream()
                 .map(Game::info)
+                .sorted(Comparator.comparing(Game.Info::createdAt).reversed())
                 .toList();
     }
 
