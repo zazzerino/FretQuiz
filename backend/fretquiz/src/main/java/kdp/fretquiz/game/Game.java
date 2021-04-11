@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * A Game consists of a series of rounds.
@@ -258,12 +259,8 @@ public class Game {
                 .map(player -> playerId.equals(player.id())
                         ? player.withName(playerName)
                         : player)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
 
         return this;
-    }
-
-    public String createdAt() {
-        return createdAt;
     }
 }
