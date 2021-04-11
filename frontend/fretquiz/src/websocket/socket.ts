@@ -2,7 +2,7 @@ import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
   handleGameIds, handleGameCreated, handleGameJoined, 
-  handleGameUpdated, handleRoundStarted, handleGuessResult, handleGameOver 
+  handleGameUpdated, handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
 } from './game';
 
 const WS_URL = 'ws://localhost:8080/ws';
@@ -37,14 +37,25 @@ function onMessage(event: MessageEvent) {
   console.log(message);
 
   switch (message.type) {
-    case 'FLASH': return handleFlash(message as response.Flash);
-    case 'LOGGED_IN': return handleLogin(message as response.LoggedIn);
-    case 'GAME_IDS': return handleGameIds(message as response.GameIds);
-    case 'GAME_CREATED': return handleGameCreated(message as response.GameCreated);
-    case 'GAME_JOINED': return handleGameJoined(message as response.GameJoined);
-    case 'GAME_UPDATED': return handleGameUpdated(message as response.GameUpdated);
-    case 'ROUND_STARTED': return handleRoundStarted(message as response.RoundStarted);
-    case 'GUESS_RESULT': return handleGuessResult(message as response.GuessResult);
-    case 'GAME_OVER': return handleGameOver(message as response.GameOver);
+    case 'FLASH':
+      return handleFlash(message as response.Flash);
+    case 'LOGGED_IN':
+      return handleLogin(message as response.LoggedIn);
+    case 'GAME_IDS':
+      return handleGameIds(message as response.GameIds);
+    case 'GAME_INFOS':
+      return handleGameInfos(message as response.GameInfos);
+    case 'GAME_CREATED':
+      return handleGameCreated(message as response.GameCreated);
+    case 'GAME_JOINED':
+      return handleGameJoined(message as response.GameJoined);
+    case 'GAME_UPDATED':
+      return handleGameUpdated(message as response.GameUpdated);
+    case 'ROUND_STARTED':
+      return handleRoundStarted(message as response.RoundStarted);
+    case 'GUESS_RESULT':
+      return handleGuessResult(message as response.GuessResult);
+    case 'GAME_OVER':
+      return handleGameOver(message as response.GameOver);
   }
 }

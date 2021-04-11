@@ -8,7 +8,6 @@ export function CreateGameButton() {
       variant="contained"
       color="primary"
       onClick={sendCreateGame}
-      style={{marginTop: "2rem"}}
     >
       Create Game
     </Button>

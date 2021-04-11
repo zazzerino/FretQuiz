@@ -34,7 +34,7 @@ public class Round {
      * Increment secondsElapsed.
      */
     public Round tick() {
-        this.secondsElapsed += 1;
+        secondsElapsed += 1;
         return this;
     }
 

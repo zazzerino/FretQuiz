@@ -2,17 +2,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
-import { Game, Guess } from "./types";
+import { Game, GameInfo, Guess } from "./types";
 
 interface GameSliceState {
   gameIds: string[],
+  gameInfos: GameInfo[],
   currentGame: Game | null,
   clickedFret: FretCoord | null,
-  guess: Guess | null
+  guess: Guess | null,
 }
 
 const initialState: GameSliceState = {
   gameIds: [],
+  gameInfos: [],
   currentGame: null,
   clickedFret: null,
   guess: null
@@ -28,6 +30,9 @@ const gameSlice = createSlice({
     setGameIds: (state: GameSliceState, action: PayloadAction<string[]>) => {
       state.gameIds = action.payload;
     },
+    setGameInfos: (state: GameSliceState, action: PayloadAction<GameInfo[]>) => {
+      state.gameInfos = action.payload;
+    },
     setClickedFret: (state: GameSliceState, action: PayloadAction<FretCoord | null>) => {
       state.clickedFret = action.payload;
     },
@@ -38,6 +43,8 @@ const gameSlice = createSlice({
 });
 
 export const selectGameIds = (state: RootState) => state.game.gameIds;
+
+export const selectGameInfos = (state: RootState) => state.game.gameInfos;
 
 export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
@@ -77,6 +84,6 @@ export const selectStringsToUse = createSelector(selectOpts, opts => opts?.strin
 
 export const selectAccidentalsToUse = createSelector(selectOpts, opts => opts?.accidentals);
 
-export const { setCurrentGame, setGameIds, setClickedFret, setGuess } = gameSlice.actions;
+export const { setCurrentGame, setGameIds, setGameInfos, setClickedFret, setGuess } = gameSlice.actions;
 
 export default gameSlice.reducer;

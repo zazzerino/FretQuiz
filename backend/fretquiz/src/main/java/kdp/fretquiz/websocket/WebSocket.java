@@ -48,6 +48,9 @@ public class WebSocket {
 
         final var gameIds = gameDao.getGameIds();
         context.send(new Response.GameIds(gameIds));
+
+        final var gameInfos = gameDao.getGameInfos();
+        context.send(new Response.GameInfos(gameInfos));
     }
 
     public static void onClose(WsCloseContext context) {

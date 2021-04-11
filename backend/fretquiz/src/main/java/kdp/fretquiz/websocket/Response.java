@@ -18,6 +18,7 @@ public interface Response {
         LOGGED_IN,
         LOGGED_OUT,
         GAME_IDS,
+        GAME_INFOS,
         GAME_CREATED,
         GAME_JOINED,
         GAME_STARTED,
@@ -55,6 +56,12 @@ public interface Response {
     record GameIds(Type type, List<String> gameIds) implements Response {
         public GameIds(List<String> gameIds) {
             this(Type.GAME_IDS, gameIds);
+        }
+    }
+
+    record GameInfos(Type type, List<Game.Info> gameInfos) implements Response {
+        public GameInfos(List<Game.Info> gameInfos) {
+            this(Type.GAME_INFOS, gameInfos);
         }
     }
 

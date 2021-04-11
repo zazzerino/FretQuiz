@@ -6,7 +6,7 @@ import { NextRoundButton } from '../game/NextRoundButton';
 import { Stave } from '../game/Stave'; 
 import { ScoreTable } from '../game/ScoreTable';
 import { selectGameState, selectRoundIsOver } from '../game/gameSlice';
-import { GameLobby } from '../game/WaitingRoom';
+import { WaitingRoom } from '../game/WaitingRoom';
 
 function GameCanvas() {
   const roundIsOver = useSelector(selectRoundIsOver);
@@ -35,7 +35,7 @@ export function Game() {
 
   return (
     <div className="Game">
-      {state === 'INIT' && <GameLobby />}
+      {state === 'INIT' && <WaitingRoom />}
       {(state === 'PLAYING' || state === 'ROUND_OVER') && <GameCanvas />}
       {state === 'GAME_OVER' && <GameOver />}
     </div>

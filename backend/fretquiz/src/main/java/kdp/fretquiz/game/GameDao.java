@@ -31,6 +31,13 @@ public class GameDao {
                 .toList();
     }
 
+    public List<Game.Info> getGameInfos() {
+        return getAllGames()
+                .stream()
+                .map(Game::info)
+                .toList();
+    }
+
     public List<String> getPlayerIds(String gameId) {
         return getGameById(gameId).playerIds();
     }

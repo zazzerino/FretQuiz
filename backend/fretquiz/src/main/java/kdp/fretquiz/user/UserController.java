@@ -47,6 +47,7 @@ public class UserController {
             GameController.sendUpdatedGameToPlayers(gameId);
         }
 
+        GameController.broadcastGameInfos();
         context.send(new Response.LoggedIn(user));
     }
 
@@ -75,6 +76,7 @@ public class UserController {
                 log.info("deleting game: " + gameId);
                 gameDao.delete(gameId);
                 GameController.broadcastGameIds();
+                GameController.broadcastGameInfos();
             } else {
                 gameDao.save(game);
                 GameController.sendUpdatedGameToPlayers(gameId);

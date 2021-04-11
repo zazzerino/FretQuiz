@@ -1,4 +1,4 @@
-import { Game, Guess } from '../game/types';
+import { Game, GameInfo, Guess } from '../game/types';
 import { User } from "../user/userSlice";
 
 export type ResponseType =
@@ -6,6 +6,7 @@ export type ResponseType =
   | 'LOGGED_IN'
   | 'LOGGED_OUT'
   | 'GAME_IDS'
+  | 'GAME_INFOS'
   | 'GAME_CREATED'
   | 'GAME_JOINED'
   | 'GAME_STARTED'
@@ -45,6 +46,11 @@ export interface GameCreated extends Response {
 export interface GameIds extends Response {
   type: 'GAME_IDS',
   gameIds: string[]
+}
+
+export interface GameInfos extends Response {
+  type: 'GAME_INFOS',
+  gameInfos: GameInfo[]
 }
 
 export interface GameJoined extends Response {

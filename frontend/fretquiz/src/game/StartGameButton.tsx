@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { sendStartGame } from '../websocket/game';
@@ -8,9 +9,13 @@ export function StartGameButton() {
 
   return (
     <div className="StartGameButton">
-      <button onClick={() => gameId && sendStartGame(gameId)}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => gameId && sendStartGame(gameId)}
+      >
         Start Game
-      </button>
+      </Button>
     </div>
   );
 }

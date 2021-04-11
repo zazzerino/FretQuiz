@@ -3,8 +3,16 @@ import { useSelector } from 'react-redux';
 import { StartGameButton } from './StartGameButton';
 import { selectGameId, selectReadyToStart } from './gameSlice';
 import { PlayerList } from './PlayerList';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
-export function GameLobby() {
+const useStyles = makeStyles({
+  root: {}
+});
+
+export function WaitingRoom() {
+  const styles = useStyles();
+
   const gameId = useSelector(selectGameId);
   const readyToStart = useSelector(selectReadyToStart);
 
@@ -13,10 +21,14 @@ export function GameLobby() {
   }
 
   return (
-    <div className="GameLobby">
-      <h2>Game Lobby</h2>
-      <h4>Game Id</h4>
-      <p>{gameId}</p>
+    <div className={styles.root}>
+      <Typography variant='h4'>
+        Waiting Room
+      </Typography>
+      <Typography variant="h6">
+        Game Id
+      </Typography>
+      <Typography>{gameId}</Typography>
       <PlayerList />
       {readyToStart && <StartGameButton />}
     </div>

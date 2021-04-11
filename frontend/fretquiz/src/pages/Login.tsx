@@ -1,18 +1,25 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
+import Typography from '@material-ui/core/Typography';
 import { sendLogin } from "../websocket/user";
-import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  root: {
+    '& > *': {
+      marginTop: '1rem',
+    }
+  }
+});
 
 export function Login() {
   const [name, setName] = React.useState('');
+  const classes = useStyles();
 
   return (
-    <div className="Login">
-      <Typography 
-        variant="h4"
-        style={{margin: "1rem"}}
-      >
+    <div className={classes.root}>
+      <Typography variant="h4">
         Login
       </Typography>
       <Input
@@ -27,7 +34,6 @@ export function Login() {
         variant="contained"
         color="primary"
         onClick={() => sendLogin(name)}
-        style={{marginTop: "2rem"}}
       >
         Login
       </Button>

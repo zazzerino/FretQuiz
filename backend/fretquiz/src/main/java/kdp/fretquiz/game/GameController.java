@@ -67,6 +67,7 @@ public class GameController {
 
         // let users know there's a new game
         broadcastGameIds();
+        broadcastGameInfos();
     }
 
     /**
@@ -75,6 +76,11 @@ public class GameController {
     public static void broadcastGameIds() {
         final var gameIds = gameDao.getGameIds();
         WebSocket.broadcast(new Response.GameIds(gameIds));
+    }
+
+    public static void broadcastGameInfos() {
+        final var gameInfos = gameDao.getGameInfos();
+        WebSocket.broadcast(new Response.GameInfos(gameInfos));
     }
 
     /**

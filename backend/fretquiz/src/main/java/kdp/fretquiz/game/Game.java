@@ -77,6 +77,24 @@ public class Game {
         return this;
     }
 
+    public record Info(String gameId,
+                       String hostName,
+                       int playerCount,
+                       State state) {
+    };
+
+    public Info info() {
+        return new Info(id, hostName(), players.size(), state);
+    }
+
+    public String hostName() {
+        return players.stream()
+                .filter(player -> player.id().equals(hostId))
+                .findFirst()
+                .map(Player::name)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
     /**
      * The game ends when all the players leave or all rounds have been played.
      */

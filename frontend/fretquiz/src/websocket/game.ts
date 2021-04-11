@@ -3,7 +3,7 @@ import { store } from '../store';
 import * as request from './request';
 import * as response from './response';
 import { Accidental, ClientGuess } from '../game/types';
-import { setClickedFret, setCurrentGame, setGameIds, setGuess } from '../game/gameSlice';
+import { setClickedFret, setCurrentGame, setGameIds, setGuess, setGameInfos } from '../game/gameSlice';
 
 function send(request: request.Request) {
   ws.send(JSON.stringify(request));
@@ -53,6 +53,11 @@ export function handleGameCreated(message: response.GameCreated) {
 export function handleGameIds(message: response.GameIds) {
   const gameIds = message.gameIds;
   store.dispatch(setGameIds(gameIds));
+}
+
+export function handleGameInfos(message: response.GameInfos) {
+  const gameInfos = message.gameInfos;
+  store.dispatch(setGameInfos(gameInfos));
 }
 
 export function handleGameJoined(message: response.GameJoined) {

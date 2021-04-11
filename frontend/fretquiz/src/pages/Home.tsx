@@ -1,18 +1,26 @@
-import { Typography } from '@material-ui/core';
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import { CreateGameButton } from '../game/CreateGameButton';
-import { GameListBox } from '../game/GameListBox';
+import { GamesTable } from '../game/GamesTable';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+    '& > *': {
+      marginTop: '1rem',
+    }
+  }
+});
 
 export function Home() {
+  const styles = useStyles();
+
   return (
-    <div className="Home">
-      <Typography
-        variant="h2"
-        style={{ margin: "1rem" }}
-      >
+    <div className={styles.root}>
+      <Typography variant="h2">
         FretQuiz
       </Typography>
-      <GameListBox />
+      <GamesTable />
       <CreateGameButton />
     </div>
   );

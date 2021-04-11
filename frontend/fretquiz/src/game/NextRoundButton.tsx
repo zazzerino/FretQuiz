@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../user/userSlice';
@@ -8,15 +9,19 @@ export function NextRoundButton() {
   const userId = useSelector(selectUserId);
   const gameId = useSelector(selectGameId);
 
-  if (!userId || !gameId) {
-    throw new Error('userId or gameId is null');
+  if (userId == null || gameId == null) {
+    return null;
   }
 
   return (
     <div className="NextRoundButton">
-      <button onClick={() => sendNextRound(gameId, userId)}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => sendNextRound(gameId, userId)}
+      >
         Next Round
-      </button>
+      </Button>
     </div>
   );
 }

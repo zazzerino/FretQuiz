@@ -61,6 +61,13 @@ export interface PlayerScore {
   score: number
 }
 
+export interface GameInfo {
+  gameId: string,
+  hostName: string,
+  playerCount: number,
+  state: State
+}
+
 export interface Game {
   id: string,
   opts: Opts,
