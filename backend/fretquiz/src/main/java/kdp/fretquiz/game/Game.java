@@ -101,7 +101,7 @@ public class Game {
                 .filter(player -> player.id().equals(hostId))
                 .findFirst()
                 .map(Player::name)
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(null);
     }
 
     /**

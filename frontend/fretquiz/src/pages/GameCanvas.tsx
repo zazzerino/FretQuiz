@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
     '& button': {
-      marginTop: '2rem'
+      marginTop: '1rem'
     }
   }
 });
