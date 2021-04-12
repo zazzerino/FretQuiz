@@ -9,6 +9,7 @@ import { Settings } from './Settings';
 
 const useStyles = makeStyles({
   root: {
+    // display: 'flex',
     '& > *': {
       marginTop: '1rem',
     }
@@ -17,24 +18,12 @@ const useStyles = makeStyles({
 
 export function WaitingRoom() {
   const styles = useStyles();
-
-  const gameId = useSelector(selectGameId);
   const readyToStart = useSelector(selectReadyToStart);
-
-  if (gameId == null) {
-    return null;
-  }
 
   return (
     <div className={styles.root}>
       <Typography variant='h2'>
         Waiting Room
-      </Typography>
-      <Typography variant="h6">
-        Game Id
-      </Typography>
-      <Typography>
-        {gameId}
       </Typography>
       <PlayerList />
       <Settings />

@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
 import { sendToggleAccidental } from '../websocket/game';
 import { selectAccidentalsToUse, selectGameId } from './gameSlice';
 import { Accidental } from './types';
-import './AccidentalSelect.css';
+import { makeStyles } from '@material-ui/core/styles';
 
 function accidentalName(accidental: Accidental): string {
   switch (accidental) {
@@ -30,18 +32,27 @@ function AccidentalCheckbox(props: AccidentalCheckboxProps) {
 
   return (
     <div className="AccidentalCheckbox">
-      <input
-        type="checkbox"
-        name={accidental}
+      <Checkbox
         checked={isUsed}
         onChange={() => sendToggleAccidental(gameId, accidental)}
       />
-      <label htmlFor={accidental}>{name}</label>
+      <label htmlFor={accidental}>
+        {name}
+      </label>
     </div>
   );
 }
 
+const useStyles = makeStyles({
+  checkboxes: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
+});
+
 export function AccidentalSelect() {
+  const styles = useStyles();
+
   const gameId = useSelector(selectGameId);
   const accidentalsToUse = useSelector(selectAccidentalsToUse);
 
@@ -54,8 +65,10 @@ export function AccidentalSelect() {
 
   return (
     <div className="AccidentalSelect">
-      <h4>Accidentals To Use:</h4>
-      <div className="accidental-checkboxes">
+      <Typography variant="subtitle1">
+        Accidentals To Use:
+      </Typography>
+      <div className={styles.checkboxes}>
         <AccidentalCheckbox
           accidental="FLAT"
           isUsed={usingFlats}

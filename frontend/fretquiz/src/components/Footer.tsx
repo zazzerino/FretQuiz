@@ -24,7 +24,7 @@ function GameDisplay() {
 
   return (
     <Typography variant="body2">
-      {`game: ${game.id}`}
+      {`game: ${game.id.substring(0, 8)}`}
     </Typography>
   );
 }

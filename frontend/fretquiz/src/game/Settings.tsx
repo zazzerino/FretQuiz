@@ -6,7 +6,7 @@ import { StringSelect } from './StringSelect';
 
 const useStyles = makeStyles({
   root: {
-    '& h4': {
+    '& > *': {
       marginTop: '1rem'
     }
   }

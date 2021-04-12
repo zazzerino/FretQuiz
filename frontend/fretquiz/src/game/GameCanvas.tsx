@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Fretboard } from '../game/Fretboard';
-import { NextRoundButton } from '../game/NextRoundButton';
-import { Stave } from '../game/Stave';
-import { selectRoundIsOver } from '../game/gameSlice';
+import { Fretboard } from './Fretboard';
+import { NextRoundButton } from './NextRoundButton';
+import { Stave } from './Stave';
+import { selectRoundIsOver } from './gameSlice';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

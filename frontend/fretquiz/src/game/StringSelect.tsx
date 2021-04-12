@@ -1,9 +1,10 @@
-import { Typography } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles';
 import { sendToggleString } from '../websocket/game';
 import { selectGameId, selectStringCount, selectStringsToUse } from './gameSlice';
-import './StringSelect.css';
 
 interface StringCheckboxProps {
   gameId: string,
@@ -13,14 +14,13 @@ interface StringCheckboxProps {
 
 function StringCheckbox(props: StringCheckboxProps) {
   const { gameId, string, stringsToUse } = props;
+
   const name = `string-${string}`;
   const usingString = stringsToUse?.includes(string);
 
   return (
     <div className="StringCheckbox">
-      <input
-        type="checkbox"
-        name={name}
+      <Checkbox
         checked={usingString}
         onChange={() => sendToggleString(gameId, string)}
       />
@@ -31,7 +31,16 @@ function StringCheckbox(props: StringCheckboxProps) {
   );
 }
 
+const useStyles = makeStyles({
+  checkboxes: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
+});
+
 export function StringSelect() {
+  const styles = useStyles();
+
   const gameId = useSelector(selectGameId);
   const stringCount = useSelector(selectStringCount);
   const stringsToUse = useSelector(selectStringsToUse);
@@ -42,11 +51,10 @@ export function StringSelect() {
 
   return (
     <div className="StringSelect">
-      {/* <h4>Strings To Use:</h4> */}
-      <Typography variant="h6">
-        String To Use:
+      <Typography variant="subtitle1">
+        Strings To Use:
       </Typography>
-      <div className="string-checkboxes">
+      <div className={styles.checkboxes}>
         {[...Array(stringCount).keys()].map(index => {
           return <StringCheckbox
             key={index}

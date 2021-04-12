@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectGameState } from '../game/gameSlice';
 import { WaitingRoom } from '../game/WaitingRoom';
-import { GameCanvas } from './GameCanvas';
-import { GameOver } from './GameOver';
+import { GameCanvas } from '../game/GameCanvas';
+import { GameOver } from '../game/GameOver';
 
 export function Game() {
   const state = useSelector(selectGameState);

@@ -1,5 +1,0 @@
-/* Make the checkboxes go left to right (not top to bottom). */
-.string-checkboxes {
-  display: flex;
-  justify-content: center;
-}
