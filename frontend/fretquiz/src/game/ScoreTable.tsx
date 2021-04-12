@@ -27,8 +27,8 @@ export function ScoreTable() {
     <Table className={styles.root}>
       <TableHead>
         <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell>Score</TableCell>
+          <TableCell align="center">Name</TableCell>
+          <TableCell align="center">Score</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -36,8 +36,8 @@ export function ScoreTable() {
           const { player, score } = playerScore;
           return (
             <TableRow key={index}>
-              <TableCell>{player.name}</TableCell>
-              <TableCell>{score}</TableCell>
+              <TableCell align="center">{player.name}</TableCell>
+              <TableCell align="center">{score}</TableCell>
             </TableRow>
           );
         })}

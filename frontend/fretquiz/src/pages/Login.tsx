@@ -19,7 +19,7 @@ export function Login() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h4">
+      <Typography variant="h2">
         Login
       </Typography>
       <Input

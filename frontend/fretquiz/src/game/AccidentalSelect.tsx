@@ -45,12 +45,11 @@ export function AccidentalSelect() {
   const gameId = useSelector(selectGameId);
   const accidentalsToUse = useSelector(selectAccidentalsToUse);
 
-  if (!gameId || !accidentalsToUse) {
-    throw new Error('could not find accidentalsToUse');
+  if (gameId == null || accidentalsToUse == null) {
+    return null;
   }
 
   const usingFlats = accidentalsToUse?.includes('FLAT');
-  const usingNone = accidentalsToUse.includes('NONE');
   const usingSharps = accidentalsToUse?.includes('SHARP');
 
   return (
@@ -60,11 +59,6 @@ export function AccidentalSelect() {
         <AccidentalCheckbox
           accidental="FLAT"
           isUsed={usingFlats}
-          gameId={gameId}
-        />
-        <AccidentalCheckbox
-          accidental="NONE"
-          isUsed={usingNone}
           gameId={gameId}
         />
         <AccidentalCheckbox

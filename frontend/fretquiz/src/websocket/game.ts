@@ -4,6 +4,7 @@ import * as request from './request';
 import * as response from './response';
 import { Accidental, ClientGuess } from '../game/types';
 import { setClickedFret, setCurrentGame, setGameIds, setGuess, setGameInfos } from '../game/gameSlice';
+import { correctSound, incorrectSound } from '../sounds';
 
 function send(request: request.Request) {
   ws.send(JSON.stringify(request));
@@ -67,7 +68,12 @@ export function handleGameJoined(message: response.GameJoined) {
 
 export function handleGuessResult(message: response.GuessResult) {
   const guess = message.guess;
-  store.dispatch(setGuess(guess));
+
+  guess.isCorrect
+    ? correctSound.play()
+    : incorrectSound.play();
+
+    store.dispatch(setGuess(guess));
 }
 
 export function handleGameUpdated(message: response.GameUpdated) {

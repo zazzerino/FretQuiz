@@ -1,38 +1,27 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { sendStartGame } from '../websocket/game';
-import { selectGameId } from './gameSlice';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { AccidentalSelect } from './AccidentalSelect';
 import { StringSelect } from './StringSelect';
 
-function GameLink() {
-  const history = useHistory();
-  const gameId = useSelector(selectGameId);
-
-  if (gameId == null) {
-    return null;
+const useStyles = makeStyles({
+  root: {
+    '& h4': {
+      marginTop: '1rem'
+    }
   }
-
-  const onClick = () => {
-    sendStartGame(gameId);
-    history.push('/game');
-  }
-
-  return (
-    <button onClick={onClick}>
-      Start Playing
-    </button>
-  );
-}
+});
 
 export function Settings() {
+  const styles = useStyles();
+
   return (
-    <div className="Settings">
-      <h2>Settings</h2>
+    <div className={styles.root}>
+      <Typography variant="h4">
+        Settings
+      </Typography>
       <StringSelect />
       <AccidentalSelect />
-      <GameLink />
     </div>
   );
 }

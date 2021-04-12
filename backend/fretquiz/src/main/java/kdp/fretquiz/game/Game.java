@@ -211,6 +211,7 @@ public class Game {
         return scores;
     }
 
+    @JsonProperty("opts")
     public Opts opts() {
         return opts;
     }

@@ -108,6 +108,7 @@ public class GameController {
 
         notifyPlayers(game.id, new Response.PlayerJoined(userId + " has joined the game"));
         sendUpdatedGameToPlayers(game.id);
+        broadcastGameInfos();
     }
 
     public static void startGame(WsMessageContext context) {

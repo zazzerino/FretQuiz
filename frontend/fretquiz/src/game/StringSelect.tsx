@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { sendToggleString } from '../websocket/game';
@@ -35,13 +36,16 @@ export function StringSelect() {
   const stringCount = useSelector(selectStringCount);
   const stringsToUse = useSelector(selectStringsToUse);
 
-  if (!gameId || !stringsToUse || !stringCount) {
-    throw new Error(`useSelector in StringSelect returned null or undefined`);
+  if (gameId == null || stringCount == null || stringsToUse == null) {
+    return null;
   }
 
   return (
     <div className="StringSelect">
-      <h4>Strings To Use:</h4>
+      {/* <h4>Strings To Use:</h4> */}
+      <Typography variant="h6">
+        String To Use:
+      </Typography>
       <div className="string-checkboxes">
         {[...Array(stringCount).keys()].map(index => {
           return <StringCheckbox

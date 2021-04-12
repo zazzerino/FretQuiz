@@ -44,7 +44,7 @@ export function GamesTable() {
           const shortId = info.gameId.substring(0, 8);
           const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
           return (
-            <TableRow key={info.gameId} data-game-id={info.gameId}>
+            <TableRow key={info.gameId}>
               <TableCell>{shortId}</TableCell>
               <TableCell>{info.hostName}</TableCell>
               <TableCell>{info.playerCount}</TableCell>

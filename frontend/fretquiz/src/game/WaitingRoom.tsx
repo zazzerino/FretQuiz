@@ -5,6 +5,7 @@ import { selectGameId, selectReadyToStart } from './gameSlice';
 import { PlayerList } from './PlayerList';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { Settings } from './Settings';
 
 const useStyles = makeStyles({
   root: {
@@ -26,14 +27,17 @@ export function WaitingRoom() {
 
   return (
     <div className={styles.root}>
-      <Typography variant='h4'>
+      <Typography variant='h2'>
         Waiting Room
       </Typography>
       <Typography variant="h6">
         Game Id
       </Typography>
-      <Typography>{gameId}</Typography>
+      <Typography>
+        {gameId}
+      </Typography>
       <PlayerList />
+      <Settings />
       {readyToStart && <StartGameButton />}
     </div>
   );
