@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles';
 import { sendToggleAccidental } from '../websocket/game';
 import { selectAccidentalsToUse, selectGameId } from './gameSlice';
 import { Accidental } from './types';
-import { makeStyles } from '@material-ui/core/styles';
 
 function accidentalName(accidental: Accidental): string {
   switch (accidental) {
