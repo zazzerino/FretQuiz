@@ -78,6 +78,7 @@ public class WebSocket {
             case NEXT_ROUND -> GameController.startNextRound(context);
             case TOGGLE_STRING -> GameController.toggleString(context);
             case TOGGLE_ACCIDENTAL -> GameController.toggleAccidental(context);
+            case SET_ROUND_COUNT -> GameController.setRoundCount(context);
         }
     }
 }

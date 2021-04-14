@@ -190,6 +190,20 @@ public class GameController {
         sendUpdatedGameToPlayers(game.id);
     }
 
+    public static void setRoundCount(WsMessageContext context) {
+        final var message = context.message(Request.SetRoundCount.class);
+
+        final var gameId = message.gameId();
+        final var roundCount = message.roundCount();
+
+        final var game = gameDao
+                .getGameById(gameId)
+                .setRoundCount(roundCount);
+
+        gameDao.save(game);
+        sendUpdatedGameToPlayers(game.id);
+    }
+
 //    /**
 //     * Removes finished games.
 //     */

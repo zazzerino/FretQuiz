@@ -14,7 +14,7 @@ export function PlayerList() {
 
   return (
     <div className="PlayerList">
-      <Typography variant="h6">
+      <Typography variant="h4">
         Players
       </Typography>
       <List>

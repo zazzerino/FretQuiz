@@ -10,7 +10,8 @@ export type RequestType =
   | 'PLAYER_GUESS'
   | 'NEXT_ROUND'
   | 'TOGGLE_STRING'
-  | 'TOGGLE_ACCIDENTAL';
+  | 'TOGGLE_ACCIDENTAL'
+  | 'SET_ROUND_COUNT';
 
 export interface Request {
   type: RequestType
@@ -109,4 +110,14 @@ export interface ToggleAccidental extends Request {
 
 export function toggleAccidental(gameId: string, accidental: Accidental): ToggleAccidental {
   return { type: 'TOGGLE_ACCIDENTAL', gameId, accidental };
+}
+
+export interface SetRoundCount{
+  type: 'SET_ROUND_COUNT',
+  gameId: string, 
+  roundCount: number
+}
+
+export function setRoundCount(gameId: string, roundCount: number): SetRoundCount {
+  return { type: 'SET_ROUND_COUNT', gameId, roundCount };
 }

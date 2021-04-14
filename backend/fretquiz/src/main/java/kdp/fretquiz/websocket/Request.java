@@ -21,7 +21,8 @@ public interface Request {
         PLAYER_GUESS,
         NEXT_ROUND,
         TOGGLE_STRING,
-        TOGGLE_ACCIDENTAL;
+        TOGGLE_ACCIDENTAL,
+        SET_ROUND_COUNT;
     }
 
     /**
@@ -91,6 +92,12 @@ public interface Request {
     record ToggleAccidental(Type type, String gameId, Accidental accidental) implements Request {
         public ToggleAccidental(String gameId, Accidental accidental) {
             this(Type.TOGGLE_ACCIDENTAL, gameId, accidental);
+        }
+    }
+
+    record SetRoundCount(Type type, String gameId, int roundCount) implements Request {
+        public SetRoundCount(String gameId, int roundCount) {
+            this(Type.SET_ROUND_COUNT, gameId, roundCount);
         }
     }
 }

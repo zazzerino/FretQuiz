@@ -51,11 +51,6 @@ public class Opts {
         return note;
     }
 
-    public Opts setRoundCount(int roundCount) {
-        this.roundCount = roundCount;
-        return this;
-    }
-
     public Opts toggleString(int string) {
         strings = Util.toggle(this.strings, string);
         return this;
@@ -69,6 +64,11 @@ public class Opts {
     @JsonProperty("roundCount")
     public int roundCount() {
         return roundCount;
+    }
+
+    public Opts setRoundCount(int roundCount) {
+        this.roundCount = roundCount;
+        return this;
     }
 
     @JsonProperty("fretboard")

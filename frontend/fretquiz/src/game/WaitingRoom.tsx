@@ -24,8 +24,8 @@ export function WaitingRoom() {
       <Typography variant='h2'>
         Waiting Room
       </Typography>
-      <PlayerList />
       <Settings />
+      <PlayerList />
       {readyToStart && <StartGameButton />}
     </div>
   );

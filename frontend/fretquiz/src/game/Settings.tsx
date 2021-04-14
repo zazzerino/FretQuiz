@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { AccidentalSelect } from './AccidentalSelect';
 import { StringSelect } from './StringSelect';
+import { RoundCountInput } from './RoundCountInput';
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +21,7 @@ export function Settings() {
       <Typography variant="h4">
         Settings
       </Typography>
+      <RoundCountInput />
       <StringSelect />
       <AccidentalSelect />
     </div>

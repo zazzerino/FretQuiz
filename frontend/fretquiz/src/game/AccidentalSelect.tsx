@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import { sendToggleAccidental } from '../websocket/game';
 import { selectAccidentalsToUse, selectGameId } from './gameSlice';
@@ -31,15 +32,15 @@ function AccidentalCheckbox(props: AccidentalCheckboxProps) {
   const name = accidentalName(accidental);
 
   return (
-    <div className="AccidentalCheckbox">
-      <Checkbox
-        checked={isUsed}
-        onChange={() => sendToggleAccidental(gameId, accidental)}
-      />
-      <label htmlFor={accidental}>
-        {name}
-      </label>
-    </div>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={isUsed}
+          onChange={() => sendToggleAccidental(gameId, accidental)}
+        />
+      }
+      label={name}
+    />
   );
 }
 

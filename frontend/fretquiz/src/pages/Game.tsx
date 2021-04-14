@@ -8,7 +8,7 @@ import { CreateGameButton } from '../game/CreateGameButton';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  createGameBtn: {
+  createGameButton: {
     marginTop: '2rem'
   }
 });
@@ -19,7 +19,7 @@ export function Game() {
 
   if (state == null) {
     return (
-      <div className={styles.createGameBtn}>
+      <div className={styles.createGameButton}>
         <CreateGameButton />
       </div>
     );

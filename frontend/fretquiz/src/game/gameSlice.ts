@@ -84,6 +84,8 @@ export const selectStringsToUse = createSelector(selectOpts, opts => opts?.strin
 
 export const selectAccidentalsToUse = createSelector(selectOpts, opts => opts?.accidentals);
 
+export const selectRoundCount = createSelector(selectOpts, opts => opts?.roundCount);
+
 export const { setCurrentGame, setGameIds, setGameInfos, setClickedFret, setGuess } = gameSlice.actions;
 
 export default gameSlice.reducer;

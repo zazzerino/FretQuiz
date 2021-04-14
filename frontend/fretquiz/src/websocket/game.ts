@@ -44,6 +44,10 @@ export const sendToggleAccidental = (gameId: string, accidental: Accidental) => 
   send(request.toggleAccidental(gameId, accidental));
 }
 
+export const sendSetRoundCount = (gameId: string, roundCount: number) => {
+  send(request.setRoundCount(gameId, roundCount));
+}
+
 // handle responses
 
 export function handleGameCreated(message: response.GameCreated) {

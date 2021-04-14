@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import { sendToggleString } from '../websocket/game';
 import { selectGameId, selectStringCount, selectStringsToUse } from './gameSlice';
@@ -14,20 +15,18 @@ interface StringCheckboxProps {
 
 function StringCheckbox(props: StringCheckboxProps) {
   const { gameId, string, stringsToUse } = props;
-
-  const name = `string-${string}`;
   const usingString = stringsToUse?.includes(string);
 
   return (
-    <div className="StringCheckbox">
-      <Checkbox
-        checked={usingString}
-        onChange={() => sendToggleString(gameId, string)}
-      />
-      <label htmlFor={name}>
-        {`${string}`}
-      </label>
-    </div>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={usingString}
+          onChange={() => sendToggleString(gameId, string)}
+        />
+      }
+      label={string.toString()}
+    />
   );
 }
 

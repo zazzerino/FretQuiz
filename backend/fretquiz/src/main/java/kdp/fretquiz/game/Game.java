@@ -255,6 +255,11 @@ public class Game {
         return this;
     }
 
+    public Game setRoundCount(int roundCount) {
+        opts.setRoundCount(roundCount);
+        return this;
+    }
+
     public Game setPlayerName(String playerId, String playerName) {
         players = players.stream()
                 .map(player -> playerId.equals(player.id())
