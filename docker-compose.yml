@@ -1,0 +1,29 @@
+# version: '3'
+
+# services:
+#   nginx:
+#     build: .
+#     image: patterkyle/fq-client
+#     networks:
+#       - nginx_net
+#     volumes:
+#       - ./data/nginx:/etc/nginx/conf.d
+#       - ./data/certbot/conf:/etc/letsencrypt
+#       - ./data/certbot/www:/var/www/certbot
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     restart: unless-stopped
+
+#   certbot:
+#     container_name: certbot
+#     image: certbot/certbot
+#     networks:
+#       - nginx_net
+#     volumes:
+#       - ./data/certbot/conf:/etc/letsencrypt
+#       - ./data/certbot/www:/var/www/certbot
+#     restart: unless-stopped
+
+# networks:
+#   nginx_net:

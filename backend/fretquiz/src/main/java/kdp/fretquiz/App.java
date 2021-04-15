@@ -1,9 +1,13 @@
 package kdp.fretquiz;
 
 import io.javalin.Javalin;
+import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.game.GameDao;
 import kdp.fretquiz.user.UserDao;
 import kdp.fretquiz.websocket.WebSocket;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The main application class.
@@ -19,7 +23,7 @@ public class App {
     public static UserDao userDao = new UserDao();
     public static GameDao gameDao = new GameDao();
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         final var app = Javalin.create();
 
         app.ws(WEBSOCKET_PATH, ws -> {
@@ -29,5 +33,8 @@ public class App {
         });
 
         app.start(PORT);
+
+        final var gameCleanupService = Executors.newScheduledThreadPool(1);
+        gameCleanupService.schedule(GameController::cleanupGames, 10, TimeUnit.MINUTES);
     }
 }

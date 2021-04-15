@@ -32,7 +32,7 @@ public class WebSocket {
     }
 
     /**
-     * Send a Response to each connected user.
+     * Send a response to each connected user.
      */
     public static void broadcast(Response response) {
         contexts.forEach(context -> context.send(response));
@@ -46,8 +46,8 @@ public class WebSocket {
         contexts.add(context);
         UserController.loginAnonymousUser(context);
 
-        final var gameIds = gameDao.getGameIds();
-        context.send(new Response.GameIds(gameIds));
+//        final var gameIds = gameDao.getGameIds();
+//        context.send(new Response.GameIds(gameIds));
 
         final var gameInfos = gameDao.getGameInfos();
         context.send(new Response.GameInfos(gameInfos));

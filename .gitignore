@@ -5,3 +5,6 @@ tmp/
 
 *.class
 build
+
+backend/fretquiz/out
+backend/fretquiz/target

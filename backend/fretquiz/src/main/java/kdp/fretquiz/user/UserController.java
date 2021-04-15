@@ -75,7 +75,7 @@ public class UserController {
             if (game.isOver()) {
                 log.info("deleting game: " + gameId);
                 gameDao.delete(gameId);
-                GameController.broadcastGameIds();
+//                GameController.broadcastGameIds();
                 GameController.broadcastGameInfos();
             } else {
                 gameDao.save(game);

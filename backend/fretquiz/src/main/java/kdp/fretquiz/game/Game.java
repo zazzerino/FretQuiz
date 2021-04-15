@@ -1,10 +1,12 @@
 package kdp.fretquiz.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.fretquiz.Util;
 import kdp.fretquiz.theory.Accidental;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,7 +20,9 @@ import java.util.stream.Collectors;
 public class Game {
 
     public final String id;
-    public final String createdAt; // in ISO 8601 format
+
+    @JsonIgnore
+    public final Instant createdAt; // in ISO 8601 format
 
     private Opts opts;
     private String hostId;
@@ -42,7 +46,8 @@ public class Game {
 
     public Game() {
         this.id = Util.randomId();
-        this.createdAt = Instant.now().toString();
+//        this.createdAt = Instant.now().toString();
+        this.createdAt = Instant.now();
         this.opts = new Opts();
         this.state = State.INIT;
     }
@@ -89,7 +94,7 @@ public class Game {
     };
 
     public Info info() {
-        return new Info(id, createdAt, hostName(), playerCount(), state);
+        return new Info(id, createdAt.toString(), hostName(), playerCount(), state);
     }
 
     public int playerCount() {
@@ -268,5 +273,16 @@ public class Game {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         return this;
+    }
+
+    public boolean isOld() {
+        final var tenMinutesAgo = Instant.now()
+                .minus(10, ChronoUnit.MINUTES);
+
+        return createdAt.isBefore(tenMinutesAgo);
+    }
+
+    public boolean isOverOrOld() {
+        return isOver() || isOld();
     }
 }
