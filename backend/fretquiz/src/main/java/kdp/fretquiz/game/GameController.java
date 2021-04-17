@@ -66,17 +66,8 @@ public class GameController {
         context.send(new Response.GameCreated(game));
 
         // let users know there's a new game
-//        broadcastGameIds();
         broadcastGameInfos();
     }
-
-//    /**
-//     * Sends an up to date array of game ids to every connected client.
-//     */
-//    public static void broadcastGameIds() {
-//        final var gameIds = gameDao.getGameIds();
-//        WebSocket.broadcast(new Response.GameIds(gameIds));
-//    }
 
     public static void broadcastGameInfos() {
         final var gameInfos = gameDao.getGameInfos();
@@ -208,8 +199,15 @@ public class GameController {
      * Removes finished games.
      */
     public static void cleanupGames() {
-        gameDao.getAllGames()
-                .removeIf(Game::isOverOrOld);
+        log.info("cleaning up games...");
+        final var games = gameDao.getAllGames();
+
+        for (final var game : games) {
+            if (game.isOver() || game.isOlderThan(4)) {
+                log.info("removing game: " + game.id);
+                gameDao.delete(game.id);
+            }
+        }
 
         broadcastGameInfos();
     }

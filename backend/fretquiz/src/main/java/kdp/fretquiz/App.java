@@ -34,7 +34,12 @@ public class App {
 
         app.start(PORT);
 
+        // cleanup finished games every once in a while
         final var gameCleanupService = Executors.newScheduledThreadPool(1);
-        gameCleanupService.schedule(GameController::cleanupGames, 10, TimeUnit.MINUTES);
+        gameCleanupService.scheduleAtFixedRate(GameController::cleanupGames, 4, 4, TimeUnit.MINUTES);
+
+        // broadcast game infos every minute
+        final var gameBroadcastService = Executors.newScheduledThreadPool(1);
+        gameBroadcastService.scheduleAtFixedRate(GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS);
     }
 }

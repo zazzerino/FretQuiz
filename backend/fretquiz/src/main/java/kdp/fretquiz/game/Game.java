@@ -22,7 +22,7 @@ public class Game {
     public final String id;
 
     @JsonIgnore
-    public final Instant createdAt; // in ISO 8601 format
+    public final Instant createdAt;
 
     private Opts opts;
     private String hostId;
@@ -46,7 +46,6 @@ public class Game {
 
     public Game() {
         this.id = Util.randomId();
-//        this.createdAt = Instant.now().toString();
         this.createdAt = Instant.now();
         this.opts = new Opts();
         this.state = State.INIT;
@@ -162,6 +161,7 @@ public class Game {
         if (round.isOver()) {
             state = State.ROUND_OVER;
 
+            // if all the rounds have been played, the game is over
             if (roundsPlayed() == opts.roundCount()) {
                 state = State.GAME_OVER;
             }
@@ -275,14 +275,10 @@ public class Game {
         return this;
     }
 
-    public boolean isOld() {
-        final var tenMinutesAgo = Instant.now()
-                .minus(10, ChronoUnit.MINUTES);
+    public boolean isOlderThan(long minutesAgo) {
+        final var instant = Instant.now()
+                .minus(minutesAgo, ChronoUnit.MINUTES);
 
-        return createdAt.isBefore(tenMinutesAgo);
-    }
-
-    public boolean isOverOrOld() {
-        return isOver() || isOld();
+        return createdAt.isBefore(instant);
     }
 }

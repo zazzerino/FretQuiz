@@ -35,6 +35,7 @@ public record Note(WhiteKey whiteKey,
 
         // find the accidental, if it exists
         final var match2 = matcher.group(2);
+
         // if there was no accidental, set it to be an empty string instead of null so it can be parsed correctly
         final var accidental = Accidental.fromString(match2 == null ? "" : match2);
 
@@ -85,9 +86,9 @@ public record Note(WhiteKey whiteKey,
             }
         } else if (accidental == Accidental.SHARP) {
             key = whiteKey.next();
-            acc = (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E) ?
-                    Accidental.SHARP :
-                    Accidental.NONE;
+            acc = (whiteKey == WhiteKey.B || whiteKey == WhiteKey.E)
+                    ? Accidental.SHARP
+                    : Accidental.NONE;
         } else if (accidental == Accidental.FLAT) {
             acc = Accidental.NONE;
         }
@@ -127,6 +128,7 @@ public record Note(WhiteKey whiteKey,
 
     /**
      * Returns a random note between two pitches.
+     * TODO: find a better algorithm
      */
     public static Note randomBetween(Note low, Note high) {
         final var lowMidi = low.midiNum();
