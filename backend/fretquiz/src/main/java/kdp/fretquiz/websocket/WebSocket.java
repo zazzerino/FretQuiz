@@ -46,9 +46,6 @@ public class WebSocket {
         contexts.add(context);
         UserController.loginAnonymousUser(context);
 
-//        final var gameIds = gameDao.getGameIds();
-//        context.send(new Response.GameIds(gameIds));
-
         final var gameInfos = gameDao.getGameInfos();
         context.send(new Response.GameInfos(gameInfos));
     }

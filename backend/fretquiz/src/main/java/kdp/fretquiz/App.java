@@ -17,29 +17,46 @@ import java.util.concurrent.TimeUnit;
  */
 public class App {
 
-    private static final int PORT = 8080;
-    private static final String WEBSOCKET_PATH = "/ws";
+    public static final String WEBSOCKET_PATH = "/ws";
 
-    public static UserDao userDao = new UserDao();
-    public static GameDao gameDao = new GameDao();
+    public static final UserDao userDao = new UserDao();
+    public static final GameDao gameDao = new GameDao();
 
     public static void main(String[] args) {
+        // the port number will be passed as a cli argument
+        Integer port = null;
+
+        try {
+            port = Integer.parseInt(args[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ERROR: must provide a port number as a cli argument");
+            System.exit(1);
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR: port number not parsable as an int");
+            System.exit(1);
+        }
+
         final var app = Javalin.create();
 
+        // setup the websocket handlers
         app.ws(WEBSOCKET_PATH, ws -> {
             ws.onConnect(WebSocket::onConnect);
             ws.onMessage(WebSocket::onMessage);
             ws.onClose(WebSocket::onClose);
         });
 
-        app.start(PORT);
+        app.start(port);
 
-        // cleanup finished games every once in a while
+        // cleanup finished games every four minutes
         final var gameCleanupService = Executors.newScheduledThreadPool(1);
-        gameCleanupService.scheduleAtFixedRate(GameController::cleanupGames, 4, 4, TimeUnit.MINUTES);
+        gameCleanupService.scheduleAtFixedRate(
+                () -> GameController.cleanupGames(4), 4, 4, TimeUnit.MINUTES
+        );
 
-        // broadcast game infos every minute
+        // broadcast game infos every thirty seconds
         final var gameBroadcastService = Executors.newScheduledThreadPool(1);
-        gameBroadcastService.scheduleAtFixedRate(GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS);
+        gameBroadcastService.scheduleAtFixedRate(
+                GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS
+        );
     }
 }

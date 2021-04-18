@@ -77,7 +77,7 @@ export function handleGuessResult(message: response.GuessResult) {
     ? correctSound.play()
     : incorrectSound.play();
 
-    store.dispatch(setGuess(guess));
+  store.dispatch(setGuess(guess));
 }
 
 export function handleGameUpdated(message: response.GameUpdated) {

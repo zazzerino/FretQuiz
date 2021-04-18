@@ -275,9 +275,9 @@ public class Game {
         return this;
     }
 
-    public boolean isOlderThan(long minutesAgo) {
+    public boolean isOlderThan(long minutes) {
         final var instant = Instant.now()
-                .minus(minutesAgo, ChronoUnit.MINUTES);
+                .minus(minutes, ChronoUnit.MINUTES);
 
         return createdAt.isBefore(instant);
     }

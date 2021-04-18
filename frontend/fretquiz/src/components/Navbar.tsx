@@ -46,11 +46,7 @@ export function Navbar() {
             const [path, name] = link;
             return (
               <li key={index} className={styles.listItem}>
-                <NavbarLink
-                  key={index}
-                  path={path}
-                  text={name}
-                />
+                <NavbarLink path={path} text={name} />
               </li>
             );
           })}
