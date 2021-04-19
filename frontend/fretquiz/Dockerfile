@@ -1,4 +1,4 @@
-FROM node:14.16.1
+FROM docker.io/library/node:14.16.1
 
 WORKDIR /app/fretquiz
 
@@ -12,7 +12,7 @@ COPY public /app/fretquiz/public
 
 RUN npm run build
 
-FROM nginx:1.19.10
+FROM docker.io/library/nginx:1.19.10
 
 COPY --from=0 /app/fretquiz/build /usr/share/nginx/html/fretquiz
 

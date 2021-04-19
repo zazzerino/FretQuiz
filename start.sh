@@ -2,5 +2,5 @@
 set -euo pipefail
 
 echo "running podman containers"
-podman run --name fretquiz-back -p 8080:8080 -d fretquiz-back
-podman run --name fretquiz-front -p 3000:80 -d fretquiz-front
+podman run -d --name fretquiz-backend -p 8080:8080 fretquiz-backend
+podman run -d --name fretquiz-frontend -p 3000:80 fretquiz-frontend

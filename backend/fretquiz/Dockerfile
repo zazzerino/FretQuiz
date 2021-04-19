@@ -1,4 +1,4 @@
-FROM openjdk:16
+FROM docker.io/library/openjdk:16
 
 COPY target/FretQuiz-1.0-SNAPSHOT.jar /app/FretQuiz.jar
 

@@ -12,4 +12,4 @@ podman build -t fretquiz-backend .
 cd ../../frontend/fretquiz
 
 echo "creating frontend podman image"
-podman build -t fretquiz-front .
+podman build -t fretquiz-frontend .
