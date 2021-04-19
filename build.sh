@@ -6,13 +6,10 @@ cd backend/fretquiz
 echo "creating uberjar"
 mvn clean package
 
-echo "creating backend docker image"
-docker build -t fretquiz-back .
+echo "creating backend podman image"
+podman build -t fretquiz-backend .
 
 cd ../../frontend/fretquiz
 
-echo "creating frontend docker image"
-docker build -t fretquiz-front .
-
-# docker run --rm -p 8080:8080 fretquiz-back
-# docker run --rm -p 3000:80 fretquiz-front
+echo "creating frontend podman image"
+podman build -t fretquiz-front .
