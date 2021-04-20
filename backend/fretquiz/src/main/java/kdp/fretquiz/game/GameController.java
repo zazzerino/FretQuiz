@@ -197,14 +197,14 @@ public class GameController {
 
     /**
      * Removes finished games.
-     * @param minutesOlderThan if the game is older than the given number of minutes it will be removed
+     * @param minutes if the game is older than the given number of minutes it will be removed
      */
-    public static void cleanupGames(int minutesOlderThan) {
+    public static void cleanupGames(int minutes) {
         log.info("cleaning up games...");
         final var games = gameDao.getAllGames();
 
         for (final var game : games) {
-            if (game.isOver() || game.isOlderThan(minutesOlderThan)) {
+            if (game.isOver() || game.isOlderThan(minutes)) {
                 log.info("removing game: " + game.id);
                 gameDao.delete(game.id);
             }

@@ -5,7 +5,7 @@ import {
   handleGameUpdated, handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
 } from './game';
 
-const WS_URL = 'ws://localhost:8080/ws';
+const WS_URL = 'ws://localhost:3000/ws';
 
 export const ws = new WebSocket(WS_URL);
 
