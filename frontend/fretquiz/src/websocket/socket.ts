@@ -1,11 +1,11 @@
 import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
-  handleGameIds, handleGameCreated, handleGameJoined, 
-  handleGameUpdated, handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
+  handleGameIds, handleGameCreated, handleGameJoined,  handleGameUpdated, 
+  handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
 } from './game';
 
-const WS_URL = 'ws://localhost:3000/ws';
+const WS_URL = 'ws://0.0.0.0:3000/ws';
 
 export const ws = new WebSocket(WS_URL);
 
