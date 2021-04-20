@@ -2,5 +2,5 @@
 set -euo pipefail
 
 echo "stopping podman containers"
-podman stop fretquiz-frontend
-podman stop fretquiz-backend
+podman stop fq-front
+podman stop fq-back
