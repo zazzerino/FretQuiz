@@ -3,16 +3,16 @@ set -euo pipefail
 
 cd backend/fretquiz
 
-# echo "creating uberjar"
-# mvn clean package
+echo "creating uberjar"
+mvn clean package
 
 cd ../../frontend/fretquiz
 
-# echo "installing npm packages"
-# npm install
+echo "installing npm packages"
+npm install
 
-# echo "building frontend package"
-# npm run build
+echo "building frontend package"
+npm run build
 
 cd ../..
 
