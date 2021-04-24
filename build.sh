@@ -6,9 +6,6 @@ cd backend/fretquiz
 echo "creating uberjar"
 mvn clean package
 
-echo "creating backend podman image"
-podman build -t fretquiz-backend .
-
 cd ../../frontend/fretquiz
 
 echo "installing npm packages"
@@ -17,5 +14,7 @@ npm install
 echo "building frontend package"
 npm run build
 
-echo "creating frontend podman image"
-podman build -t fretquiz-frontend .
+cd ../..
+
+sudo cp -r frontend/fretquiz/build /var/www/fretquiz
+sudo cp fretquiz.conf /etc/nginx/conf.d
