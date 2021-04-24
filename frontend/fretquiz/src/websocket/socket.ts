@@ -5,7 +5,7 @@ import {
   handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
 } from './game';
 
-const WS_URL = 'ws://0.0.0.0:3000/ws';
+const WS_URL = 'ws://localhost:8080/ws';
 
 export const ws = new WebSocket(WS_URL);
 
@@ -24,8 +24,8 @@ function onClose() {
   console.log('websocket connection closed');
 }
 
-function onError() {
-  console.log('there was an error');
+function onError(event: Event) {
+  console.log('there was an error: ' + JSON.stringify(event));
 }
 
 /**
