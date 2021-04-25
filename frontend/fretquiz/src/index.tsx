@@ -5,7 +5,7 @@ import App from './App';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
-import { initWebSocket } from './websocket/socket';
+import { initWebSocket } from './websocket/websocket';
 
 initWebSocket();
 

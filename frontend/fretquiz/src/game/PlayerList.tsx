@@ -3,12 +3,13 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { useSelector } from 'react-redux';
-import { selectPlayerNames } from './gameSlice';
+import { selectHostId, selectPlayers } from './gameSlice';
 
 export function PlayerList() {
-  const names = useSelector(selectPlayerNames);
+  const players = useSelector(selectPlayers);
+  const hostId = useSelector(selectHostId);
 
-  if (names == null) {
+  if (players == null || hostId == null) {
     return null;
   }
 
@@ -18,8 +19,13 @@ export function PlayerList() {
         Players
       </Typography>
       <List>
-        {names.map((name, index) => {
-          return <ListItemText key={index}>{name}</ListItemText>;
+        {players.map((player, index) => {
+          const playerIsHost = player.id === hostId;
+          const name = playerIsHost
+            ? player.name + ' (host)'
+            : player.name;
+
+          return <ListItemText key={index}>{name}</ListItemText>
         })}
       </List>
     </div>

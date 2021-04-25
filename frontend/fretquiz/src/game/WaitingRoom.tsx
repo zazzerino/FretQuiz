@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { StartGameButton } from './StartGameButton';
-import { selectReadyToStart } from './gameSlice';
+import { selectReadyToStart, selectUserIsHost } from './gameSlice';
 import { PlayerList } from './PlayerList';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 export function WaitingRoom() {
   const styles = useStyles();
   const readyToStart = useSelector(selectReadyToStart);
+  const userIsHost = useSelector(selectUserIsHost);
 
   return (
     <div className={styles.root}>
@@ -26,7 +27,10 @@ export function WaitingRoom() {
       </Typography>
       <Settings />
       <PlayerList />
-      {readyToStart && <StartGameButton />}
+      {userIsHost && readyToStart && <StartGameButton />}
+      {!userIsHost && (
+        <Typography variant='subtitle1'>Waiting on host to start game...</Typography>
+      )}
     </div>
   );
 }

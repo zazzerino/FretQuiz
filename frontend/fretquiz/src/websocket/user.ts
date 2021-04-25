@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { ws } from './socket';
+import { ws } from './websocket';
 import { Flash, LoggedIn } from './response';
 import { setUser } from "../user/userSlice";
 import { login } from './request';

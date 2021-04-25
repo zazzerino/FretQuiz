@@ -1,4 +1,4 @@
-import { ws } from './socket';
+import { ws } from './websocket';
 import { store } from '../store';
 import * as request from './request';
 import * as response from './response';

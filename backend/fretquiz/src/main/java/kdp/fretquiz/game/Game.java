@@ -25,8 +25,10 @@ public class Game {
     public final Instant createdAt;
 
     private Opts opts;
-    private String hostId;
     private State state;
+
+    @JsonProperty("hostId")
+    private String hostId;
 
     @JsonProperty("players")
     private List<Player> players = new ArrayList<>();

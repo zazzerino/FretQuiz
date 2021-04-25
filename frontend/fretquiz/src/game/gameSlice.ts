@@ -3,6 +3,7 @@ import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
 import { Game, GameInfo, Guess } from "./types";
+import { selectUserId } from "../user/userSlice";
 
 interface GameSliceState {
   gameIds: string[],
@@ -49,6 +50,14 @@ export const selectGameInfos = (state: RootState) => state.game.gameInfos;
 export const selectCurrentGame = (state: RootState) => state.game.currentGame;
 
 export const selectGameId = (state: RootState) => state.game.currentGame?.id;
+
+export const selectHostId = (state: RootState) => state.game.currentGame?.hostId;
+
+export const selectUserIsHost = createSelector(
+  selectUserId,
+  selectHostId,
+  (userId, hostId) => userId === hostId
+);
 
 export const selectNoteToGuess = (state: RootState) => state.game.currentGame?.currentRound?.noteToGuess;
 
