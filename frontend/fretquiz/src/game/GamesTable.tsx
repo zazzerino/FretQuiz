@@ -36,6 +36,7 @@ export function GamesTable() {
           <TableCell>Players</TableCell>
           <TableCell>Status</TableCell>
           <TableCell>Created</TableCell>
+          <TableCell>Join</TableCell>
           <TableCell></TableCell>
         </TableRow>
       </TableHead>
