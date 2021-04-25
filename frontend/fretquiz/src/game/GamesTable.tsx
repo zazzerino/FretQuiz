@@ -44,12 +44,13 @@ export function GamesTable() {
         {gameInfos.map(info => {
           const shortId = info.gameId.substring(0, 8);
           const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
+          const state = info.state.toLowerCase().replace('_', ' ');
           return (
             <TableRow key={info.gameId}>
               <TableCell>{shortId}</TableCell>
               <TableCell>{info.hostName}</TableCell>
               <TableCell>{info.playerCount}</TableCell>
-              <TableCell>{info.state}</TableCell>
+              <TableCell>{state}</TableCell>
               <TableCell>{minutes} minutes ago</TableCell>
               <TableCell>
                 <Button
