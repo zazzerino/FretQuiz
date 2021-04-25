@@ -1,5 +1,0 @@
-[Unit]
-Description=FretQuiz backend service
-
-[Service]
-WorkingDirectory=/home/kdp/projects/pub/fretquiz/backend/fretquiz

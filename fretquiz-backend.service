@@ -1,0 +1,11 @@
+[Unit]
+Description=FretQuiz backend service
+
+[Service]
+WorkingDirectory=/opt/fretquiz
+ExecStart=/usr/bin/java -jar /opt/fretquiz/FretQuiz.jar 3000
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
