@@ -17,7 +17,7 @@ npm run build
 cd ../..
 
 echo "copying build to /var/www/fretquiz"
-sudo cp -r frontend/fretquiz/build /var/www/fretquiz
+sudo cp -rT frontend/fretquiz/build /var/www/fretquiz
 
 echo "copying nginx conf to /etc/nginx/conf.d"
 sudo cp fretquiz.conf /etc/nginx/conf.d
