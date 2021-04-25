@@ -8,11 +8,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 // import TableFooter from '@material-ui/core/TableFooter'
 // import TablePagination from '@material-ui/core/TablePagination';
-import Button from '@material-ui/core/Button';
 import { selectGameInfos } from './gameSlice';
 import { minutesSince } from '../utils';
 import { selectUserId } from '../user/userSlice';
-import { sendJoinGame } from '../websocket/game';
+import { JoinGameButton } from './JoinGameButton';
+import { GameInfo } from './types';
+
+function formatGameInfo(info: GameInfo) {
+  const shortId = info.gameId.substring(0, 8);
+  const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
+  const state = info.state.toLowerCase().replace('_', ' ');
+  const playerCount = info.playerCount;
+  const hostName = info.hostName;
+
+  return { shortId, minutes, state, playerCount, hostName };
+}
 
 const useStyles = makeStyles({
   table: {
@@ -42,24 +52,16 @@ export function GamesTable() {
       </TableHead>
       <TableBody>
         {gameInfos.map(info => {
-          const shortId = info.gameId.substring(0, 8);
-          const minutes = Math.floor(minutesSince(new Date(info.createdAt)));
-          const state = info.state.toLowerCase().replace('_', ' ');
+          const { shortId, hostName, playerCount, state, minutes } = formatGameInfo(info);
           return (
             <TableRow key={info.gameId}>
               <TableCell>{shortId}</TableCell>
-              <TableCell>{info.hostName}</TableCell>
-              <TableCell>{info.playerCount}</TableCell>
+              <TableCell>{hostName}</TableCell>
+              <TableCell>{playerCount}</TableCell>
               <TableCell>{state}</TableCell>
               <TableCell>{minutes} minutes ago</TableCell>
               <TableCell>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => sendJoinGame(info.gameId, userId)}
-                >
-                  Join Game
-              </Button>
+                <JoinGameButton gameId={info.gameId} userId={userId} />
               </TableCell>
             </TableRow>
           )

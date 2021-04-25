@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Fretboard } from './Fretboard';
 import { NextRoundButton } from './NextRoundButton';
 import { Stave } from './Stave';
-import { selectRoundIsOver } from './gameSlice';
+import { selectRoundIsOver, selectUserIsHost } from './gameSlice';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -17,12 +17,13 @@ const useStyles = makeStyles({
 export function GameCanvas() {
   const styles = useStyles();
   const roundIsOver = useSelector(selectRoundIsOver);
+  const userIsHost = useSelector(selectUserIsHost);
 
   return (
     <div className={styles.root}>
       <Stave />
       <Fretboard />
-      {roundIsOver && <NextRoundButton />}
+      {userIsHost && roundIsOver && <NextRoundButton />}
     </div>
   );
 }
