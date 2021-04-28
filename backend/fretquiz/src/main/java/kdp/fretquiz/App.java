@@ -5,8 +5,10 @@ import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.game.GameDao;
 import kdp.fretquiz.user.UserDao;
 import kdp.fretquiz.websocket.WebSocket;
+import org.eclipse.jetty.server.Server;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,7 +25,42 @@ public class App {
     public static final GameDao gameDao = new GameDao();
 
     public static void main(String[] args) {
-        // the port number will be passed as a cli argument
+        final int port = getPort(args);
+
+        final Javalin app = Javalin.create(config -> {
+            config.server(() -> {
+                final var server = new Server();
+                return server;
+            });
+        });
+
+        // setup the websocket handlers
+        app.ws(WEBSOCKET_PATH, ws -> {
+            ws.onConnect(WebSocket::onConnect);
+            ws.onMessage(WebSocket::onMessage);
+            ws.onClose(WebSocket::onClose);
+        });
+
+        app.start(port);
+
+        // cleanup finished games every four minutes
+        final ScheduledExecutorService gameCleanupService =
+                Executors.newScheduledThreadPool(1);
+
+        gameCleanupService.scheduleAtFixedRate(
+                () -> GameController.cleanupGames(4), 4, 4, TimeUnit.MINUTES
+        );
+
+        // broadcast game infos every thirty seconds
+        final ScheduledExecutorService gameBroadcastService =
+                Executors.newScheduledThreadPool(1);
+
+        gameBroadcastService.scheduleAtFixedRate(
+                GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS
+        );
+    }
+
+    private static int getPort(String[] args) {
         Integer port = null;
 
         try {
@@ -36,27 +73,6 @@ public class App {
             System.exit(1);
         }
 
-        final var app = Javalin.create();
-
-        // setup the websocket handlers
-        app.ws(WEBSOCKET_PATH, ws -> {
-            ws.onConnect(WebSocket::onConnect);
-            ws.onMessage(WebSocket::onMessage);
-            ws.onClose(WebSocket::onClose);
-        });
-
-        app.start(port);
-
-        // cleanup finished games every four minutes
-        final var gameCleanupService = Executors.newScheduledThreadPool(1);
-        gameCleanupService.scheduleAtFixedRate(
-                () -> GameController.cleanupGames(4), 4, 4, TimeUnit.MINUTES
-        );
-
-        // broadcast game infos every thirty seconds
-        final var gameBroadcastService = Executors.newScheduledThreadPool(1);
-        gameBroadcastService.scheduleAtFixedRate(
-                GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS
-        );
+        return port;
     }
 }
