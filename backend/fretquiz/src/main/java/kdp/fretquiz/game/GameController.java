@@ -9,6 +9,8 @@ import kdp.fretquiz.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Timer;
+
 import static kdp.fretquiz.App.gameDao;
 import static kdp.fretquiz.App.userDao;
 
@@ -112,8 +114,21 @@ public class GameController {
 
         gameDao.save(game);
 
-        context.send(new Response.GameStarted(game));
-        sendUpdatedGameToPlayers(game.id);
+        notifyPlayers(game.id, new Response.GameStarted(game));
+    }
+
+    public static void startGameCountdown(WsMessageContext context) {
+        final var message = context.message(Request.StartCountdown.class);
+        final var gameId = message.gameId();
+
+        final var timer = new Timer();
+        final var task = new CountdownTask(
+                3,
+                (n) -> notifyPlayers(gameId, new Response.GameCountdown(n)),
+                () -> startGame(context)
+        );
+
+        timer.schedule(task, 0, 1000);
     }
 
     public static void handleGuess(WsMessageContext context) {
@@ -143,8 +158,8 @@ public class GameController {
 
         final var game = gameDao.getGameById(gameId);
 
-        final var userIsHost = game.hostId().equals(userId);
-        final var roundIsOver = game.currentRound().isOver();
+        final boolean userIsHost = game.hostId().equals(userId);
+        final boolean roundIsOver = game.currentRound().isOver();
 
         if (userIsHost && roundIsOver) {
             game.nextRound();
@@ -157,11 +172,11 @@ public class GameController {
         final var message = context.message(Request.ToggleString.class);
 
         final var gameId = message.gameId();
-        final var string = message.string();
+        final var stringNum = message.string();
 
         final var game = gameDao
                 .getGameById(gameId)
-                .toggleString(string);
+                .toggleString(stringNum);
 
         gameDao.save(game);
         sendUpdatedGameToPlayers(game.id);

@@ -14,7 +14,8 @@ export type ResponseType =
   | 'PLAYER_JOINED'
   | 'GAME_UPDATED'
   | 'ROUND_STARTED'
-  | 'GAME_OVER';
+  | 'GAME_OVER'
+  | 'GAME_COUNTDOWN';
 
 export interface Response {
   type: ResponseType
@@ -87,4 +88,9 @@ export interface RoundStarted extends Response {
 export interface GameOver extends Response {
   type: 'GAME_OVER',
   game: Game
+}
+
+export interface GameCountdown extends Response {
+  type: 'GAME_COUNTDOWN',
+  secondsLeft: number
 }

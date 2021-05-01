@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
-import { Game, GameInfo, Guess } from "./types";
+import { Game, GameInfo, Guess, State } from "./types";
 import { selectUserId } from "../user/userSlice";
 
 interface GameSliceState {
@@ -11,6 +11,8 @@ interface GameSliceState {
   currentGame: Game | null,
   clickedFret: FretCoord | null,
   guess: Guess | null,
+  isCountingDown: boolean,
+  secondsLeft: number | null,
 }
 
 const initialState: GameSliceState = {
@@ -18,7 +20,9 @@ const initialState: GameSliceState = {
   gameInfos: [],
   currentGame: null,
   clickedFret: null,
-  guess: null
+  guess: null,
+  isCountingDown: false,
+  secondsLeft: null,
 }
 
 const gameSlice = createSlice({
@@ -39,6 +43,17 @@ const gameSlice = createSlice({
     },
     setGuess: (state: GameSliceState, action: PayloadAction<Guess | null>) => {
       state.guess = action.payload;
+    },
+    setCountingDown: (state: GameSliceState, action: PayloadAction<boolean>) => {
+      state.isCountingDown = action.payload;
+    },
+    setSecondsLeft: (state: GameSliceState, action: PayloadAction<number | null>) => {
+      state.secondsLeft = action.payload;
+    },
+    setGameState: (state: GameSliceState, action: PayloadAction<State>) => {
+      if (state.currentGame) {
+        state.currentGame.state = action.payload;
+      }
     }
   }
 });
@@ -95,6 +110,13 @@ export const selectAccidentalsToUse = createSelector(selectOpts, opts => opts?.a
 
 export const selectRoundCount = createSelector(selectOpts, opts => opts?.roundCount);
 
-export const { setCurrentGame, setGameIds, setGameInfos, setClickedFret, setGuess } = gameSlice.actions;
+export const selectIsCountingDown = (state: RootState) => state.game.isCountingDown;
+
+export const selectSecondsLeft = (state: RootState) => state.game.secondsLeft;
+
+export const { 
+  setCurrentGame, setGameIds, setGameInfos, setClickedFret, 
+  setGuess, setCountingDown, setSecondsLeft,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

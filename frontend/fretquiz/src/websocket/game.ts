@@ -3,7 +3,9 @@ import { store } from '../store';
 import * as request from './request';
 import * as response from './response';
 import { Accidental, ClientGuess } from '../game/types';
-import { setClickedFret, setCurrentGame, setGameIds, setGuess, setGameInfos } from '../game/gameSlice';
+import { 
+  setClickedFret, setCurrentGame, setGameIds, setGuess, setGameInfos, setCountingDown, setSecondsLeft
+} from '../game/gameSlice';
 import { correctSound, incorrectSound } from '../sounds';
 
 function send(request: request.Request) {
@@ -46,6 +48,10 @@ export const sendToggleAccidental = (gameId: string, accidental: Accidental) => 
 
 export const sendSetRoundCount = (gameId: string, roundCount: number) => {
   send(request.setRoundCount(gameId, roundCount));
+}
+
+export const sendStartCountdown = (gameId: string) => {
+  send(request.startCountdown(gameId));
 }
 
 // handle responses
@@ -95,4 +101,18 @@ export function handleRoundStarted(message: response.RoundStarted) {
 export function handleGameOver(message: response.GameOver) {
   store.dispatch(setClickedFret(null));
   store.dispatch(setGuess(null));
+}
+
+export function handleGameCountdown(message: response.GameCountdown) {
+  const secondsLeft = message.secondsLeft;
+  store.dispatch(setCountingDown(true));
+  store.dispatch(setSecondsLeft(secondsLeft));
+
+}
+
+export function handleGameStarted(message: response.GameStarted) {
+  const game = message.game;
+  store.dispatch(setCurrentGame(game));
+  store.dispatch(setCountingDown(false));
+  store.dispatch(setSecondsLeft(null));
 }

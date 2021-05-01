@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kdp.fretquiz.Util;
 import kdp.fretquiz.theory.Accidental;
+import kdp.fretquiz.theory.Fretboard;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,8 +25,10 @@ public class Game {
     @JsonIgnore
     public final Instant createdAt;
 
-    private Opts opts;
     private State state;
+
+    @JsonProperty("opts")
+    private Opts opts;
 
     @JsonProperty("hostId")
     private String hostId;
@@ -218,16 +221,6 @@ public class Game {
         return scores;
     }
 
-    @JsonProperty("opts")
-    public Opts opts() {
-        return opts;
-    }
-
-    public Game setOpts(Opts opts) {
-        this.opts = opts;
-        return this;
-    }
-
     @JsonProperty("rounds")
     public List<Round> rounds() {
         return rounds;
@@ -278,7 +271,8 @@ public class Game {
     }
 
     public boolean isOlderThan(long minutes) {
-        final var instant = Instant.now()
+        final var instant = Instant
+                .now()
                 .minus(minutes, ChronoUnit.MINUTES);
 
         return createdAt.isBefore(instant);

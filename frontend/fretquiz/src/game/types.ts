@@ -49,7 +49,8 @@ export interface Round {
   guesses: Guess[]
 }
 
-export type State = 'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
+export type State =
+  'INIT' | 'PLAYING' | 'ROUND_OVER' | 'GAME_OVER';
 
 export interface Player {
   id: string,

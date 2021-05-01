@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { useSelector } from 'react-redux';
-import { sendStartGame } from '../websocket/game';
+import { sendStartCountdown } from '../websocket/game';
 import { selectGameId } from './gameSlice';
 
 export function StartGameButton() {
@@ -12,7 +12,7 @@ export function StartGameButton() {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => gameId && sendStartGame(gameId)}
+        onClick={() => gameId && sendStartCountdown(gameId)}
       >
         Start Game
       </Button>

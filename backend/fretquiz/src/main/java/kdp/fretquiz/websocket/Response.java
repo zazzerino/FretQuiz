@@ -26,7 +26,8 @@ public interface Response {
         PLAYER_JOINED,
         GAME_UPDATED,
         ROUND_STARTED,
-        GAME_OVER;
+        GAME_OVER,
+        GAME_COUNTDOWN;
     }
 
     record Flash(Type type, String message) implements Response {
@@ -104,6 +105,12 @@ public interface Response {
     record GameOver(Type type, Game game) implements Response {
         public GameOver(Game game) {
             this(Type.GAME_OVER, game);
+        }
+    }
+
+    record GameCountdown(Type type, int secondsLeft) implements Response {
+        public GameCountdown(int secondsLeft) {
+            this(Type.GAME_COUNTDOWN, secondsLeft);
         }
     }
 }

@@ -2,11 +2,11 @@ import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
   handleGameIds, handleGameCreated, handleGameJoined,  handleGameUpdated, 
-  handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos 
+  handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos, handleGameCountdown, handleGameStarted 
 } from './game';
 
-// const WS_URL = 'wss://localhost:3000/ws';
-const WS_URL = 'fret-quiz.com/ws';
+const WS_URL = 'ws://localhost:3000/ws';
+// const WS_URL = 'fret-quiz.com/ws';
 
 export const ws = new WebSocket(WS_URL);
 
@@ -58,5 +58,9 @@ function onMessage(event: MessageEvent) {
       return handleGuessResult(message as response.GuessResult);
     case 'GAME_OVER':
       return handleGameOver(message as response.GameOver);
+    case 'GAME_COUNTDOWN':
+      return handleGameCountdown(message as response.GameCountdown);
+    case 'GAME_STARTED':
+      return handleGameStarted(message as response.GameStarted);
   }
 }

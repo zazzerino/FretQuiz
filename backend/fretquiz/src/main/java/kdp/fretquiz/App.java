@@ -5,10 +5,8 @@ import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.game.GameDao;
 import kdp.fretquiz.user.UserDao;
 import kdp.fretquiz.websocket.WebSocket;
-import org.eclipse.jetty.server.Server;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,14 +23,9 @@ public class App {
     public static final GameDao gameDao = new GameDao();
 
     public static void main(String[] args) {
-        final int port = getPort(args);
+        final var port = getPort(args);
 
-        final Javalin app = Javalin.create(config -> {
-            config.server(() -> {
-                final var server = new Server();
-                return server;
-            });
-        });
+        final var app = Javalin.create();
 
         // setup the websocket handlers
         app.ws(WEBSOCKET_PATH, ws -> {
@@ -44,7 +37,7 @@ public class App {
         app.start(port);
 
         // cleanup finished games every four minutes
-        final ScheduledExecutorService gameCleanupService =
+        final var gameCleanupService =
                 Executors.newScheduledThreadPool(1);
 
         gameCleanupService.scheduleAtFixedRate(
@@ -52,7 +45,7 @@ public class App {
         );
 
         // broadcast game infos every thirty seconds
-        final ScheduledExecutorService gameBroadcastService =
+        final var gameBroadcastService =
                 Executors.newScheduledThreadPool(1);
 
         gameBroadcastService.scheduleAtFixedRate(
