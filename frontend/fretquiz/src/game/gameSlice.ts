@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
-import { Game, GameInfo, Guess, State } from "./types";
+import { Game, GameInfo, Guess } from "./types";
 import { selectUserId } from "../user/userSlice";
 
 interface GameSliceState {
@@ -29,31 +29,40 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setCurrentGame: (state: GameSliceState, action: PayloadAction<Game | null>) => {
-      state.currentGame = action.payload;
-    },
-    setGameIds: (state: GameSliceState, action: PayloadAction<string[]>) => {
+    updateGameIds: (state: GameSliceState, action: PayloadAction<string[]>) => {
       state.gameIds = action.payload;
     },
-    setGameInfos: (state: GameSliceState, action: PayloadAction<GameInfo[]>) => {
+    updateGameInfos: (state: GameSliceState, action: PayloadAction<GameInfo[]>) => {
       state.gameInfos = action.payload;
     },
-    setClickedFret: (state: GameSliceState, action: PayloadAction<FretCoord | null>) => {
-      state.clickedFret = action.payload;
+    updateGame: (state: GameSliceState, action: PayloadAction<Game | null>) => {
+      state.currentGame = action.payload;
     },
     setGuess: (state: GameSliceState, action: PayloadAction<Guess | null>) => {
       state.guess = action.payload;
     },
-    setCountingDown: (state: GameSliceState, action: PayloadAction<boolean>) => {
-      state.isCountingDown = action.payload;
+    fretClicked: (state: GameSliceState, action: PayloadAction<FretCoord | null>) => {
+      state.clickedFret = action.payload;
     },
-    setSecondsLeft: (state: GameSliceState, action: PayloadAction<number | null>) => {
+    startRound: (state: GameSliceState, action: PayloadAction<Game>) => {
+      state.clickedFret = null;
+      state.guess = null;
+      state.currentGame = action.payload;
+      state.isCountingDown = false;
+      state.secondsLeft = null;
+    },
+    gameOver: (state: GameSliceState, _action) => {
+      state.clickedFret = null;
+      state.guess = null;
+    },
+    gameCountdown: (state: GameSliceState, action: PayloadAction<number>) => {
+      state.isCountingDown = true;
       state.secondsLeft = action.payload;
     },
-    setGameState: (state: GameSliceState, action: PayloadAction<State>) => {
-      if (state.currentGame) {
-        state.currentGame.state = action.payload;
-      }
+    gameStarted: (state: GameSliceState, action: PayloadAction<Game>) => {
+      state.currentGame = action.payload;
+      state.isCountingDown = false;
+      state.secondsLeft = null;
     }
   }
 });
@@ -115,8 +124,8 @@ export const selectIsCountingDown = (state: RootState) => state.game.isCountingD
 export const selectSecondsLeft = (state: RootState) => state.game.secondsLeft;
 
 export const { 
-  setCurrentGame, setGameIds, setGameInfos, setClickedFret, 
-  setGuess, setCountingDown, setSecondsLeft,
+  updateGameIds, updateGameInfos, fretClicked, setGuess,
+  updateGame, startRound, gameOver, gameCountdown, gameStarted,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

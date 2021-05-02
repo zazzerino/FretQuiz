@@ -20,7 +20,7 @@ echo "copying uberjar to /opt/fretquiz"
 sudo cp backend/fretquiz/target/FretQuiz.jar /opt/fretquiz/
 
 echo "copying frontend build to /var/www/fretquiz"
-sudo cp -rT frontend/fretquiz/build /var/www/fretquiz
+sudo cp -rT frontend/fretquiz/build /var/www/fretquiz/
 
 echo "copying nginx conf to /etc/nginx/conf.d"
 sudo cp fretquiz.nginx.conf /etc/nginx/conf.d

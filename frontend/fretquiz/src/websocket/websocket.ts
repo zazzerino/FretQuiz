@@ -6,7 +6,7 @@ import {
 } from './game';
 
 const WS_URL = 'ws://localhost:3000/ws';
-// const WS_URL = 'fret-quiz.com/ws';
+// const WS_URL = 'wss://fret-quiz.com/ws';
 
 export const ws = new WebSocket(WS_URL);
 

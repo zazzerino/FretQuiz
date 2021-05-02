@@ -4,7 +4,8 @@ import * as request from './request';
 import * as response from './response';
 import { Accidental, ClientGuess } from '../game/types';
 import { 
-  setClickedFret, setCurrentGame, setGameIds, setGuess, setGameInfos, setCountingDown, setSecondsLeft
+  updateGameIds, setGuess, updateGameInfos,
+  updateGame, startRound, gameOver, gameCountdown, gameStarted,
 } from '../game/gameSlice';
 import { correctSound, incorrectSound } from '../sounds';
 
@@ -62,22 +63,22 @@ export const sendStartRoundCountdown = (gameId: string) => {
 
 export function handleGameCreated(message: response.GameCreated) {
   const game = message.game;
-  store.dispatch(setCurrentGame(game));
+  store.dispatch(updateGame(game));
 }
 
 export function handleGameIds(message: response.GameIds) {
   const gameIds = message.gameIds;
-  store.dispatch(setGameIds(gameIds));
+  store.dispatch(updateGameIds(gameIds));
 }
 
 export function handleGameInfos(message: response.GameInfos) {
   const gameInfos = message.gameInfos;
-  store.dispatch(setGameInfos(gameInfos));
+  store.dispatch(updateGameInfos(gameInfos));
 }
 
 export function handleGameJoined(message: response.GameJoined) {
   const game = message.game;
-  store.dispatch(setCurrentGame(game));
+  store.dispatch(updateGame(game));
 }
 
 export function handleGuessResult(message: response.GuessResult) {
@@ -92,34 +93,25 @@ export function handleGuessResult(message: response.GuessResult) {
 
 export function handleGameUpdated(message: response.GameUpdated) {
   const game = message.game;
-  store.dispatch(setCurrentGame(game));
+  store.dispatch(updateGame(game));
 }
 
 export function handleRoundStarted(message: response.RoundStarted) {
   const game = message.game;
-  store.dispatch(setClickedFret(null));
-  store.dispatch(setGuess(null));
-  store.dispatch(setCurrentGame(game));
-
-  store.dispatch(setCountingDown(false));
-  store.dispatch(setSecondsLeft(null));
+  store.dispatch(startRound(game));
 }
 
 export function handleGameOver(message: response.GameOver) {
-  store.dispatch(setClickedFret(null));
-  store.dispatch(setGuess(null));
+  const game = message.game;
+  store.dispatch(gameOver(game));
 }
 
 export function handleGameCountdown(message: response.GameCountdown) {
   const secondsLeft = message.secondsLeft;
-  store.dispatch(setCountingDown(true));
-  store.dispatch(setSecondsLeft(secondsLeft));
-
+  store.dispatch(gameCountdown(secondsLeft));
 }
 
 export function handleGameStarted(message: response.GameStarted) {
   const game = message.game;
-  store.dispatch(setCurrentGame(game));
-  store.dispatch(setCountingDown(false));
-  store.dispatch(setSecondsLeft(null));
+  store.dispatch(gameStarted(game));
 }
