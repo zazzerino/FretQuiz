@@ -14,11 +14,12 @@ import java.util.Timer;
 import static kdp.fretquiz.App.gameDao;
 import static kdp.fretquiz.App.userDao;
 
-public class GameController {
-
+public class GameController
+{
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    private static void connectUserToGame(String gameId, User user) {
+    private static void connectUserToGame(String gameId, User user)
+    {
         final var game = gameDao.getGameById(gameId);
         final var player = new Player(user.id, user.name());
 
@@ -32,7 +33,8 @@ public class GameController {
     /**
      * Send a message to all players of a game.
      */
-    public static void notifyPlayers(String gameId, Response response) {
+    public static void notifyPlayers(String gameId, Response response)
+    {
         final var userIds = gameDao.getPlayerIds(gameId);
         final var sessionIds = userDao.getSessionIds(userIds);
         WebSocket.sendToSessionIds(sessionIds, response);
@@ -41,12 +43,14 @@ public class GameController {
     /**
      * Send the new state of a game to all its players.
      */
-    public static void sendUpdatedGameToPlayers(String gameId) {
+    public static void sendUpdatedGameToPlayers(String gameId)
+    {
         final var game = gameDao.getGameById(gameId);
         notifyPlayers(game.id, new Response.GameUpdated(game));
     }
 
-    public static void getGameIds(WsMessageContext context) {
+    public static void getGameIds(WsMessageContext context)
+    {
         final var gameIds = gameDao.getGameIds();
         context.send(new Response.GameIds(gameIds));
     }
@@ -55,7 +59,8 @@ public class GameController {
      * Creates a new game and sends the game info back to the client.
      * Then it sends the updated game id list to each connected client.
      */
-    public static void createGame(WsMessageContext context) {
+    public static void createGame(WsMessageContext context)
+    {
         final var user = UserController.getUserFromContext(context);
 
         final var game = new Game()
@@ -71,7 +76,8 @@ public class GameController {
         broadcastGameInfos();
     }
 
-    public static void broadcastGameInfos() {
+    public static void broadcastGameInfos()
+    {
         final var gameInfos = gameDao.getGameInfos();
         WebSocket.broadcast(new Response.GameInfos(gameInfos));
     }
@@ -79,7 +85,8 @@ public class GameController {
     /**
      * Connect's a user to a game and then sends the user the game's info.
      */
-    public static void joinGame(WsMessageContext context) {
+    public static void joinGame(WsMessageContext context)
+    {
         final var message = context.message(Request.JoinGame.class);
 
         final var userId = message.userId();
@@ -104,7 +111,8 @@ public class GameController {
         broadcastGameInfos();
     }
 
-    public static void startGame(WsMessageContext context) {
+    public static void startGame(WsMessageContext context)
+    {
         final var message = context.message(Request.StartGame.class);
 
         final var gameId = message.gameId();
@@ -117,7 +125,8 @@ public class GameController {
         notifyPlayers(game.id, new Response.GameStarted(game));
     }
 
-    public static void startGameCountdown(WsMessageContext context) {
+    public static void startGameCountdown(WsMessageContext context)
+    {
         final var message = context.message(Request.StartCountdown.class);
         final var gameId = message.gameId();
 
@@ -130,7 +139,8 @@ public class GameController {
         timer.schedule(task, 0, 1000);
     }
 
-    public static void handleGuess(WsMessageContext context) {
+    public static void handleGuess(WsMessageContext context)
+    {
         final var message = context.message(Request.PlayerGuess.class);
 
         final var clientGuess = message.clientGuess();
@@ -149,7 +159,8 @@ public class GameController {
         }
     }
 
-    public static void startNextRound(WsMessageContext context) {
+    public static void startNextRound(WsMessageContext context)
+    {
         final var message = context.message(Request.NextRound.class);
 
         final var gameId = message.gameId();
@@ -171,7 +182,8 @@ public class GameController {
         notifyPlayers(game.id, new Response.RoundStarted(game));
     }
 
-    public static void startRoundCountdown(WsMessageContext context) {
+    public static void startRoundCountdown(WsMessageContext context)
+    {
         final var message = context.message(Request.StartRoundCountdown.class);
         final var gameId = message.gameId();
 
@@ -184,7 +196,8 @@ public class GameController {
         timer.schedule(task, 0, 1000);
     }
 
-    public static void toggleString(WsMessageContext context) {
+    public static void toggleString(WsMessageContext context)
+    {
         final var message = context.message(Request.ToggleString.class);
 
         final var gameId = message.gameId();
@@ -198,7 +211,8 @@ public class GameController {
         sendUpdatedGameToPlayers(game.id);
     }
 
-    public static void toggleAccidental(WsMessageContext context) {
+    public static void toggleAccidental(WsMessageContext context)
+    {
         final var message = context.message(Request.ToggleAccidental.class);
 
         final var gameId = message.gameId();
@@ -212,7 +226,8 @@ public class GameController {
         sendUpdatedGameToPlayers(game.id);
     }
 
-    public static void setRoundCount(WsMessageContext context) {
+    public static void setRoundCount(WsMessageContext context)
+    {
         final var message = context.message(Request.SetRoundCount.class);
 
         final var gameId = message.gameId();
@@ -228,9 +243,11 @@ public class GameController {
 
     /**
      * Removes finished games.
+     *
      * @param minutes if the game is older than the given number of minutes it will be removed
      */
-    public static void cleanupGames(int minutes) {
+    public static void cleanupGames(int minutes)
+    {
         log.info("cleaning up games...");
         final var games = gameDao.getAllGames();
 

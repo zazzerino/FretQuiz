@@ -6,24 +6,27 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-public class Util {
-
+public class Util
+{
     /**
      * Selects a random element from an array.
      */
-    public static <T> T randomElement(List<T> list) {
+    public static <T> T randomElement(List<T> list)
+    {
         final var index = new Random().nextInt(list.size());
         return list.get(index);
     }
 
-    public static String randomId() {
+    public static String randomId()
+    {
         return UUID.randomUUID().toString();
     }
 
     /**
      * @return a list of Integers from `start` to `endExclusive` - 1.
      */
-    public static List<Integer> range(int start, int endExclusive) {
+    public static List<Integer> range(int start, int endExclusive)
+    {
         return IntStream
                 .range(start, endExclusive)
                 .boxed()
@@ -33,7 +36,8 @@ public class Util {
     /**
      * Toggles an element's inclusion in a list. Returns a new list.
      */
-    public static <T> List<T> toggle(List<T> list, T element) {
+    public static <T> List<T> toggle(List<T> list, T element)
+    {
         final var copy = new ArrayList<>(list);
 
         if (copy.contains(element)) {

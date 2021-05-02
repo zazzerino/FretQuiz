@@ -1,6 +1,7 @@
 package kdp.fretquiz.theory;
 
-public enum Octave {
+public enum Octave
+{
     ONE(1),
     TWO(2),
     THREE(3),
@@ -15,7 +16,13 @@ public enum Octave {
 
     public final int val;
 
-    public static Octave fromString(String num) {
+    Octave(int val)
+    {
+        this.val = val;
+    }
+
+    public static Octave from(String num)
+    {
         return switch (num) {
             case "1" -> ONE;
             case "2" -> TWO;
@@ -30,11 +37,8 @@ public enum Octave {
         };
     }
 
-    Octave(int val) {
-        this.val = val;
-    }
-
-    public Octave next() {
+    public Octave next()
+    {
         return vals[(this.ordinal() + 1) % vals.length];
     }
 }

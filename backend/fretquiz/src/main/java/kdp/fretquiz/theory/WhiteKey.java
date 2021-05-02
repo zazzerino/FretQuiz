@@ -1,6 +1,7 @@
 package kdp.fretquiz.theory;
 
-public enum WhiteKey {
+public enum WhiteKey
+{
     C("C"),
     D("D"),
     E("E"),
@@ -13,11 +14,13 @@ public enum WhiteKey {
 
     public final String val;
 
-    WhiteKey(String val) {
+    WhiteKey(String val)
+    {
         this.val = val;
     }
 
-    public int halfStepsFromC() {
+    public int halfStepsFromC()
+    {
         return switch (this) {
             case C -> 0;
             case D -> 2;
@@ -29,7 +32,8 @@ public enum WhiteKey {
         };
     }
 
-    public WhiteKey next() {
+    public WhiteKey next()
+    {
         return vals[(this.ordinal() + 1) % vals.length];
     }
 }

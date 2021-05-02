@@ -13,8 +13,8 @@ import java.util.List;
 
 import static kdp.fretquiz.App.gameDao;
 
-public class WebSocket {
-
+public class WebSocket
+{
     private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
     /**
@@ -25,7 +25,8 @@ public class WebSocket {
     /**
      * Send a response to each session in sessionIds.
      */
-    public static void sendToSessionIds(List<String> sessionIds, Response response) {
+    public static void sendToSessionIds(List<String> sessionIds, Response response)
+    {
         contexts.stream()
                 .filter(context -> sessionIds.contains(context.getSessionId()))
                 .forEach(context -> context.send(response));
@@ -34,7 +35,8 @@ public class WebSocket {
     /**
      * Send a response to each connected user.
      */
-    public static void broadcast(Response response) {
+    public static void broadcast(Response response)
+    {
         contexts.forEach(context -> context.send(response));
     }
 
@@ -42,7 +44,8 @@ public class WebSocket {
      * This method is run when a user first connects to the site.
      * It logs them in as an anonymous user and sends them a list of game ids.
      */
-    public static void onConnect(WsContext context) {
+    public static void onConnect(WsContext context)
+    {
         contexts.add(context);
         UserController.loginAnonymousUser(context);
 
@@ -50,7 +53,8 @@ public class WebSocket {
         context.send(new Response.GameInfos(gameInfos));
     }
 
-    public static void onClose(WsCloseContext context) {
+    public static void onClose(WsCloseContext context)
+    {
         UserController.cleanupUser(context);
 
         log.info("removing context with session id: " + context.getSessionId());
@@ -60,7 +64,8 @@ public class WebSocket {
     /**
      * This method routes an incoming message to the proper handler.
      */
-    public static void onMessage(WsMessageContext context) {
+    public static void onMessage(WsMessageContext context)
+    {
         final var request = context.message(Request.Default.class);
         log.info("message received: " + request.type());
 

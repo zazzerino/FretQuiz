@@ -1,11 +1,6 @@
 package kdp.fretquiz.theory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * This class represents a slice of a fretboard from `startFret` to `endFret` in the given `tuning`.
@@ -14,13 +9,8 @@ import java.util.Optional;
 public record Fretboard(Tuning tuning,
                         int startFret,
                         int endFret,
-                        Map<Coord, Note> notes) {
-
-    /**
-     * Fretboard.Coord represents a location on the fretboard (the string & fret).
-     */
-    public static record Coord(int string, int fret) {}
-
+                        Map<Coord, Note> notes)
+{
     /**
      * The 1st position of a 6-string guitar in standard tuning.
      */
@@ -28,10 +18,11 @@ public record Fretboard(Tuning tuning,
 
     /**
      * @param startFret the lowest fret (in pitch & number)
-     * @param endFret the highest fret (in pitch & number)
+     * @param endFret   the highest fret (in pitch & number)
      * @return a new Fretboard and calculates the notes on that can be found on that fretboard
      */
-    public static Fretboard create(Tuning tuning, int startFret, int endFret) {
+    public static Fretboard create(Tuning tuning, int startFret, int endFret)
+    {
         final var notes = calculateNotes(tuning, startFret, endFret);
         return new Fretboard(tuning, startFret, endFret, notes);
     }
@@ -39,7 +30,8 @@ public record Fretboard(Tuning tuning,
     /**
      * @return a Map with the keys being each Fretboard.Coord and the values being the Notes played at that coord
      */
-    public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret) {
+    public static Map<Coord, Note> calculateNotes(Tuning tuning, int startFret, int endFret)
+    {
         final Map<Coord, Note> notes = new HashMap<>();
         final var stringCount = tuning.notes().size();
 
@@ -60,14 +52,16 @@ public record Fretboard(Tuning tuning,
     /**
      * @return the Note at the given Fretboard.Coord (string & fret)
      */
-    public Optional<Note> findNoteAt(Coord coord) {
+    public Optional<Note> findNoteAt(Coord coord)
+    {
         return Optional.ofNullable(notes.get(coord));
     }
 
     /**
      * @return the Fretboard.Coord where a given Note is played.
      */
-    public Optional<Coord> findCoord(Note note) {
+    public Optional<Coord> findCoord(Note note)
+    {
         return notes.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().isEnharmonicWith(note))
@@ -78,25 +72,29 @@ public record Fretboard(Tuning tuning,
     /**
      * @return the number of frets on the Fretboard
      */
-    public int fretCount() {
+    public int fretCount()
+    {
         return endFret - startFret;
     }
 
-    public int stringCount() {
+    public int stringCount()
+    {
         return tuning.size();
     }
 
     /**
      * @return a random note on that can be played on the fretboard.
      */
-    public Note randomNote() {
+    public Note randomNote()
+    {
         final var lowNote = Note.from(tuning.get(tuning.size() - 1));
         final var highNote = Note.from(tuning.get(0)).transpose(fretCount());
 
         return Note.randomBetween(lowNote, highNote);
     }
 
-    public List<Note> notesOnString(int string) {
+    public List<Note> notesOnString(int string)
+    {
         if (string < 1 || string > stringCount() + 1) {
             throw new IllegalArgumentException();
         }
@@ -112,5 +110,12 @@ public record Fretboard(Tuning tuning,
         }
 
         return notes;
+    }
+
+    /**
+     * Fretboard.Coord represents a location on the fretboard (the string & fret).
+     */
+    public static record Coord(int string, int fret)
+    {
     }
 }

@@ -6,6 +6,7 @@ import { PlayerList } from './PlayerList';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Settings } from './Settings';
+import { Chat } from './Chat';
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +32,7 @@ export function WaitingRoom() {
       {!userIsHost && (
         <Typography variant='subtitle1'>Waiting on host to start game...</Typography>
       )}
+      <Chat />
     </div>
   );
 }

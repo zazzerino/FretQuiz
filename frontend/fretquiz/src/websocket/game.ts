@@ -11,10 +11,16 @@ import { correctSound, incorrectSound } from '../sounds';
 
 // helper functions
 
+/**
+ * Sends a stringified JSON request to the backend.
+ */
 const send = (request: request.Request) => {
   ws.send(JSON.stringify(request));
 }
 
+/**
+ * Updates the redux store.
+ */
 const dispatch = store.dispatch;
 
 // game request senders

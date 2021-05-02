@@ -13,13 +13,14 @@ import java.util.NoSuchElementException;
 public record Guess(String playerId,
                     Note noteToGuess,
                     Fretboard.Coord clickedFret,
-                    @JsonIgnore Fretboard fretboard) {
-
+                    @JsonIgnore Fretboard fretboard)
+{
     /**
      * Did the player click on the fret where the `noteToGuess` is played?
      */
     @JsonProperty("isCorrect")
-    public boolean isCorrect() {
+    public boolean isCorrect()
+    {
         final var guessedNote = fretboard
                 .findNoteAt(clickedFret)
                 .orElseThrow(NoSuchElementException::new);
@@ -28,7 +29,8 @@ public record Guess(String playerId,
     }
 
     @JsonProperty("correctFret")
-    public Fretboard.Coord correctFret() {
+    public Fretboard.Coord correctFret()
+    {
         return fretboard.findCoord(noteToGuess)
                 .orElseThrow(NoSuchElementException::new);
     }
@@ -38,6 +40,7 @@ public record Guess(String playerId,
      */
     public static record ClientGuess(String gameId,
                                      String playerId,
-                                     Fretboard.Coord clickedFret) {
+                                     Fretboard.Coord clickedFret)
+    {
     }
 }

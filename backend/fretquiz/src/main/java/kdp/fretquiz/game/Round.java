@@ -13,17 +13,20 @@ import java.util.List;
  * The players have `secondsLeft` to guess the note's location on the fretboard.
  * This class keeps a record of every player's Guess.
  */
-public class Round {
-
+public class Round
+{
     public final Note noteToGuess;
-    private Opts opts;
-    private int secondsElapsed;
-    private final List<Guess> guesses = new ArrayList<>();
 
     @JsonIgnore
     public final List<String> playerIds;
 
-    public Round(Opts opts, List<String> playerIds) {
+    private final List<Guess> guesses = new ArrayList<>();
+
+    private Opts opts;
+    private int secondsElapsed;
+
+    public Round(Opts opts, List<String> playerIds)
+    {
         this.opts = opts;
         this.secondsElapsed = 0;
         this.noteToGuess = opts.randomNote();
@@ -33,7 +36,8 @@ public class Round {
     /**
      * Increment secondsElapsed.
      */
-    public Round tick() {
+    public Round tick()
+    {
         secondsElapsed += 1;
         return this;
     }
@@ -42,38 +46,46 @@ public class Round {
      * The round is over once every player has guessed.
      */
     @JsonProperty("isOver")
-    public boolean isOver() {
+    public boolean isOver()
+    {
         return playerIds.size() == guesses.size();
     }
 
     /**
      * Handles a new guess. Updates the guess list and returns whether the guess was correct.
+     *
      * @return true if the player correctly guessed the displayed note, false otherwise
      */
-    public Guess guess(String playerId, Fretboard.Coord clickedFret) {
+    public Guess guess(String playerId, Fretboard.Coord clickedFret)
+    {
         final var guess = new Guess(playerId, noteToGuess, clickedFret, opts.fretboard());
         guesses.add(guess);
 
         return guess;
     }
 
-    public int secondsElapsed() {
+    public int secondsElapsed()
+    {
         return secondsElapsed;
     }
 
-    public List<Guess> getGuesses() {
+    public List<Guess> getGuesses()
+    {
         return guesses;
     }
 
-    public Note noteToGuess() {
+    public Note noteToGuess()
+    {
         return noteToGuess;
     }
 
-    public Opts opts() {
+    public Opts opts()
+    {
         return opts;
     }
 
-    public Round setOpts(Opts opts) {
+    public Round setOpts(Opts opts)
+    {
         this.opts = opts;
         return this;
     }

@@ -1,6 +1,7 @@
 package kdp.fretquiz.theory;
 
-public enum Accidental {
+public enum Accidental
+{
     FLAT("b"),
     NONE(""),
     SHARP("#");
@@ -9,7 +10,13 @@ public enum Accidental {
 
     public final String val;
 
-    public static Accidental fromString(String name) {
+    Accidental(String val)
+    {
+        this.val = val;
+    }
+
+    public static Accidental from(String name)
+    {
         return switch (name) {
             case "b" -> FLAT;
             case "" -> NONE;
@@ -18,11 +25,8 @@ public enum Accidental {
         };
     }
 
-    Accidental(String val) {
-        this.val = val;
-    }
-
-    public int halfStepOffset() {
+    public int halfStepOffset()
+    {
         return switch (this) {
             case FLAT -> -1;
             case NONE -> 0;
@@ -30,7 +34,8 @@ public enum Accidental {
         };
     }
 
-    public Accidental next() {
+    public Accidental next()
+    {
         return vals[(this.ordinal() + 1) % vals.length];
     }
 }

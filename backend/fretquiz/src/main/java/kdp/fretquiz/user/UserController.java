@@ -13,11 +13,12 @@ import java.util.Objects;
 import static kdp.fretquiz.App.gameDao;
 import static kdp.fretquiz.App.userDao;
 
-public class UserController {
-
+public class UserController
+{
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public static void loginAnonymousUser(WsContext context) {
+    public static void loginAnonymousUser(WsContext context)
+    {
         final var sessionId = context.getSessionId();
         final var user = new User(sessionId);
 
@@ -28,7 +29,8 @@ public class UserController {
         context.send(new Response.LoggedIn(user));
     }
 
-    public static void login(WsMessageContext context) {
+    public static void login(WsMessageContext context)
+    {
         final var message = context.message(Request.Login.class);
         final var name = message.name();
 
@@ -51,7 +53,8 @@ public class UserController {
         context.send(new Response.LoggedIn(user));
     }
 
-    public static void logout(WsMessageContext context) {
+    public static void logout(WsMessageContext context)
+    {
         final var user = getUserFromContext(context)
                 .setName(User.DEFAULT_NAME);
 
@@ -63,7 +66,8 @@ public class UserController {
      * Has the user leave each game they're connected to.
      * If the game is over after the user leaves, deletes the game.
      */
-    public static void cleanupUser(WsContext context) {
+    public static void cleanupUser(WsContext context)
+    {
         final var userId = getUserIdAttribute(context);
         final var user = userDao.getUserById(userId);
         final var gameIds = user.gameIds();
@@ -75,7 +79,6 @@ public class UserController {
             if (game.isOver()) {
                 log.info("deleting game: " + gameId);
                 gameDao.delete(gameId);
-//                GameController.broadcastGameIds();
                 GameController.broadcastGameInfos();
             } else {
                 gameDao.save(game);
@@ -93,11 +96,13 @@ public class UserController {
     /**
      * Store the user's id as a session attribute.
      */
-    public static void setUserIdAttribute(WsContext context, User user) {
+    public static void setUserIdAttribute(WsContext context, User user)
+    {
         context.attribute("id", user.id);
     }
 
-    public static String getUserIdAttribute(WsContext context) {
+    public static String getUserIdAttribute(WsContext context)
+    {
         return Objects.requireNonNull(context.attribute("id"));
     }
 
@@ -105,7 +110,8 @@ public class UserController {
      * Gets a user's info from the context.
      * Assumes that the "id" attribute was set during WebSocket::onConnect().
      */
-    public static User getUserFromContext(WsContext context) {
+    public static User getUserFromContext(WsContext context)
+    {
         final var userId = getUserIdAttribute(context);
         return userDao.getUserById(userId);
     }
