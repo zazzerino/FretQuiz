@@ -54,6 +54,10 @@ export const sendStartCountdown = (gameId: string) => {
   send(request.startCountdown(gameId));
 }
 
+export const sendStartRoundCountdown = (gameId: string) => {
+  send(request.startRoundCountdown(gameId));
+}
+
 // handle responses
 
 export function handleGameCreated(message: response.GameCreated) {
@@ -96,6 +100,9 @@ export function handleRoundStarted(message: response.RoundStarted) {
   store.dispatch(setClickedFret(null));
   store.dispatch(setGuess(null));
   store.dispatch(setCurrentGame(game));
+
+  store.dispatch(setCountingDown(false));
+  store.dispatch(setSecondsLeft(null));
 }
 
 export function handleGameOver(message: response.GameOver) {

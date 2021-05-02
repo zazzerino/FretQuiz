@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../user/userSlice';
-import { sendNextRound } from '../websocket/game';
+import { sendNextRound, sendStartRoundCountdown } from '../websocket/game';
 import { selectGameId } from './gameSlice';
 
 export function NextRoundButton() {
@@ -18,7 +18,8 @@ export function NextRoundButton() {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => sendNextRound(gameId, userId)}
+        // onClick={() => sendNextRound(gameId, userId)}
+        onClick={() => sendStartRoundCountdown(gameId)}
       >
         Next Round
       </Button>

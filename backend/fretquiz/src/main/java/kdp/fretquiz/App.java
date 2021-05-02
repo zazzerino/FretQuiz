@@ -41,16 +41,14 @@ public class App {
                 Executors.newScheduledThreadPool(1);
 
         gameCleanupService.scheduleAtFixedRate(
-                () -> GameController.cleanupGames(4), 4, 4, TimeUnit.MINUTES
-        );
+                () -> GameController.cleanupGames(4), 4, 4, TimeUnit.MINUTES);
 
         // broadcast game infos every thirty seconds
         final var gameBroadcastService =
                 Executors.newScheduledThreadPool(1);
 
         gameBroadcastService.scheduleAtFixedRate(
-                GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS
-        );
+                GameController::broadcastGameInfos, 30, 30, TimeUnit.SECONDS);
     }
 
     private static int getPort(String[] args) {

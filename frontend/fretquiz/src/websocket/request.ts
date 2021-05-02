@@ -12,7 +12,8 @@ export type RequestType =
   | 'TOGGLE_STRING'
   | 'TOGGLE_ACCIDENTAL'
   | 'SET_ROUND_COUNT'
-  | 'START_COUNTDOWN';
+  | 'START_COUNTDOWN'
+  | 'START_ROUND_COUNTDOWN';
 
 export interface Request {
   type: RequestType
@@ -113,7 +114,7 @@ export function toggleAccidental(gameId: string, accidental: Accidental): Toggle
   return { type: 'TOGGLE_ACCIDENTAL', gameId, accidental };
 }
 
-export interface SetRoundCount {
+export interface SetRoundCount extends Request {
   type: 'SET_ROUND_COUNT',
   gameId: string, 
   roundCount: number
@@ -123,11 +124,20 @@ export function setRoundCount(gameId: string, roundCount: number): SetRoundCount
   return { type: 'SET_ROUND_COUNT', gameId, roundCount };
 }
 
-export interface StartCountdown {
+export interface StartCountdown extends Request {
   type: 'START_COUNTDOWN',
   gameId: string
 }
 
 export function startCountdown(gameId: string): StartCountdown {
   return { type: 'START_COUNTDOWN', gameId }
+}
+
+export interface StartRoundCountdown extends Request {
+  type: 'START_ROUND_COUNTDOWN',
+  gameId: string,
+}
+
+export function startRoundCountdown(gameId: string): StartRoundCountdown {
+  return { type: 'START_ROUND_COUNTDOWN', gameId }
 }

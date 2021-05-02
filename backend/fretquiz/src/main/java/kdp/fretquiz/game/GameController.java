@@ -124,9 +124,8 @@ public class GameController {
         final var timer = new Timer();
         final var task = new CountdownTask(
                 3,
-                (n) -> notifyPlayers(gameId, new Response.GameCountdown(n)),
-                () -> startGame(context)
-        );
+                (secondsLeft) -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
+                () -> startGame(context));
 
         timer.schedule(task, 0, 1000);
     }
@@ -158,14 +157,31 @@ public class GameController {
 
         final var game = gameDao.getGameById(gameId);
 
-        final boolean userIsHost = game.hostId().equals(userId);
-        final boolean roundIsOver = game.currentRound().isOver();
+//        final boolean userIsHost = game.hostId().equals(userId);
+//        final boolean roundIsOver = game.currentRound().isOver();
+//
+//        if (userIsHost && roundIsOver) {
+//            game.nextRound();
+//            gameDao.save(game);
+//            notifyPlayers(game.id, new Response.RoundStarted(game));
+//        }
 
-        if (userIsHost && roundIsOver) {
-            game.nextRound();
-            gameDao.save(game);
-            notifyPlayers(game.id, new Response.RoundStarted(game));
-        }
+        game.nextRound();
+        gameDao.save(game);
+        notifyPlayers(game.id, new Response.RoundStarted(game));
+    }
+
+    public static void startRoundCountdown(WsMessageContext context) {
+        final var message = context.message(Request.StartRoundCountdown.class);
+        final var gameId = message.gameId();
+
+        final var timer = new Timer();
+        final var task = new CountdownTask(
+                3,
+                (secondsLeft) -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
+                () -> startNextRound(context));
+
+        timer.schedule(task, 0, 1000);
     }
 
     public static void toggleString(WsMessageContext context) {

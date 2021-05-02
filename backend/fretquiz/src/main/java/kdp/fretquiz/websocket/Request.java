@@ -23,7 +23,8 @@ public interface Request {
         TOGGLE_STRING,
         TOGGLE_ACCIDENTAL,
         SET_ROUND_COUNT,
-        START_COUNTDOWN;
+        START_COUNTDOWN,
+        START_ROUND_COUNTDOWN;
     }
 
     /**
@@ -105,6 +106,12 @@ public interface Request {
     record StartCountdown(Type type, String gameId) implements Request {
         public StartCountdown(String gameId) {
             this(Type.START_COUNTDOWN, gameId);
+        }
+    }
+
+    record StartRoundCountdown(Type type, String gameId) implements Request {
+        public StartRoundCountdown(String gameId) {
+            this(Type.START_ROUND_COUNTDOWN, gameId);
         }
     }
 }
