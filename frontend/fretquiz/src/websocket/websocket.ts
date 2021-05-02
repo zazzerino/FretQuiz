@@ -1,7 +1,7 @@
 import * as response from './response';
 import { handleFlash, handleLogin } from './user';
 import { 
-  handleGameIds, handleGameCreated, handleGameJoined,  handleGameUpdated, 
+  handleGameCreated, handleGameJoined,  handleGameUpdated, 
   handleRoundStarted, handleGuessResult, handleGameOver, handleGameInfos, handleGameCountdown, handleGameStarted 
 } from './game';
 
@@ -42,8 +42,6 @@ function onMessage(event: MessageEvent) {
       return handleFlash(message as response.Flash);
     case 'LOGGED_IN':
       return handleLogin(message as response.LoggedIn);
-    case 'GAME_IDS':
-      return handleGameIds(message as response.GameIds);
     case 'GAME_INFOS':
       return handleGameInfos(message as response.GameInfos);
     case 'GAME_CREATED':

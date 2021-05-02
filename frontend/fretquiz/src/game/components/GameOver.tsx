@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { CreateGameButton } from '../game/CreateGameButton';
+import { CreateGameButton } from './CreateGameButton';
 import { makeStyles } from '@material-ui/core';
-import { ScoreTable } from '../game/ScoreTable';
+import { ScoreTable } from './ScoreTable';
 
 const useStyles = makeStyles({
   root: {

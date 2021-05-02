@@ -4,8 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { sendToggleString } from '../websocket/game';
-import { selectGameId, selectStringCount, selectStringsToUse } from './gameSlice';
+import { sendToggleString } from '../../websocket/game';
+import {
+  selectGameId, selectStringCount, selectStringsToUse
+} from '../gameSlice';
 
 interface StringCheckboxProps {
   gameId: string,

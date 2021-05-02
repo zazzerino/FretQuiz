@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router";
-import { sendJoinGame } from "../websocket/game";
+import { sendJoinGame } from "../../websocket/game";
 
 export interface JoinGameButtonProps {
   gameId: string,

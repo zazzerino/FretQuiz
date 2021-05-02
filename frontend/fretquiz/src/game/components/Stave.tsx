@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { emptyElementWithId } from '../utils';
-import { selectNoteToGuess } from './gameSlice';
-import { makeVexObjects, drawNote } from './vexflow-utils';
+import { emptyElementWithId } from '../../utils';
+import { selectNoteToGuess } from '../gameSlice';
+import { makeVexObjects, drawNote } from '../vexflow-utils';
 
 export function Stave() {
   const id = 'stave-element';

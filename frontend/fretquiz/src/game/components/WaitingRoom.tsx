@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { StartGameButton } from './StartGameButton';
-import { selectReadyToStart, selectUserIsHost } from './gameSlice';
+import { selectReadyToStart, selectUserIsHost } from '../gameSlice';
 import { PlayerList } from './PlayerList';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';

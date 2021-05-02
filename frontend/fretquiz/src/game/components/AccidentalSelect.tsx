@@ -4,9 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { sendToggleAccidental } from '../websocket/game';
-import { selectAccidentalsToUse, selectGameId } from './gameSlice';
-import { Accidental } from './types';
+import { sendToggleAccidental } from '../../websocket/game';
+import { selectAccidentalsToUse, selectGameId } from '../gameSlice';
+import { Accidental } from '../types';
 
 function accidentalName(accidental: Accidental): string {
   switch (accidental) {

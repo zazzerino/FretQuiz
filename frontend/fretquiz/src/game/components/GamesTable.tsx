@@ -8,11 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 // import TableFooter from '@material-ui/core/TableFooter'
 // import TablePagination from '@material-ui/core/TablePagination';
-import { selectGameInfos } from './gameSlice';
-import { minutesSince } from '../utils';
-import { selectUserId } from '../user/userSlice';
+import { selectGameInfos } from '../gameSlice';
+import { minutesSince } from '../../utils';
+import { selectUserId } from '../../user/userSlice';
 import { JoinGameButton } from './JoinGameButton';
-import { GameInfo } from './types';
+import { GameInfo } from '../types';
 
 function formatGameInfo(info: GameInfo) {
   const shortId = info.gameId.substring(0, 8);

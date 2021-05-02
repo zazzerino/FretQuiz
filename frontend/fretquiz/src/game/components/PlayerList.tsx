@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { useSelector } from 'react-redux';
-import { selectHostId, selectPlayers } from './gameSlice';
+import { selectHostId, selectPlayers } from '../gameSlice';
 
 export function PlayerList() {
   const players = useSelector(selectPlayers);

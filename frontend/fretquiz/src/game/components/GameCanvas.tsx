@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Fretboard } from './Fretboard';
 import { NextRoundButton } from './NextRoundButton';
 import { Stave } from './Stave';
-import { selectRoundIsOver, selectUserIsHost } from './gameSlice';
+import { selectRoundIsOver, selectUserIsHost } from '../gameSlice';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

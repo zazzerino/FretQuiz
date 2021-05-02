@@ -1,8 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useSelector } from 'react-redux';
-import { selectGameId, selectRoundCount } from './gameSlice';
-import { sendSetRoundCount } from '../websocket/game';
+import { selectGameId, selectRoundCount } from '../gameSlice';
+import { sendSetRoundCount } from '../../websocket/game';
 
 export function RoundCountInput() {
   const gameId = useSelector(selectGameId);

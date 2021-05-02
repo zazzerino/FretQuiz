@@ -6,7 +6,7 @@ import { Home } from './pages/Home';
 import { Navbar } from './components/Navbar';
 import { Game } from './pages/Game';
 import { Login } from './pages/Login';
-import { Settings } from './game/Settings';
+import { Settings } from './game/components/Settings';
 
 function App() {
   return (
