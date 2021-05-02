@@ -127,7 +127,7 @@ public class GameController
 
     public static void startGameCountdown(WsMessageContext context)
     {
-        final var message = context.message(Request.StartCountdown.class);
+        final var message = context.message(Request.StartGameCountdown.class);
         final var gameId = message.gameId();
 
         final var timer = new Timer();

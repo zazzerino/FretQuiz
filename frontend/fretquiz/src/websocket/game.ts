@@ -62,7 +62,7 @@ export const sendSetRoundCount = (gameId: string, roundCount: number) => {
 }
 
 export const sendStartCountdown = (gameId: string) => {
-  send(request.startCountdown(gameId));
+  send(request.startGameCountdown(gameId));
 }
 
 export const sendStartRoundCountdown = (gameId: string) => {

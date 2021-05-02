@@ -12,7 +12,7 @@ export type RequestType =
   | 'TOGGLE_STRING'
   | 'TOGGLE_ACCIDENTAL'
   | 'SET_ROUND_COUNT'
-  | 'START_COUNTDOWN'
+  | 'START_GAME_COUNTDOWN'
   | 'START_ROUND_COUNTDOWN';
 
 export interface Request {
@@ -124,13 +124,13 @@ export function setRoundCount(gameId: string, roundCount: number): SetRoundCount
   return { type: 'SET_ROUND_COUNT', gameId, roundCount };
 }
 
-export interface StartCountdown extends Request {
-  type: 'START_COUNTDOWN',
+export interface StartGameCountdown extends Request {
+  type: 'START_GAME_COUNTDOWN',
   gameId: string
 }
 
-export function startCountdown(gameId: string): StartCountdown {
-  return { type: 'START_COUNTDOWN', gameId }
+export function startGameCountdown(gameId: string): StartGameCountdown {
+  return { type: 'START_GAME_COUNTDOWN', gameId }
 }
 
 export interface StartRoundCountdown extends Request {

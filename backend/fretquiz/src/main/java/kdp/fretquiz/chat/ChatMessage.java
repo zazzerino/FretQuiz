@@ -6,11 +6,11 @@ import java.time.Instant;
 
 public record ChatMessage(User user,
                           String message,
-                          Instant createdAt)
+                          String createdAt)
 {
 
     public ChatMessage(User user, String message)
     {
-        this(user, message, Instant.now());
+        this(user, message, Instant.now().toString());
     }
 }
