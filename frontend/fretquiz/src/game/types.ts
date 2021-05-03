@@ -1,3 +1,5 @@
+import { User } from "../user/userSlice";
+
 export interface FretCoord {
   string: number,
   fret: number
@@ -81,4 +83,12 @@ export interface Game {
   isOver: boolean,
   state: State,
   scores: PlayerScore[]
+}
+
+export interface ChatMessage {
+  id: string,
+  gameId: string,
+  user: User,
+  text: string,
+  createdAt: string
 }

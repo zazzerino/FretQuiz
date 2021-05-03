@@ -5,7 +5,7 @@ import * as response from './response';
 import { Accidental, ClientGuess } from '../game/types';
 import { 
   playerGuessed, updateGameInfos,
-  updateGame, startRound, gameOver, gameCountdown, gameStarted,
+  updateGame, startRound, gameOver, gameCountdown, gameStarted, updateChat,
 } from '../game/gameSlice';
 import { correctSound, incorrectSound } from '../sounds';
 
@@ -69,6 +69,10 @@ export const sendStartRoundCountdown = (gameId: string) => {
   send(request.startRoundCountdown(gameId));
 }
 
+export const sendChatMessage = (gameId: string, text: string) => {
+  send(request.chatMessage(gameId, text));
+}
+
 // handle responses
 
 export function handleGameCreated(message: response.GameCreated) {
@@ -119,4 +123,9 @@ export function handleGameCountdown(message: response.GameCountdown) {
 export function handleGameStarted(message: response.GameStarted) {
   const game = message.game;
   dispatch(gameStarted(game));
+}
+
+export function handleUpdateChat(message: response.UpdateChat) {
+  const messages = message.messages;
+  dispatch(updateChat(messages));
 }

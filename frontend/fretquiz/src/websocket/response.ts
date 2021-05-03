@@ -1,4 +1,4 @@
-import { Game, GameInfo, Guess } from '../game/types';
+import { ChatMessage, Game, GameInfo, Guess } from '../game/types';
 import { User } from "../user/userSlice";
 
 export type ResponseType =
@@ -15,7 +15,8 @@ export type ResponseType =
   | 'GAME_UPDATED'
   | 'ROUND_STARTED'
   | 'GAME_OVER'
-  | 'GAME_COUNTDOWN';
+  | 'GAME_COUNTDOWN'
+  | 'UPDATE_CHAT';
 
 export interface Response {
   type: ResponseType
@@ -93,4 +94,9 @@ export interface GameOver extends Response {
 export interface GameCountdown extends Response {
   type: 'GAME_COUNTDOWN',
   secondsLeft: number
+}
+
+export interface UpdateChat extends Response {
+  type: 'UPDATE_CHAT',
+  messages: ChatMessage[]
 }

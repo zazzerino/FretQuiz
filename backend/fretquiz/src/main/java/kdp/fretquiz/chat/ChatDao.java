@@ -12,14 +12,27 @@ public class ChatDao
      */
     private final Map<String, List<ChatMessage>> messages = new ConcurrentHashMap<>();
 
-    public void add(String gameId, ChatMessage message)
+    public void save(ChatMessage message)
     {
+        final var gameId = message.gameId();
         messages.computeIfAbsent(gameId, _key -> new ArrayList<>());
         final var gameMessages = messages.get(gameId);
         gameMessages.add(message);
     }
 
-    public void delete(String gameId)
+    public void delete(ChatMessage message)
+    {
+        final var gameId = message.gameId();
+
+        if (gameId == null) {
+            return;
+        }
+
+        final var gameMessages = messages.get(gameId);
+        gameMessages.removeIf(msg -> msg.id().equals(message.id()));
+    }
+
+    public void deleteAll(String gameId)
     {
         messages.remove(gameId);
     }

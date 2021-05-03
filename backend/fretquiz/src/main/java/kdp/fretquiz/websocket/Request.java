@@ -5,7 +5,7 @@ import kdp.fretquiz.game.Guess;
 import kdp.fretquiz.theory.Accidental;
 
 /**
- * A Request is a message originating from the client (the browser).
+ * A Request is a text originating from the client (the browser).
  * Each Request has a Request.Type and, optionally, some associated data.
  */
 public interface Request
@@ -26,7 +26,8 @@ public interface Request
         TOGGLE_ACCIDENTAL,
         SET_ROUND_COUNT,
         START_GAME_COUNTDOWN,
-        START_ROUND_COUNTDOWN
+        START_ROUND_COUNTDOWN,
+        CHAT_MESSAGE
     }
 
     /**
@@ -142,6 +143,14 @@ public interface Request
         public StartRoundCountdown(String gameId)
         {
             this(Type.START_ROUND_COUNTDOWN, gameId);
+        }
+    }
+
+    record ChatMessage(Type type, String gameId, String text) implements Request
+    {
+        public ChatMessage(String gameId, String text)
+        {
+            this(Type.CHAT_MESSAGE, gameId, text);
         }
     }
 }

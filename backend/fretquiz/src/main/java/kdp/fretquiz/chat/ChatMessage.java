@@ -1,16 +1,22 @@
 package kdp.fretquiz.chat;
 
+import kdp.fretquiz.Util;
 import kdp.fretquiz.user.User;
 
 import java.time.Instant;
 
-public record ChatMessage(User user,
-                          String message,
+public record ChatMessage(String id,
+                          String gameId,
+                          User user,
+                          String text,
                           String createdAt)
 {
-
-    public ChatMessage(User user, String message)
+    public ChatMessage(String gameId, User user, String text)
     {
-        this(user, message, Instant.now().toString());
+        this(Util.randomId(),
+                gameId,
+                user,
+                text,
+                Instant.now().toString());
     }
 }

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { FretCoord } from "fretboard-diagram";
 import { RootState } from "../store";
-import { Game, GameInfo, Guess } from "./types";
+import { ChatMessage, Game, GameInfo, Guess } from "./types";
 import { selectUserId } from "../user/userSlice";
 
 interface GameSliceState {
@@ -12,6 +12,7 @@ interface GameSliceState {
   guess: Guess | null,
   isCountingDown: boolean,
   secondsLeft: number | null,
+  chatMessages: ChatMessage[],
 }
 
 const initialState: GameSliceState = {
@@ -21,6 +22,7 @@ const initialState: GameSliceState = {
   guess: null,
   isCountingDown: false,
   secondsLeft: null,
+  chatMessages: [],
 }
 
 const gameSlice = createSlice({
@@ -58,6 +60,9 @@ const gameSlice = createSlice({
       state.isCountingDown = false;
       state.secondsLeft = null;
       state.currentGame = action.payload;
+    },
+    updateChat: (state: GameSliceState, action: PayloadAction<ChatMessage[]>) => {
+      state.chatMessages = action.payload;
     }
   }
 });
@@ -116,9 +121,11 @@ export const selectIsCountingDown = (state: RootState) => state.game.isCountingD
 
 export const selectSecondsLeft = (state: RootState) => state.game.secondsLeft;
 
+export const selectChatMessages = (state: RootState) => state.game.chatMessages.map(msg => msg.text);
+
 export const { 
-  updateGameInfos, fretClicked, playerGuessed,
-  updateGame, startRound, gameOver, gameCountdown, gameStarted,
+  updateGameInfos, fretClicked, playerGuessed, updateGame, startRound, 
+  gameOver, gameCountdown, gameStarted, updateChat,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -1,5 +1,6 @@
 package kdp.fretquiz.websocket;
 
+import kdp.fretquiz.chat.ChatMessage;
 import kdp.fretquiz.game.Game;
 import kdp.fretquiz.game.Guess;
 import kdp.fretquiz.user.User;
@@ -7,7 +8,7 @@ import kdp.fretquiz.user.User;
 import java.util.List;
 
 /**
- * A Response is a message sent from the server to the client.
+ * A Response is a text sent from the server to the client.
  * Each Response has a Response.Type and, optionally, some associated data.
  */
 public interface Response
@@ -29,7 +30,8 @@ public interface Response
         GAME_UPDATED,
         ROUND_STARTED,
         GAME_OVER,
-        GAME_COUNTDOWN
+        GAME_COUNTDOWN,
+        UPDATE_CHAT
     }
 
     record Flash(Type type, String message) implements Response
@@ -141,6 +143,14 @@ public interface Response
         public GameCountdown(int secondsLeft)
         {
             this(Type.GAME_COUNTDOWN, secondsLeft);
+        }
+    }
+
+    record UpdateChat(Type type, List<ChatMessage> messages) implements Response
+    {
+        public UpdateChat(List<ChatMessage> messages)
+        {
+            this(Type.UPDATE_CHAT, messages);
         }
     }
 }

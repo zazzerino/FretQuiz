@@ -36,7 +36,7 @@ public record Guess(String playerId,
     }
 
     /**
-     * ClientGuess represents the message that will be sent from the client when a guess is made.
+     * ClientGuess represents the text that will be sent from the client when a guess is made.
      */
     public static record ClientGuess(String gameId,
                                      String playerId,

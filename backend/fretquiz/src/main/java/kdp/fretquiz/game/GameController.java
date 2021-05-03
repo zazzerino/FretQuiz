@@ -31,7 +31,7 @@ public class GameController
     }
 
     /**
-     * Send a message to all players of a game.
+     * Send a text to all players of a game.
      */
     public static void notifyPlayers(String gameId, Response response)
     {
@@ -133,7 +133,7 @@ public class GameController
         final var timer = new Timer();
         final var task = new CountdownTask(
                 3,
-                (secondsLeft) -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
+                secondsLeft -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
                 () -> startGame(context));
 
         timer.schedule(task, 0, 1000);
@@ -162,12 +162,10 @@ public class GameController
     public static void startNextRound(WsMessageContext context)
     {
         final var message = context.message(Request.NextRound.class);
-
         final var gameId = message.gameId();
-        final var userId = message.userId();
-
         final var game = gameDao.getGameById(gameId);
 
+//        final var userId = text.userId();
 //        final boolean userIsHost = game.hostId().equals(userId);
 //        final boolean roundIsOver = game.currentRound().isOver();
 //
@@ -190,7 +188,7 @@ public class GameController
         final var timer = new Timer();
         final var task = new CountdownTask(
                 3,
-                (secondsLeft) -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
+                secondsLeft -> notifyPlayers(gameId, new Response.GameCountdown(secondsLeft)),
                 () -> startNextRound(context));
 
         timer.schedule(task, 0, 1000);

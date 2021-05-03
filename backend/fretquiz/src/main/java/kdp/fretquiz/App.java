@@ -1,6 +1,7 @@
 package kdp.fretquiz;
 
 import io.javalin.Javalin;
+import kdp.fretquiz.chat.ChatDao;
 import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.game.GameDao;
 import kdp.fretquiz.user.UserDao;
@@ -23,6 +24,7 @@ public class App
 
     public static final UserDao userDao = new UserDao();
     public static final GameDao gameDao = new GameDao();
+    public static final ChatDao chatDao = new ChatDao();
 
     public static List<ScheduledExecutorService> services;
 
@@ -42,6 +44,11 @@ public class App
         services = createAndStartServices();
     }
 
+    /**
+     * Gets the port number from the commandline arguments
+     * @param args the commandline arguments passed to main()
+     * @return the port to run the app on
+     */
     private static int getPort(String[] args)
     {
         Integer port = null;

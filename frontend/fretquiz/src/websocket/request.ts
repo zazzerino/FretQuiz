@@ -13,7 +13,8 @@ export type RequestType =
   | 'TOGGLE_ACCIDENTAL'
   | 'SET_ROUND_COUNT'
   | 'START_GAME_COUNTDOWN'
-  | 'START_ROUND_COUNTDOWN';
+  | 'START_ROUND_COUNTDOWN'
+  | 'CHAT_MESSAGE';
 
 export interface Request {
   type: RequestType
@@ -140,4 +141,14 @@ export interface StartRoundCountdown extends Request {
 
 export function startRoundCountdown(gameId: string): StartRoundCountdown {
   return { type: 'START_ROUND_COUNTDOWN', gameId }
+}
+
+export interface ChatMessage extends Request {
+  type: 'CHAT_MESSAGE',
+  gameId: string,
+  text: string,
+}
+
+export function chatMessage(gameId: string, text: string): ChatMessage {
+  return { type: 'CHAT_MESSAGE', gameId, text };
 }

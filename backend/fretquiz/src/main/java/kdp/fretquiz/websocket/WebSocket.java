@@ -3,6 +3,7 @@ package kdp.fretquiz.websocket;
 import io.javalin.websocket.WsCloseContext;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
+import kdp.fretquiz.chat.ChatController;
 import kdp.fretquiz.game.GameController;
 import kdp.fretquiz.user.UserController;
 import org.slf4j.Logger;
@@ -62,12 +63,12 @@ public class WebSocket
     }
 
     /**
-     * This method routes an incoming message to the proper handler.
+     * This method routes an incoming text to the proper handler.
      */
     public static void onMessage(WsMessageContext context)
     {
         final var request = context.message(Request.Default.class);
-        log.info("message received: " + request.type());
+        log.info("text received: " + request.type());
 
         switch (request.type()) {
             case LOGIN -> UserController.login(context);
@@ -83,6 +84,7 @@ public class WebSocket
             case SET_ROUND_COUNT -> GameController.setRoundCount(context);
             case START_GAME_COUNTDOWN -> GameController.startGameCountdown(context);
             case START_ROUND_COUNTDOWN -> GameController.startRoundCountdown(context);
+            case CHAT_MESSAGE -> ChatController.handleChatMessage(context);
         }
     }
 }
