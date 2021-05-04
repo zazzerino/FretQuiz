@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import { useSelector } from 'react-redux';
 import { selectChatMessages, selectGameId } from '../gameSlice';
 import { sendChatMessage } from '../../websocket/game';
@@ -16,21 +15,28 @@ const useStyles = makeStyles({
     margin: 'auto',
     marginTop: '2rem',
   },
-  input: {
-    marginTop: '2rem',
+  list: {
+    height: '150px',
+    maxHeight: '150px',
+    overflow: 'auto',
   },
-  button: {
-    display: 'block',
-    margin: 'auto',
+  input: {
+    marginTop: '1rem',
   }
 });
 
 export function Chat() {
   const classes = useStyles();
-  const messages = useSelector(selectChatMessages);
   const gameId = useSelector(selectGameId);
-
+  const messages = useSelector(selectChatMessages);
   const [typedMessage, setTypedMessage] = React.useState('');
+  const listRef: any = React.useRef(null);
+
+  React.useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   if (gameId == null) {
     return null;
@@ -44,11 +50,13 @@ export function Chat() {
       <Typography variant="h6">
         Chat
       </Typography>
-      <List>
-        {messages.map((text, index) => {
+      <List
+        ref={listRef}
+        className={classes.list}>
+        {messages.map((message, index) => {
           return (
             <ListItem key={index}>
-              {text}
+              {`${message.user.name}: ${message.text}`}
             </ListItem>
           )
         })}
@@ -59,15 +67,13 @@ export function Chat() {
         variant="outlined"
         value={typedMessage}
         onChange={event => setTypedMessage(event.target.value)}
+        onKeyPress={event => {
+          if (event.key === 'Enter') {
+            sendChatMessage(gameId, typedMessage);
+            setTypedMessage('');
+          }
+        }}
       />
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={() => sendChatMessage(gameId, typedMessage)}
-      >
-        Send Message
-      </Button>
     </Paper>
   );
 }

@@ -121,7 +121,7 @@ export const selectIsCountingDown = (state: RootState) => state.game.isCountingD
 
 export const selectSecondsLeft = (state: RootState) => state.game.secondsLeft;
 
-export const selectChatMessages = (state: RootState) => state.game.chatMessages.map(msg => msg.text);
+export const selectChatMessages = (state: RootState) => state.game.chatMessages;
 
 export const { 
   updateGameInfos, fretClicked, playerGuessed, updateGame, startRound, 

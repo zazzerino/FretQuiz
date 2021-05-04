@@ -17,10 +17,11 @@ public class ChatController
     public static void handleChatMessage(WsMessageContext context)
     {
         final var user = UserController.getUserFromContext(context);
-        final var newChatMessage = context.message(Request.ChatMessage.class);
-        final var gameId = newChatMessage.gameId();
-        final var message = newChatMessage.text();
-        final var chatMessage = new ChatMessage(gameId, user, message);
+        final var message = context.message(Request.ChatMessage.class);
+
+        final var gameId = message.gameId();
+        final var text = message.text();
+        final var chatMessage = new ChatMessage(gameId, user, text);
 
         chatDao.save(chatMessage);
         final var messages = chatDao.getMessages(gameId);

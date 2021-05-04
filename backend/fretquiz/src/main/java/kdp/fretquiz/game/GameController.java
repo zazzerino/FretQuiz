@@ -241,7 +241,6 @@ public class GameController
 
     /**
      * Removes finished games.
-     *
      * @param minutes if the game is older than the given number of minutes it will be removed
      */
     public static void cleanupGames(int minutes)
